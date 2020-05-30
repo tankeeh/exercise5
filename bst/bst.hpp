@@ -5,6 +5,7 @@
 /* ************************************************************************** */
 
 #include "../binarytree/lnk/binarytreelnk.hpp"
+#include "../queue/vec/queuevec.hpp"
 
 /* ************************************************************************** */
 
@@ -13,7 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BST : virtual public BinaryTreeLnk<Data>{ // Should extend BinaryTreeLnk<Data>
+class BST : virtual public BinaryTreeLnk<Data>{
 
 private:
 
@@ -27,33 +28,35 @@ protected:
 
 public:
 
-  struct BSTNode { // Should extend NodeLnk
+struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk {
 
   private:
 
     // ...
 
   protected:
+    using BinaryTreeLnk<Data>::NodeLnk::NodeLnk;
 
-    // type Left() specifiers; // Mutable access to the element
-    // type Left() specifiers; // Immutable access to the element
-    // type Right() specifiers; // Mutable access to the element
-    // type Right() specifiers; // Immutable access to the element
+    BSTNode* Left(); // Mutable access to the element
+    BSTNode const* Left() const; // Immutable access to the element
+    BSTNode* Right(); // Mutable access to the element
+    BSTNode const* Right() const; // Immutable access to the element
 
-    // type Find(argument) specifiers;
-    // type FindParent(argument) specifiers;
+    BSTNode const* Find(const Data&)const;
+    BSTNode const* FindParent(const Data&) const;
+    BSTNode* FindParent(const Data&);
 
-    // type MinParent() specifiers;
-    // type MaxParent() specifiers;
 
-    // type PredecessorParent(argument) specifiers;
-    // type SuccessorParent(argument) specifiers;
+    BSTNode* MinParent() const;
+    BSTNode* MaxParent() const;
+
+    BSTNode* PredecessorParent(const Data) const;
+    BSTNode* SuccessorParent(const Data) const;
 
     // ...
 
   public:
-
-    // friend class BST<Data>;
+      friend class BST<Data>;
 
     // ...
 
@@ -62,80 +65,88 @@ public:
   /* ************************************************************************ */
 
   // Default constructor
-  // BST() specifiers;
+  BST() = default;
 
   // Copy constructor
-  // BST(argument) specifiers;
+  BST(const BST& tree);
 
   // Move constructor
-  // BST(argument) specifiers;
+  BST(BST&& tree);
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~BST() specifiers;
+  ~BST()= default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  BST& operator=(const BST& tree);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  BST& operator=(BST&& tree);
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const BST& ) const noexcept;
+  bool operator!=(const BST& ) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BinaryTree)
 
-  // type Root() specifiers; // Override BinaryTree member (might throw std::length_error)
-  // type NewRoot(argument) specifiers; // Override BinaryTree member (Copy of the value)
-  // type NewRoot(argument) specifiers; // Override BinaryTree member (Move of the value)
+  const BSTNode& Root() const override ; // Override BinaryTree member (might throw std::length_error)
+  void NewRoot(const Data&) noexcept override; // Override BinaryTree member (Copy of the value)
+  void NewRoot(Data&&) noexcept override; // Override BinaryTree member (Move of the value)
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // type Insert(argument) specifiers; // Copy of the value
-  // type Insert(argument) specifiers; // Move of the value
-  // type Remove(argument) specifiers;
+  void Insert(const Data&); // Copy of the value
+  void Insert(Data&&);; // Move of the value
+  void Remove(const Data& del_item) noexcept ;
 
-  // type Min() specifiers; // (might throw std::length_error)
-  // type MinNRemove() specifiers; // (might throw std::length_error)
-  // type RemoveMin() specifiers; // (might throw std::length_error)
+  const Data& Min() const; // (might throw std::length_error)
+  const Data& MinNRemove()  ; // (might throw std::length_error)
+  void RemoveMin(); // (might throw std::length_error)
 
-  // type Max() specifiers; // (might throw std::length_error)
-  // type MaxNRemove() specifiers; // (might throw std::length_error)
-  // type RemoveMax() specifiers; // (might throw std::length_error)
+  const Data& Max() const; // (might throw std::length_error)
+  const Data& MaxNRemove() ; // (might throw std::length_error)
+  void RemoveMax(); // (might throw std::length_error)
 
-  // type Predecessor(argument) specifiers; // (might throw std::length_error)
-  // type PredecessorNRemove(argument) specifiers; // (might throw std::length_error)
-  // type RemovePredecessor(argument) specifiers; // (might throw std::length_error)
+  const Data& Predecessor(const Data&) const; // (might throw std::length_error)
+  const Data& PredecessorNRemove(const Data&); // (might throw std::length_error)
+  void RemovePredecessor(const Data&); // (might throw std::length_error)
 
-  // type Successor(argument) specifiers; // (might throw std::length_error)
-  // type SuccessorNRemove(argument) specifiers; // (might throw std::length_error)
-  // type RemoveSuccessor(argument) specifiers; // (might throw std::length_error)
+  const Data& Successor(const Data&) const; // (might throw std::length_error)
+  const Data& SuccessorNRemove(const Data&); // (might throw std::length_error)
+  void RemoveSuccessor(const Data&); // (might throw std::length_error)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from TestableContainer)
 
-  // type Exists(argument) specifiers; // Override TestableContainer member
+  //
+  bool Exists(const Data&) const noexcept override ; // Override TestableContainer member
 
 protected:
 
-  // type Remove(argument) specifiers;
-  // type RemoveMin(argument) specifiers;
+  //void Remove(const Data& del_item) noexcept ;
+  //void RemoveMin(argument) specifiers;
   // type RemoveMax(argument) specifiers;
   // type SkipOnLeft(argument) specifiers;
   // type SkipOnRight(argument) specifiers;
 
+  using BinaryTreeLnk<Data>::Node;
+
+protected:
+    void InOrderEnqueueNodes(QueueVec<Data>& queue,const BSTNode* node)const;
+    BSTNode& Root() override ;
 };
+
+
 
 }
 

@@ -6,7 +6,10 @@
 
 
 
+
 int main(){
+
+    testBST();
 
 
 /**MENU' FINALE**/

@@ -2,84 +2,68 @@
 
 #include <iostream>
 #include "RandomGens/RandomValues.hpp"
-//#include "./TreeUtils/TreeUtilsFunctions.hpp"
+#include "./TreeUtils/TreeUtilsFunctions.hpp"
 //#include "./TreeUtils/treeNavFunctions/NavigateFunctions.hpp"
 #include "../list/list.hpp"
+#include "bst.hpp"
 
 
-/*
-template <typename Data>
-void lasd::Heap<Data>::PrintArray(){
-    for (int i =0; i<this->size; i++)
-        std::cout<<this->tree[i]->Element()<<" "<< this->tree[i]->getIndex()<<std::endl;
-}
-*/
+
 
 
 /** MY TESTS **/
 
 
-/*
-void testHeap(){
 
+void testBST(){
+    lasd::BST<int> bst;
+    bst.NewRoot(30);
+    bst.Insert(21);
+    bst.Insert(8);
+    bst.Insert(3);
+    bst.Insert(12);
+    bst.Insert(6);
+    bst.Insert(32);
+    bst.Insert(42);
+    bst.Insert(31);
+    bst.Insert(60);
+    bst.Insert(72);
 
+    PrintElementTreeInOrder(bst);
 
+    //std::cout<<"\n\n"<<bst.Exists(312);
 
-    lasd::Vector<int> vettore(7);
-    for(int i=0;i<7;i++){
-        vettore[i] = 12 -i;
-    }
+    lasd::BST<int> bst2;
+    bst2.NewRoot(30);
+    bst2.Insert(21);
+    bst2.Insert(8);
+    bst2.Insert(3);
+    bst2.Insert(12);
+    bst2.Insert(6);
+    bst2.Insert(32);
+    bst2.Insert(42);
+    bst2.Insert(31);
+    bst2.Insert(60);
+    bst2.Insert(72);
+    bst2.Insert(78);
 
+    //std::cout<<"\n\n"<<(bst2.Root().FindParent(78))->Element()<<"\n\n";
 
-    lasd::Heap<int> linearHeap(vettore);
-    std::cout<<"*Heap*"<<std::endl;
+    PrintElementTreeInOrder(bst2);
 
-    std::cout<<"\n\nTEST COPY CONSTRUCTOR : "<<std::endl;
-    lasd::Heap<int> linearHeap2(linearHeap);
-    std::cout<<"stampa di LinearHeap2 : "<<std::endl;
-    linearHeap2.PrintArray();
+    bst2.Remove(12);
 
+    if(bst == bst2) std::cout<<"\n\nsono uguali";
+    else std::cout<<"\n\n sono diversi";
 
-    std::cout<<"\n\nTEST MOVE CONSTRUCTOR : "<<std::endl;
-    lasd::Heap<int> linearHeap3(std::move(linearHeap));
-    std::cout<<"stampa di LinearHeap passato con move (vuoto) : "<<std::endl;
-    linearHeap.PrintArray();
-    std::cout<<"stampa di LinearHeap3  : "<<std::endl;
-    linearHeap3.PrintArray();
+    std::cout<<"max : "<<bst2.Max();
 
-    std::cout<<"\n\nTEST COPY ASSIGNMENT : "<<std::endl;
-    linearHeap = linearHeap3;
-    std::cout<<"stampa di LinearHeap al quale e' assegnato linearheap3  : "<<std::endl;
-    linearHeap.PrintArray();
-
-    std::cout<<"\n\nTEST MOVE ASSIGNMENT : "<<std::endl;
-    linearHeap = std::move(linearHeap3);
-    std::cout<<"stampa di LinearHeap3 passato assegnato per move (vuoto) : "<<std::endl;
-    linearHeap3.PrintArray();
-    std::cout<<"stampa di LinearHeap al quale e' assegnato linearheap3 : "<<std::endl;
-    linearHeap.PrintArray();
-
-    std::cout<<"\n\nTest di uguaglianza : \n";
-
-    if(linearHeap == linearHeap2) std::cout<<"le due strutture sono uguali\n";
-    else std::cout<<"sono diversi\n";
-
-    if(linearHeap == linearHeap3) std::cout<<"le due strutture sono uguali\n";
-    else std::cout<<"sono diversi\n";
-
-    lasd::Heap<int> linearHeap4;
-    if(linearHeap4 == linearHeap3) std::cout<<"le due strutture sono uguali\n";
-    else std::cout<<"sono diversi";
-
-    std::cout<<"\ntest vuotezza linearheap3 : "<<linearHeap3.Empty();
-
-    std::cout<<"\ntest vuotezza linearheap : "<<linearHeap.Empty();
-
-    std::cout<<"\nsize linearheap : "<<linearHeap.Size();
+    std::cout<<"min : "<<bst2.Min();
 
 
 
 }
+
 /*
 void testPriorityQueue(){
 

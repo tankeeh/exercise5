@@ -24,16 +24,16 @@ void PrintElementTreePostOrder(lasd::BinaryTree<Data>& tree){
 }
 
 template <typename Data>
-void PrintElementHeapPreOrder(lasd::Heap<Data>& heap){
-    heap.MapPreOrder(&PrintElement<Data>, nullptr);
+void PrintElementHeapPreOrder(lasd::BinaryTree<Data>& tree){
+    tree.MapPreOrder(&PrintElement<Data>, nullptr);
 }
 
 
 
 
 template <typename Data>
-void PrintElementHeapPostOrder(lasd::Heap<Data>& heap){
-    heap.MapPostOrder(&PrintElement<Data>, nullptr);
+void PrintElementHeapPostOrder(lasd::BinaryTree<Data>& tree){
+    tree.MapPostOrder(&PrintElement<Data>, nullptr);
 }
 
 
@@ -51,7 +51,7 @@ template <typename Data>
 void InitialConcatStringForBinaryTree(lasd::BinaryTree<Data>& tree, void* par){
     tree.MapPreOrder(&InitialConcatString<Data>,par);
 }
-
+/*
 template <typename Data>
 void InitialConcatStringForBinaryTreeHeap(lasd::Heap<Data>& heap, void* par){
     heap.MapPreOrder(&InitialConcatString<Data>,par);
@@ -94,7 +94,7 @@ Data FoldTreeHeapStringConcatLowerEqualsThan(const int& par, lasd::Heap<Data> &h
     heap.FoldPreOrder(&StringConcat<Data>,&par,&acc);
     return acc;
 }
-
+*/
 template <typename Data>
 Data FoldTreeIntMoltiplicateSmallerThan(const Data& par, lasd::BinaryTree<Data> &tree){
     int acc = 1;

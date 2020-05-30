@@ -5,6 +5,8 @@
 #ifndef EXERCISE2_UTILS_HPP
 #define EXERCISE2_UTILS_HPP
 #include "./commons/commons.hpp"
+
+template <typename Data>
 void DuplicateInt(Data& elem, void*);
 template <typename Data>
 void DuplicateIntVectorPreOrder(lasd::Vector<Data> &vettore);

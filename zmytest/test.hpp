@@ -6,7 +6,7 @@
 
 void mytest();
 
-//void testHeap();
+void testBST();
 //void testPriorityQueue();
 
 // ...
