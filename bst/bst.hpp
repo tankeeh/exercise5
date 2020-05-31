@@ -30,7 +30,8 @@ public:
 
 struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk {
 
-  private:
+
+private:
 
     // ...
 
@@ -45,6 +46,7 @@ struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk {
     BSTNode const* Find(const Data&)const;
     BSTNode const* FindParent(const Data&) const;
     BSTNode* FindParent(const Data&);
+
 
 
     BSTNode* MinParent() const;
@@ -116,34 +118,38 @@ struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk {
   const Data& MaxNRemove() ; // (might throw std::length_error)
   void RemoveMax(); // (might throw std::length_error)
 
-  const Data& Predecessor(const Data&) const; // (might throw std::length_error)
-  const Data& PredecessorNRemove(const Data&); // (might throw std::length_error)
-  void RemovePredecessor(const Data&); // (might throw std::length_error)
+  const Data& Predecessor(const Data& key); // (might throw std::length_error)
+  const Data& PredecessorNRemove(const Data& key); // (might throw std::length_error)
+  void RemovePredecessor(const Data& key); // (might throw std::length_error)
 
-  const Data& Successor(const Data&) const; // (might throw std::length_error)
-  const Data& SuccessorNRemove(const Data&); // (might throw std::length_error)
-  void RemoveSuccessor(const Data&); // (might throw std::length_error)
+  const Data& Successor(const Data& key); // (might throw std::length_error)
+  const Data& SuccessorNRemove(const Data& key); // (might throw std::length_error)
+  void RemoveSuccessor(const Data& key); // (might throw std::length_error)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from TestableContainer)
 
-  //
   bool Exists(const Data&) const noexcept override ; // Override TestableContainer member
+
+
 
 protected:
 
   //void Remove(const Data& del_item) noexcept ;
-  //void RemoveMin(argument) specifiers;
+  void RemoveMin(BSTNode* node,BSTNode*);
   // type RemoveMax(argument) specifiers;
-  // type SkipOnLeft(argument) specifiers;
-  // type SkipOnRight(argument) specifiers;
+  void SkipOnLeft(BSTNode* father,BSTNode* son);
+  void SkipOnRight(BSTNode* father,BSTNode* son);
 
   using BinaryTreeLnk<Data>::Node;
 
 protected:
-    void InOrderEnqueueNodes(QueueVec<Data>& queue,const BSTNode* node)const;
+    const Data& SubtreeMin(BSTNode* node) const;
+    const Data& SubtreeMax(BSTNode* node) const;
+
     BSTNode& Root() override ;
+    void InOrderEnqueueNodes(QueueVec<Data>& queue,const BSTNode* node)const;
 };
 
 

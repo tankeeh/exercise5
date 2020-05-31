@@ -32,6 +32,7 @@ void testBST(){
     PrintElementTreeInOrder(bst);
 
     //std::cout<<"\n\n"<<bst.Exists(312);
+    std::cout<<"\n\n";
 
     lasd::BST<int> bst2;
     bst2.NewRoot(30);
@@ -39,6 +40,7 @@ void testBST(){
     bst2.Insert(8);
     bst2.Insert(3);
     bst2.Insert(12);
+    bst2.Insert(15);
     bst2.Insert(6);
     bst2.Insert(32);
     bst2.Insert(42);
@@ -51,14 +53,25 @@ void testBST(){
 
     PrintElementTreeInOrder(bst2);
 
-    bst2.Remove(12);
+    //bst2.Root().FindParent(40);
+    bst2.Remove(40);
+
+    std::cout<<"\n\n STAMPA POST ELIMINAZIONE : \n\n";
+    PrintElementTreeInOrder(bst2);
+
+    bst2.NewRoot(20);
+
+    std::cout<<"Inserire elemento di cui si vuole il succ :  ";
+    int val;
+    std::cin>>val;
+    std::cout<<"predecessore di "<<val<<" e' : "<<bst2.Predecessor(val);
 
     if(bst == bst2) std::cout<<"\n\nsono uguali";
     else std::cout<<"\n\n sono diversi";
 
-    std::cout<<"max : "<<bst2.Max();
+    std::cout<<"\n\nmax : "<<bst2.Max();
 
-    std::cout<<"min : "<<bst2.Min();
+    std::cout<<"\n\nmin : "<<bst2.Min();
 
 
 
