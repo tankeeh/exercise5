@@ -472,7 +472,7 @@ namespace lasd {
         if(currnode != nullptr && currnode->HasLeftChild())
             temp = new Data(SubtreeMax(currnode->Left()));
 
-        std::cout<<"prova";
+        std::cout<<"provaa";
         if(temp != nullptr)
             return *temp;
         else throw std::length_error("Non e' presente un predecessore per questo elemento.");
