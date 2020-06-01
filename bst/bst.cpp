@@ -74,18 +74,41 @@ namespace lasd {
     }
 
     template <typename Data>
-    typename BST<Data>::BSTNode * BST<Data>::BSTNode::FindParent(const Data &key){
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::FindParent(const Data &key){
         return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->FindParent(key));
     }
 
     template<typename Data>
-    typename BST<Data>::BSTNode* BST<Data>::BSTNode::MinParent() const {
-        BSTNode *tempnode = &this;
-        BSTNode* father;
-        while (tempnode->HasLeftChild())
+    typename BST<Data>::BSTNode const* BST<Data>::BSTNode::MinParent() const {
+        const BSTNode *tempnode = this;
+        const BSTNode* father;
+        while (tempnode->HasLeftChild()) {
+            father = tempnode;
             tempnode = tempnode->Left();
+        }
+        return father;
+    }
 
-        return tempnode->Element();
+    template <typename Data>
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::MinParent(){
+        return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->MinParent());
+    }
+
+
+    template<typename Data>
+    typename BST<Data>::BSTNode const* BST<Data>::BSTNode::MaxParent() const {
+        const BSTNode *tempnode = this;
+        const BSTNode* father;
+        while (tempnode->HasRightChild()) {
+            father = tempnode;
+            tempnode = tempnode->Right();
+        }
+        return father;
+    }
+
+    template <typename Data>
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::MaxParent(){
+        return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->MaxParent());
     }
 
 
@@ -115,8 +138,7 @@ namespace lasd {
     }
 
     template <typename Data>
-    void BST<Data>::InOrderEnqueueNodes(QueueVec<Data>& queue,const BSTNode* node)const {
-       //if(queue.Size() != this->Size()) {
+    void BST<Data>::InOrderEnqueueNodes(QueueLst<Data>& queue,const BSTNode* node)const {
             if (node->HasLeftChild()) InOrderEnqueueNodes(queue,node->Left());
             queue.Enqueue(node->Element());
             if (node->HasRightChild()) InOrderEnqueueNodes(queue,node->Right());
@@ -125,8 +147,8 @@ namespace lasd {
     //COMPARISON OPERATOR ==
     template<typename Data>
     bool BST<Data>::operator==(const BST& tree) const noexcept {
-        QueueVec<Data> queue1;
-        QueueVec<Data> queue2;
+        QueueLst<Data> queue1;
+        QueueLst<Data> queue2;
         const BSTNode* tempnode = &this->Root();
 
         if(this->size == tree.size){
@@ -296,7 +318,6 @@ namespace lasd {
             cercamin = cercamin->Left();
         }
         if(cercamin->Element() != startnode->Element()){
-            //std::swap(cercamin->Element(),node->Element());
             node->Element() = cercamin->Element();
             if(cercamin->HasRightChild())SkipOnRight(father,cercamin);
             else{
@@ -451,9 +472,47 @@ namespace lasd {
         if(currnode != nullptr && currnode->HasLeftChild())
             temp = new Data(SubtreeMax(currnode->Left()));
 
+
         if(temp != nullptr)
             return *temp;
         else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+    }
+
+
+    template<typename Data>
+    const Data BST<Data>::MinNRemove(){
+        if(!(this->Empty())) {
+            BSTNode *todeleteMin;
+            Data min = 0;
+            todeleteMin = this->Root().MinParent();
+            min = todeleteMin->Left()->Element();
+            if(!(todeleteMin->Left()->IsLeaf()))SkipOnRight(todeleteMin, todeleteMin->Left());
+            else{
+                delete todeleteMin->Left();
+                todeleteMin->sx = nullptr;
+            }
+
+            return min;
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
+    }
+
+    template<typename Data>
+    const Data BST<Data>::MaxNRemove(){
+        if(!(this->Empty())) {
+            BSTNode *todeleteMin;
+            Data max = 0;
+            todeleteMin = this->Root().MaxParent();
+            max = todeleteMin->Right()->Element();
+            if(!(todeleteMin->Right()->IsLeaf()))SkipOnLeft(todeleteMin, todeleteMin->Right());
+            else{
+                delete todeleteMin->Right();
+                todeleteMin->dx = nullptr;
+            }
+
+            return max;
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
 

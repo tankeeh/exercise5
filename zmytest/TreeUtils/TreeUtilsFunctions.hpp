@@ -5,8 +5,8 @@
 #ifndef EXERCISE2_TREEUTILSFUNCTIONS_HPP
 #define EXERCISE2_TREEUTILSFUNCTIONS_HPP
 #include "../UtilityFunctions/commons/commons.hpp"
-#include "../binarytree/binarytree.hpp"
-#include "../binarytree/binarytree.hpp"
+#include "../../binarytree/binarytree.hpp"
+//#include "../binarytree/binarytree.hpp"
 
 
 

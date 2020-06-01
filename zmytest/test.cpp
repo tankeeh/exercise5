@@ -5,7 +5,7 @@
 #include "./TreeUtils/TreeUtilsFunctions.hpp"
 //#include "./TreeUtils/treeNavFunctions/NavigateFunctions.hpp"
 #include "../list/list.hpp"
-#include "bst.hpp"
+#include "../bst/bst.hpp"
 
 
 
@@ -54,17 +54,26 @@ void testBST(){
     PrintElementTreeInOrder(bst2);
 
     //bst2.Root().FindParent(40);
-    bst2.Remove(40);
+    //bst2.Remove(40);
+
+
+        std::cout << "L' elemento Max e' : " << bst2.MaxNRemove() << " ed e' stato eliminato.";
+
+
 
     std::cout<<"\n\n STAMPA POST ELIMINAZIONE : \n\n";
     PrintElementTreeInOrder(bst2);
 
-    bst2.NewRoot(20);
+    //bst2.NewRoot(20);
 
-    std::cout<<"Inserire elemento di cui si vuole il succ :  ";
+    std::cout<<"Inserire elemento di cui si vuole il predec :  ";
     int val;
     std::cin>>val;
-    std::cout<<"predecessore di "<<val<<" e' : "<<bst2.Predecessor(val);
+    try {
+        std::cout << "predecessore di " << val << " e' : " << bst2.Predecessor(val);
+    }catch (std::length_error err) {
+        std::clog<<err.what();
+    }
 
     if(bst == bst2) std::cout<<"\n\nsono uguali";
     else std::cout<<"\n\n sono diversi";

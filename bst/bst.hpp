@@ -5,7 +5,7 @@
 /* ************************************************************************** */
 
 #include "../binarytree/lnk/binarytreelnk.hpp"
-#include "../queue/vec/queuevec.hpp"
+#include "../queue/lst//queuelst.hpp"
 
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BST : virtual public BinaryTreeLnk<Data>{
+class BST : public BinaryTreeLnk<Data>{
 
 private:
 
@@ -49,8 +49,11 @@ private:
 
 
 
-    BSTNode* MinParent() const;
-    BSTNode* MaxParent() const;
+    BSTNode const* MinParent() const;
+    BSTNode* MinParent();
+    BSTNode const* MaxParent() const;
+    BSTNode* MaxParent();
+
 
     BSTNode* PredecessorParent(const Data) const;
     BSTNode* SuccessorParent(const Data) const;
@@ -111,11 +114,11 @@ private:
   void Remove(const Data& del_item) noexcept ;
 
   const Data& Min() const; // (might throw std::length_error)
-  const Data& MinNRemove()  ; // (might throw std::length_error)
+  const Data MinNRemove()  ; // (might throw std::length_error)
   void RemoveMin(); // (might throw std::length_error)
 
   const Data& Max() const; // (might throw std::length_error)
-  const Data& MaxNRemove() ; // (might throw std::length_error)
+  const Data MaxNRemove() ; // (might throw std::length_error)
   void RemoveMax(); // (might throw std::length_error)
 
   const Data& Predecessor(const Data& key); // (might throw std::length_error)
@@ -149,7 +152,7 @@ protected:
     const Data& SubtreeMax(BSTNode* node) const;
 
     BSTNode& Root() override ;
-    void InOrderEnqueueNodes(QueueVec<Data>& queue,const BSTNode* node)const;
+    void InOrderEnqueueNodes(QueueLst<Data>& queue,const BSTNode* node)const;
 };
 
 
