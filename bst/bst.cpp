@@ -78,6 +78,16 @@ namespace lasd {
         return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->FindParent(key));
     }
 
+    template<typename Data>
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::MinParent() const {
+        BSTNode *tempnode = &this;
+        BSTNode* father;
+        while (tempnode->HasLeftChild())
+            tempnode = tempnode->Left();
+
+        return tempnode->Element();
+    }
+
 
 
     /** FUNZIONI BST **/
