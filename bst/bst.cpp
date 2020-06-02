@@ -440,6 +440,7 @@ namespace lasd {
     const Data& BST<Data>::Successor(const Data &key) {
         BSTNode* currnode = &this->Root();
         Data* temp = nullptr;
+        Data val;
         while(currnode != nullptr && currnode->Element() != key){
             if(currnode->Element() < key)
                 currnode = currnode->Right();
@@ -451,8 +452,9 @@ namespace lasd {
         if(currnode != nullptr && currnode->HasRightChild())
             temp = new Data(SubtreeMin(currnode->Right()));
 
-        if(temp != nullptr)
-        return *temp;
+        if(temp != nullptr){
+            return currnode->Element();
+        }
         else throw std::length_error("Non e' presente un successore per questo elemento.");
         }
 
@@ -461,21 +463,25 @@ namespace lasd {
     const Data& BST<Data>::Predecessor(const Data &key) {
         BSTNode* currnode = &this->Root();
         Data* temp = nullptr;
+        /*
+        Data temp = 0;
+        bool flag = false;
         while(currnode != nullptr && currnode->Element() != key){
             if(currnode->Element() < key) {
-                temp = new Data(currnode->Element());
+                temp = Data(currnode->Element());
                 currnode = currnode->Right();
             }else{
                 currnode = currnode->Left();
             }
         }
+        if(currnode == nullptr) flag = false;
         if(currnode != nullptr && currnode->HasLeftChild())
             temp = new Data(SubtreeMax(currnode->Left()));
 
-        std::cout<<"provaa";
+
         if(temp != nullptr)
             return *temp;
-        else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+        else throw std::length_error("Non e' presente un predecessore per questo elemento.");*/
     }
 
 

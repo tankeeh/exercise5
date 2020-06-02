@@ -70,7 +70,7 @@ void testBST(){
     int val;
     std::cin>>val;
     try {
-        std::cout << "predecessore di " << val << " e' : " << bst2.Predecessor(val);
+        std::cout << "succ di " << val << " e' : " << bst2.Successor(val);
     }catch (std::length_error err) {
         std::clog<<err.what();
     }
