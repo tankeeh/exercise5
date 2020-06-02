@@ -38,9 +38,9 @@ void testBST(){
     bst2.NewRoot(30);
     bst2.Insert(21);
     bst2.Insert(8);
-    bst2.Insert(3);
-    bst2.Insert(12);
-    bst2.Insert(15);
+    bst2.Insert(7);
+    //bst2.Insert(12);
+    //bst2.Insert(15);
     bst2.Insert(6);
     bst2.Insert(32);
     bst2.Insert(42);
@@ -57,17 +57,29 @@ void testBST(){
     //bst2.Remove(40);
 
 
-        std::cout << "L' elemento Max e' : " << bst2.MaxNRemove() << " ed e' stato eliminato.";
+        //std::cout << "L' elemento Max e' : " << bst2.MaxNRemove() << " ed e' stato eliminato.";
 
 
 
     std::cout<<"\n\n STAMPA POST ELIMINAZIONE : \n\n";
     PrintElementTreeInOrder(bst2);
 
-    //bst2.NewRoot(20);
+    bst2.NewRoot(20);
+    bst2.Remove(20);
+    std::cout<<"\n\n STAMPA POST ELIMINAZIONE 2: \n\n";
+    PrintElementTreeInOrder(bst2);
 
-    std::cout<<"Inserire elemento di cui si vuole il predec :  ";
+
+    std::cout<<"Inserire elemento di cui si vuole il prec :  ";
     int val;
+    std::cin>>val;
+    try {
+        std::cout << "prec di " << val << " e' : " << bst2.Predecessor(val);
+    }catch (std::length_error err) {
+        std::clog<<err.what();
+    }
+
+    std::cout<<"Inserire elemento di cui si vuole il succ :  ";
     std::cin>>val;
     try {
         std::cout << "succ di " << val << " e' : " << bst2.Successor(val);
