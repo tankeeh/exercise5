@@ -275,8 +275,8 @@ namespace lasd {
 
         if (tempnode->IsLeaf()) {
             if (father == nullptr){
-                tempnode->sx = nullptr;
-                tempnode->dx = nullptr;
+                delete this->Node;
+                this->Node = nullptr;
             }else
             if(tempnode->Element() < father->Element()){
                 father->sx = nullptr;
