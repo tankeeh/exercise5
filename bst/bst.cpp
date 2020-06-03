@@ -111,6 +111,21 @@ namespace lasd {
         return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->MaxParent());
     }
 
+    template<typename Data>
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::PredecessorParent(const Data& key,BSTNode* parent) const {
+        BSTNode *tempnode = this;
+        BSTNode* father = nullptr;
+        if(tempnode->Element() < key)
+            if(tempnode->Right()  > key && tempnode->HasLeftChild()){
+                tempnode->Right()->Left()->PredecessorParent(key,father);
+            }
+            else return father;
+        else{
+//
+
+
+    }
+
 
 
     /** FUNZIONI BST **/
@@ -192,7 +207,7 @@ namespace lasd {
 
     template<typename Data>
     void BST<Data>::Insert(const Data& newitem) {
-        BSTNode* tempnode = this->Root();
+        BSTNode* tempnode = &this->Root();
         if(this->Empty()) {
             this->Node = new BSTNode(newitem);
             this->size++;
@@ -203,7 +218,7 @@ namespace lasd {
                     if (tempnode->HasLeftChild())
                         tempnode = tempnode->Left();
                     else {
-                        tempnode->Left() = new BSTNode(newitem);
+                        tempnode->sx = new BSTNode(newitem);
                         tempnode = tempnode->Left();
                         this->size++;
                     }
@@ -212,7 +227,7 @@ namespace lasd {
                     if (tempnode->HasRightChild())
                         tempnode = tempnode->Right();
                     else {
-                        tempnode->Right() = new BSTNode(newitem);
+                        tempnode->dx = new BSTNode(newitem);
                         tempnode = tempnode->Right();
                         this->size++;
                     }
@@ -224,7 +239,10 @@ namespace lasd {
     template<typename Data>
     void BST<Data>::Insert(Data&& newitem) {
         BSTNode* tempnode = &this->Root();
-        if(this->Empty()) this->Node = new BSTNode(std::move(newitem));
+        if(this->Empty()){
+            this->Node = new BSTNode(std::move(newitem));
+            this->size++;
+        }
         else {
             while (tempnode->Element() != newitem) {
                 if (newitem < tempnode->Element()) {
@@ -260,57 +278,56 @@ namespace lasd {
 
     template<typename Data>
     void BST<Data>::Remove(const Data& del_item) noexcept {
-
+    if(!(this->Empty())){
         BSTNode *father = this->Root().FindParent(del_item);
         BSTNode *tempnode;
         if (father == nullptr && del_item == this->Root().Element())
             tempnode = &this->Root();
-        else if(father != nullptr){
+        else if (father != nullptr) {
             if (del_item < father->Element())
                 tempnode = father->Left();
             else
                 tempnode = father->Right();
-        }else return;
+        } else return;
 
 
         if (tempnode->IsLeaf()) {
-            if (father == nullptr){
+            if (father == nullptr) {
                 delete this->Node;
                 this->Node = nullptr;
-            }else
-            if(tempnode->Element() < father->Element()){
-                father->sx = nullptr;
+            } else {
+                if (tempnode->Element() < father->Element()) {
+                    father->sx = nullptr;
+                } else {
+                    father->dx = nullptr;
+                }
+                delete tempnode;
             }
-            else{
-                father->dx = nullptr;
-            }
-            delete tempnode;
-        }
-        else if (tempnode->HasLeftChild() && !tempnode->HasRightChild()) {
+        } else if (tempnode->HasLeftChild() && !tempnode->HasRightChild()) {
             if (tempnode->Left()->IsLeaf()) {
                 std::swap(tempnode->Element(), tempnode->Left()->Element());
                 delete tempnode->Left();
-            } else SkipOnLeft(father,tempnode);
+            } else SkipOnLeft(father, tempnode);
 
         } else if (!tempnode->HasLeftChild() && tempnode->HasRightChild()) {
             if (tempnode->Right()->IsLeaf()) {
                 std::swap(tempnode->Element(), tempnode->Right()->Element());
                 delete tempnode->Right();
-            } else SkipOnRight(father,tempnode);
-        }else{ //ha entrambe i sottoalberi e bisogna discriminare i vari casi...
+            } else SkipOnRight(father, tempnode);
+        } else { //ha entrambe i sottoalberi e bisogna discriminare i vari casi...
             if (tempnode->Left()->IsLeaf()) {
                 std::swap(tempnode->Element(), tempnode->Left()->Element());
                 delete tempnode->Left();
-            }else if (tempnode->Right()->IsLeaf()) {
+            } else if (tempnode->Right()->IsLeaf()) {
                 std::swap(tempnode->Element(), tempnode->Right()->Element());
                 delete tempnode->Right();
-            }
-            else{ //(entrambi i nodi non sono foglie)
-            //prende il min del sotto albero sinistro e lo mette al posto del nodo che si sta Eliminando
-            RemoveMin(tempnode,tempnode->Right());
+            } else { //(entrambi i nodi non sono foglie)
+                //prende il min del sotto albero sinistro e lo mette al posto del nodo che si sta Eliminando
+                RemoveMin(tempnode, tempnode->Right());
             }
         }
         this->size--;
+    }
     }
 
     template<typename Data>
@@ -444,65 +461,86 @@ namespace lasd {
     const Data& BST<Data>::Successor(const Data &key) {
         BSTNode *currnode = &this->Root();
         BSTNode *temp = nullptr;
-        Data val;
-        while (currnode != nullptr) {
-            if (currnode->Element() <= key)
+        if(!this->Empty())
+            if (currnode->Element() == key){
+            if (currnode->HasRightChild())return SubtreeMin(currnode->Right());
+            else throw std::length_error("Non e' presente un successore per questo elemento.");
+        }else {
+            while (currnode != nullptr && currnode->Element() != key) {
+                if (currnode->Element() < key)
+                    currnode = currnode->Right();
+                else {
+                    temp = currnode;
+                    currnode = currnode->Left();
+                }
+            }
+
+            if (currnode != nullptr && currnode->HasRightChild())
+                temp = temp->Right()->MinParent()->Left();
+
+            /*
+            if(currnode != nullptr) {
                 currnode = currnode->Right();
-            else {
-                temp = currnode;
-                currnode = currnode->Left();
-            }
-        }
-
-        if (currnode != nullptr && currnode->HasRightChild())
-            temp = temp->Right()->MinParent()->Left();
-
-        /*
-        if(currnode != nullptr) {
-            currnode = currnode->Right();
-            if(currnode == nullptr)
-                if(temp != nullptr)
-                return temp->Element();
-                else throw std::length_error("Non e' presente un successore per questo elemento.");
-            else{
-                temp = currnode;
-                currnode = currnode->MinParent()->Left();
                 if(currnode == nullptr)
+                    if(temp != nullptr)
                     return temp->Element();
-                else
-                    return currnode->Element();
-            }
+                    else throw std::length_error("Non e' presente un successore per questo elemento.");
+                else{
+                    temp = currnode;
+                    currnode = currnode->MinParent()->Left();
+                    if(currnode == nullptr)
+                        return temp->Element();
+                    else
+                        return currnode->Element();
+                }
 
-        }*/
+            }*/
 
 
-        if (temp != nullptr)
-            return temp->Element();
-        else throw std::length_error("Non e' presente un successore per questo elemento.");
+            if (temp != nullptr)
+                return temp->Element();
+            else throw std::length_error("Non e' presente un successore per questo elemento.");
+        }
+        else throw std::length_error("Albero vuoto. Non e'possibile trovare un predecessore.");
     }
+
 
 
     template<typename Data>
     const Data& BST<Data>::Predecessor(const Data &key) {
-        BSTNode* currnode = &this->Root();
-        BSTNode* temp = nullptr;
-        while(currnode != nullptr){
-            if(currnode->Element() < key) {
-                temp = currnode;
-                currnode = currnode->Right();
-            }else{
-                currnode = currnode->Left();
+        BSTNode *currnode = &this->Root();
+        BSTNode *temp = nullptr;
+        if(!this->Empty())
+        if (currnode->Element() == key){
+            if (currnode->HasLeftChild())return SubtreeMax(currnode->Left());
+            else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+        }else {
+            while (currnode != nullptr && currnode->Element() != key) {
+                if (currnode->Element() < key) {
+                    temp = currnode;
+                    currnode = currnode->Right();
+                } else {
+                    currnode = currnode->Left();
+                }
             }
+
+            //if(temp == nullptr && currnode!= nullptr) temp = currnode;
+            if (currnode != nullptr && currnode->HasLeftChild())
+                temp = temp->Left()->MaxParent()->Right();
+
+
+            if (temp != nullptr)
+                return temp->Element();
+            else throw std::length_error("Non e' presente un predecessore per questo elemento.");
         }
+        else throw std::length_error("Albero vuoto. Non e'possibile trovare un predecessore.");
+    }
 
-        if(currnode != nullptr && currnode->HasLeftChild())
-            temp = temp->Left()->MaxParent()->Right();
-        //new Data(SubtreeMax(currnode->Left()));
-
-
-        if(temp != nullptr)
-            return temp->Element();
-        else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+    template<typename Data>
+    const Data &BST<Data>::PredecessorNRemove(const Data &key) {
+        Data predec = Predecessor(key);
+        Remove(predec);
+        return predec;
     }
 
 
@@ -569,6 +607,8 @@ namespace lasd {
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
+
+
 
 
 

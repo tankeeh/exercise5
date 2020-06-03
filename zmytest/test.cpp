@@ -19,6 +19,7 @@ void testBST(){
     lasd::BST<int> bst;
     bst.NewRoot(30);
     bst.Insert(21);
+    bst.Insert(21);
     bst.Insert(8);
     bst.Insert(3);
     bst.Insert(12);
@@ -29,6 +30,7 @@ void testBST(){
     bst.Insert(60);
     bst.Insert(72);
 
+    std::cout<<"\n\n PRINT BST: \n\n";
     PrintElementTreeInOrder(bst);
 
     //std::cout<<"\n\n"<<bst.Exists(312);
@@ -66,6 +68,8 @@ void testBST(){
 
     bst2.NewRoot(20);
     bst2.Remove(20);
+    bst2.Remove(20);
+
     std::cout<<"\n\n STAMPA POST ELIMINAZIONE 2: \n\n";
     PrintElementTreeInOrder(bst2);
 
@@ -76,7 +80,7 @@ void testBST(){
     try {
         std::cout << "prec di " << val << " e' : " << bst2.Predecessor(val);
     }catch (std::length_error err) {
-        std::clog<<err.what();
+        std::cerr<<err.what();
     }
 
     std::cout<<"Inserire elemento di cui si vuole il succ :  ";
@@ -90,9 +94,17 @@ void testBST(){
     if(bst == bst2) std::cout<<"\n\nsono uguali";
     else std::cout<<"\n\n sono diversi";
 
+    try{
     std::cout<<"\n\nmax : "<<bst2.Max();
+    }catch (std::length_error err) {
+    std::clog<<err.what();
+}
 
+    try{
     std::cout<<"\n\nmin : "<<bst2.Min();
+    }catch (std::length_error err) {
+        std::clog<<err.what();
+    }
 
 
 
@@ -166,31 +178,51 @@ void testPriorityQueue(){
 
 
 
-/**BinaryTreeHeap**/
+/**BinarySearchTree*/
 
-/*
-void BinaryTreeHeapInt(){
+
+void BinarySearchTreeInt(){
     char scelta = '0';
     int n;
 
-        std::cout << "Quanti elementi deve contenere il vettore di generazione ? : \n";
+    lasd::BST<int> bst;
+    std::cout << "Quanti elementi deve contenere il BST? : \n";
         std::cin>>n;
-        lasd::Vector<int> vettore(n);
-        for(int i = 0;i<n;i++) vettore[i] = IntValueGenerator();
+        //bst.NewRoot(IntValueGenerator());
+        while(bst.Size()<n)
+            bst.Insert(IntValueGenerator());
 
-        std::cout << "\n\n ** Generazione albero Heap tramite un vettore... ** \n\n";
 
-        lasd::Heap<int> heap(vettore);
+
+        std::cout << "\n\n ** Generazione albero casuale BST ... ** \n\n";
 
         while (scelta != 'b') {
-            std::cout << "\n\nCosa vuoi fare con il seguente MinHeap di interi? : \n";
+            std::cout << "\n\nCosa vuoi fare con il seguente BST di interi? : \n";
             std::cout << "1. MapPreOrder Print. \n";
-            std::cout << "2. MapPostOrder Print. \n";
-            std::cout << "3. Exists. \n";
-            std::cout << "4. Fold MoltiplicateIntSmallerThan. \n";
-            std::cout << "5. Map n*(-1)^n. \n";
-            std::cout << "6. Sort \n";
+            std::cout << "2. MapInOrder Print. \n";
+            std::cout << "3. MapPostOrder Print. \n";
+            std::cout << "4. MapBreadth Print. \n";
+            std::cout << "5. Exists. \n";
+            std::cout << "6. Fold MoltiplicateIntSmallerThan. \n";
 
+            std::cout << "7. Inserimento di un dato. \n";
+            std::cout << "8. Rimozione di un dato. \n";
+
+            std::cout << "q. Lettura del Minimo \n";
+            std::cout << "w. Lettura e rimozione del Minimo \n";
+            std::cout << "e. Rimozione del Minimo \n";
+
+            std::cout << "r. Lettura del Massimo \n";
+            std::cout << "t. Lettura e rimozione del Massimo \n";
+            std::cout << "y. Rimozione del Massimo \n";
+
+            std::cout << "u. Lettura del Predecessore di un dato elemento \n";
+            std::cout << "i. Lettura e rimozione del Predecessore di un dato elemento \n";
+            std::cout << "o. Rimozione del Predecessore di un dato elemento \n";
+
+            std::cout << "p. Lettura del Successore di un dato elemento \n";
+            std::cout << "a. Lettura e rimozione del Successore di un dato elemento \n";
+            std::cout << "s. Rimozione del Successore di un dato elemento \n";
 
             std::cout << "b. tornare indietro. \n\n\n";
 
@@ -200,39 +232,158 @@ void BinaryTreeHeapInt(){
 
                 case '1':
                     std::cout << " ** PREORDER PRINT ** \n\n";
-                    PrintElementHeapPreOrder(heap);
+                    PrintElementTreePreOrder(bst);
                     break;
                 case '2':
-                    std::cout << " ** POSTORDER PRINT ** \n\n";
-                    PrintElementHeapPostOrder(heap);
+                    std::cout << " ** INORDER PRINT ** \n\n";
+                    PrintElementTreeInOrder(bst);
                     break;
                 case '3':
+                    std::cout << " ** POSTORDER PRINT ** \n\n";
+                    PrintElementTreePostOrder(bst);
+                    break;
+                case '4':
+                    std::cout << " ** BREADTH PRINT ** \n\n";
+                    PrintElementTreeBreadth(bst);
+                    break;
+                case '5':
                     std::cout << " ** EXISTS ** \n\n";
                     std::cout << "Inserire il valore di cui si vuole verificare l'esistenza : ";
                     int item;
                     std::cin >> item;
-                    if(heap.Exists(item))std::cout<<"L'elemento e' presente nell' albero";
+                    if(bst.Exists(item))std::cout<<"L'elemento e' presente nell' albero";
                     else std::cout<<"L'elemento e' assente nell' albero";
                     break;
-                case '4':
+                case '6':
                     std::cout << " ** FOLD MoltiplicateIntSmallerThan ** \n\n";
                     std::cout << "Inserire il valore con cui chiamare la Fold : ";
                     int elem;
                     std::cin >> elem;
-                    std::cout<<"La moltiplicazione degli elementi minori di "<<elem<<" e' :"<<FoldTreeHeapIntMoltiplicateSmallerThan(elem, heap);
+                    std::cout<<"La moltiplicazione degli elementi minori di "<<elem<<" e' :"<<FoldTreeIntMoltiplicateSmallerThan(elem, bst);
                     break;
-                case '5':
-                    std::cout << " ** MAP n*(-1)^n ** \n\n";
-                    FunIntEx4ForBinaryTreeHeap(heap);
+                case '7':
+                    std::cout << " ** INSERT ** \n\n";
+                    std::cout << "Quale valore si intende inserire all' interno del BST: ";
+                    int d;
+                    std::cin >> d;
+                    bst.Insert(d);
+                    std::cout<<"\nInserimento effettuato con successo!\n\n";
+
                     break;
-                case '6':
-                    std::cout << "\n\n ** SORT ** \n\n";
-                    heap.Sort();
-                    std::cout << "L'albero e' adesso ordinato totalmente. \n\n";
+                case '8':
+                    std::cout << " ** REMOVE ** \n\n";
+                    std::cout << "Quale valore si intende rimuovere dal BST: ";
+                    int r;
+                    std::cin >> r;
+                    bst.Remove(r);
+                    std::cout<<"\nRimozione effettuata con successo!\n\n";
+
                     break;
+                case 'q'://lettura
+                    std::cout << " ** MIN ** \n\n";
+                    try {
+                        std::cout << "Il valore minimo del seguente BST e' : " << bst.Min();
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 'w'://lettura con rimozione
+                    std::cout << " ** MIN&REMOVE ** \n\n";
+                    try{
+                    std::cout << "Il valore minimo del seguente BST e' : "<<bst.MinNRemove();
+                    std::cout <<"Elemento minimo rimosso con successo!";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 'e'://rimozione
+                    std::cout << " ** REMOVE MIN ** \n\n";
+                    try{
+                    bst.RemoveMin();
+                    std::cout <<"Elemento minimo rimosso con successo!";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 'r':
+                    std::cout << " ** MAX ** \n\n";
+                    try{
+                    std::cout << "Il valore massimo del seguente BST e' : "<<bst.Max();
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 't':
+                    std::cout << " ** MAX&REMOVE ** \n\n";
+                    try{
+                    std::cout << "Il valore massimo del seguente BST e' : "<<bst.MaxNRemove();
+                    std::cout <<"Elemento massimo rimosso con successo!";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 'y':
+                    std::cout << " ** REMOVE MAX ** \n\n";
+                    try{
+                    bst.RemoveMax();
+                    std::cout <<"Elemento massimo rimosso con successo!";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 'u':
+                    std::cout << " ** PREDECESSOR ** \n\n";
+                    try{
+                        std::cout<<"Inserire il valore del quale si vuole trovare il predecessore all' interno dell' albero : \n";
+                        int predeced_item;
+                        std::cin>>predeced_item;
+                        std::cout << "Il predecessore di "<<predeced_item<<" all' interno del BST e' "<<bst.Predecessor(predeced_item);
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+                case 'i':
+                    std::cout << " ** PREDECESSOR & REMOVE ** \n\n";
+                    try{
+                        std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
+                        int predeced_item;
+                        std::cin>>predeced_item;
+                        std::cout << "Il predecessore di "<<predeced_item<<" all' interno del BST e' "<<bst.PredecessorNRemove(predeced_item);
+                        std::cout<<"Predecessore eliminato con successo!. \n";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+
+                    break;
+                case 'o':
+                    std::cout << " ** REMOVE PREDECESSOR ** \n\n";
+                    try{
+                        std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
+                        int predeced_item;
+                        std::cin>>predeced_item;
+                        bst.RemovePredecessor(predeced_item);
+                        std::cout<<"Predecessore eliminato con successo!. \n";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+
+                    break;
+                case 'p':
+                    std::cout << " ** SUCCESSOR ** \n\n";
+                    try{
+                        std::cout<<"Inserire il valore del quale si vuole trovare il successore all' interno dell' albero : \n";
+                        int succeeded_item;
+                        std::cin>>succeeded_item;
+                        std::cout << "Il successore di "<<succeeded_item<<" all' interno del BST e' "<<bst.Successor(succeeded_item);
+                    }catch(std::length_error error){ std::clog<<error.what();}
+
+                    break;
+                case 'a':
+                    std::cout << " ** SUCCESSOR & REMOVE ** \n\n";
+                    try{
+                        std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
+                        int succeeded_item;
+                        std::cin>>succeeded_item;
+                        std::cout << "Il successore di "<<succeeded_item<<" all' interno del BST e' "<<bst.SuccessorNRemove(succeeded_item);
+                        std::cout<<"Successore eliminato con successo!. \n";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+
+                    break;
+                case 's':
+                    std::cout << " ** REMOVE SUCCESSOR ** \n\n";
+                    try{
+                        std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
+                        int succeeded_item;
+                        std::cin>>succeeded_item;
+                        bst.RemoveSuccessor(succeeded_item);
+                        std::cout<<"Successore eliminato con successo!. \n";
+                    }catch(std::length_error error){ std::clog<<error.what();}
+                    break;
+
                 case 'b':
                     return;
-                    break;
                 default:
                     std::cout << " Hai inserito un codice non valido! riprovare : ";
 
@@ -240,7 +391,7 @@ void BinaryTreeHeapInt(){
 
             }
     }
-
+/*
 void BinaryTreeHeapFloat(){
     char scelta = '0';
     int n;
@@ -388,15 +539,15 @@ void BinaryTreeHeapString(){
 
     }
 }
-
-void BinaryTreeHeap(){
+*/
+void BinarySearchTree(){
     char scelta = '0';
 
     while (scelta != 'e') {
         std::cout << "Vuoi testare : \n";
-        std::cout << "1.Heap di interi. \n";
-        std::cout << "2.Heap di float. \n";
-        std::cout << "3.Heap di string. \n";
+        std::cout << "1.BST di interi. \n";
+        std::cout << "2.BST di float. \n";
+        std::cout << "3.BST di string. \n";
 
         std::cout<<"\nb. tornare indietro.\n";
         std::cout << "e. per uscire \n\n\n";
@@ -406,16 +557,16 @@ void BinaryTreeHeap(){
         switch (scelta) {
 
             case '1':
-                std::cout << " ** HEAP DI INTERI ** \n\n";
-                BinaryTreeHeapInt();
+                std::cout << " ** BST DI INTERI ** \n\n";
+                BinarySearchTreeInt();
                 break;
             case '2':
-                std::cout << " ** HEAP DI FLOAT ** \n\n";
-                BinaryTreeHeapFloat();
+                std::cout << " ** BST DI FLOAT ** \n\n";
+                //BinarySearchTreeFloat();
                 break;
             case '3':
-                std::cout << " ** HEAP DI STRINGHE ** \n\n";
-                BinaryTreeHeapString();
+                std::cout << " ** BST DI STRINGHE ** \n\n";
+                //BinarySearchTreeString();
                 break;
             case 'b':
                 return;
@@ -433,9 +584,9 @@ void BinaryTreeHeap(){
 
 
 
-*/
 
-/**BinaryTreePriorityQueue**/
+
+/** **/
 
 
 /*
@@ -733,7 +884,7 @@ void BinaryTreePriorityQueue(){
 
 
 
-
+*/
 
 void mytest() {
 
@@ -741,8 +892,10 @@ void mytest() {
 
     while (scelta != 'e') {
         std::cout << "Prego, inserire : \n";
-        std::cout << "1. per testare un Albero Heap. \n";
-        std::cout << "2. per testare una Priority Queue. \n";
+        std::cout << "1. per testare un BST. \n";
+        std::cout << "2. per testare un AVL. \n";
+        std::cout << "3. per testare un R&B. \n";
+
 
         std::cout<<"\nb. tornare indietro.\n";
         std::cout << "e. per uscire \n\n\n";
@@ -752,12 +905,16 @@ void mytest() {
         switch (scelta) {
 
             case '1':
-                std::cout << " ** TEST Heap ** \n\n";
-                BinaryTreeHeap();
+                std::cout << " ** TEST BST ** \n\n";
+                BinarySearchTree();
                 break;
             case '2':
-                std::cout << " ** TEST Priority Queue ** \n\n";
-                BinaryTreePriorityQueue();
+                std::cout << " ** TEST AVL ** \n\n";
+                //BinaryTreePriorityQueue();
+                break;
+            case '3':
+                std::cout << " ** TEST R&B ** \n\n";
+                //BinaryTreePriorityQueue();
                 break;
             case 'b':
                 return;
@@ -772,7 +929,7 @@ void mytest() {
 
     }
 }
-*/
+
 
 
 

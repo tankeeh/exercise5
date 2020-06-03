@@ -55,7 +55,7 @@ private:
     BSTNode* MaxParent();
 
 
-    BSTNode* PredecessorParent(const Data) const;
+    BSTNode* PredecessorParent(const Data&,BSTNode* parent) const;
     BSTNode* SuccessorParent(const Data) const;
 
     // ...
