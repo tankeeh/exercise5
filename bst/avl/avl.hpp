@@ -5,6 +5,7 @@
 /* ************************************************************************** */
 
 #include "../bst.hpp"
+#include<algorithm>
 
 /* ************************************************************************** */
 
@@ -29,8 +30,16 @@ public:
 
 struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
 
-      int height = 0;
+protected:
+
+    int height = 0;
     // ...
+public:
+    AVLNode() = default;
+
+    AVLNode(const Data& item); //COPY CONSTRUCTOR
+
+    AVLNode(Data&& item); //MOVE CONSTRUCTOR
 
   };
 
@@ -56,7 +65,7 @@ struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
   AVL& operator=(const AVL& tree);
 
   // Move assignment
-  AVL& operator=(AVLE&& tree);
+  AVL& operator=(AVL&& tree);
 
   /* ************************************************************************ */
 
@@ -68,7 +77,7 @@ struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
 
   // Specific member functions (inherited from BinaryTree)
 
-  // type Root() specifiers; // Override BinaryTree member (might throw std::length_error)
+  const AVLNode& Root() const; // Override BinaryTree member (might throw std::length_error)
   // type NewRoot(argument) specifiers; // Override BinaryTree member (Copy of the value)
   // type NewRoot(argument) specifiers; // Override BinaryTree member (Move of the value)
 
@@ -76,8 +85,8 @@ struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
 
   // Specific member functions
 
-  void Insert(const Data& key) noexcept ; // Copy of the value
-  void Insert(Data&& key) noexcept ;  // Move of the value
+  void Insert(const Data& key); // Copy of the value
+  void Insert(Data&& key) ;  // Move of the value
   // type Remove(argument) specifiers;
 
   // type MinNRemove() specifiers; // (might throw std::length_error)
@@ -94,7 +103,19 @@ struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
 
   /* ************************************************************************ */
 
+protected:
+    void SxBalance(AVLNode* node);
+    AVLNode* SxRotate(AVLNode* node);
+    AVLNode* SxDoubleRotate(AVLNode* node);
+
+    AVLNode& Root();
+
+
+    int Balance(AVLNode* node);
+
 };
+
+
 
 }
 

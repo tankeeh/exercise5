@@ -10,6 +10,7 @@
 int main(){
 
     //testBST();
+    testAVL();
 
 
 /**MENU' FINALE**/

@@ -6,7 +6,7 @@
 //#include "./TreeUtils/treeNavFunctions/NavigateFunctions.hpp"
 #include "../list/list.hpp"
 #include "../bst/bst.hpp"
-
+#include "../bst/avl/avl.hpp"
 
 
 
@@ -15,7 +15,7 @@
 
 
 
-void testBST(){
+void testBST() {
     lasd::BST<int> bst;
     bst.NewRoot(30);
     bst.Insert(21);
@@ -30,11 +30,11 @@ void testBST(){
     bst.Insert(60);
     bst.Insert(72);
 
-    std::cout<<"\n\n PRINT BST: \n\n";
+    std::cout << "\n\n PRINT BST: \n\n";
     PrintElementTreeInOrder(bst);
 
     //std::cout<<"\n\n"<<bst.Exists(312);
-    std::cout<<"\n\n";
+    std::cout << "\n\n";
 
     lasd::BST<int> bst2;
     bst2.NewRoot(30);
@@ -59,56 +59,67 @@ void testBST(){
     //bst2.Remove(40);
 
 
-        //std::cout << "L' elemento Max e' : " << bst2.MaxNRemove() << " ed e' stato eliminato.";
+    //std::cout << "L' elemento Max e' : " << bst2.MaxNRemove() << " ed e' stato eliminato.";
 
 
 
-    std::cout<<"\n\n STAMPA POST ELIMINAZIONE : \n\n";
+    std::cout << "\n\n STAMPA POST ELIMINAZIONE : \n\n";
     PrintElementTreeInOrder(bst2);
 
     bst2.NewRoot(20);
     bst2.Remove(20);
     bst2.Remove(20);
 
-    std::cout<<"\n\n STAMPA POST ELIMINAZIONE 2: \n\n";
+    std::cout << "\n\n STAMPA POST ELIMINAZIONE 2: \n\n";
     PrintElementTreeInOrder(bst2);
 
 
-    std::cout<<"Inserire elemento di cui si vuole il prec :  ";
+    std::cout << "Inserire elemento di cui si vuole il prec :  ";
     int val;
-    std::cin>>val;
+    std::cin >> val;
     try {
         std::cout << "prec di " << val << " e' : " << bst2.Predecessor(val);
-    }catch (std::length_error err) {
-        std::cerr<<err.what();
+    } catch (std::length_error err) {
+        std::cerr << err.what();
     }
 
-    std::cout<<"Inserire elemento di cui si vuole il succ :  ";
-    std::cin>>val;
+    std::cout << "Inserire elemento di cui si vuole il succ :  ";
+    std::cin >> val;
     try {
         std::cout << "succ di " << val << " e' : " << bst2.Successor(val);
-    }catch (std::length_error err) {
-        std::clog<<err.what();
+    } catch (std::length_error err) {
+        std::clog << err.what();
     }
 
-    if(bst == bst2) std::cout<<"\n\nsono uguali";
-    else std::cout<<"\n\n sono diversi";
+    if (bst == bst2) std::cout << "\n\nsono uguali";
+    else std::cout << "\n\n sono diversi";
 
-    try{
-    std::cout<<"\n\nmax : "<<bst2.Max();
-    }catch (std::length_error err) {
-    std::clog<<err.what();
-}
-
-    try{
-    std::cout<<"\n\nmin : "<<bst2.Min();
-    }catch (std::length_error err) {
-        std::clog<<err.what();
+    try {
+        std::cout << "\n\nmax : " << bst2.Max();
+    } catch (std::length_error err) {
+        std::clog << err.what();
     }
 
-
-
+    try {
+        std::cout << "\n\nmin : " << bst2.Min();
+    } catch (std::length_error err) {
+        std::clog << err.what();
+    }
 }
+
+    void testAVL(){
+
+        lasd::AVL<int> avl;
+        avl.Insert(50);
+        avl.Insert(59);
+        avl.Insert(40);
+        avl.Insert(38);
+        avl.Insert(35);
+
+        PrintElementTreeInOrder(avl);
+
+    }
+
 
 /*
 void testPriorityQueue(){

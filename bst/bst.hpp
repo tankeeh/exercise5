@@ -110,7 +110,7 @@ private:
   // Specific member functions
 
   void Insert(const Data&); // Copy of the value
-  void Insert(Data&&);; // Move of the value
+  void Insert(Data&& );; // Move of the value
   void Remove(const Data& del_item) noexcept ;
 
   const Data& Min() const; // (might throw std::length_error)

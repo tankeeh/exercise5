@@ -113,16 +113,16 @@ namespace lasd {
 
     template<typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode::PredecessorParent(const Data& key,BSTNode* parent) const {
-        BSTNode *tempnode = this;
+      /*  BSTNode *tempnode = this;
         BSTNode* father = nullptr;
 
         if(tempnode->Element < key){
             father = tempnode;
-            tempnode
+            tempnode =
 
         }
 
-
+*/
     }
 
 
