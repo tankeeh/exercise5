@@ -13,7 +13,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class AVL { // Should extend BST<Data>
+class AVL : public BST<Data> { // Should extend BST<Data>
 
 private:
 
@@ -27,8 +27,9 @@ protected:
 
 public:
 
-  struct AVLNode { // Should extend BSTNode
+struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
 
+      int height = 0;
     // ...
 
   };
@@ -36,32 +37,32 @@ public:
   /* ************************************************************************ */
 
   // Default constructor
-  // AVL() specifiers;
+  AVL() = default;
 
   // Copy constructor
-  // AVL(argument) specifiers;
+  AVL(const AVL& tree) ;
 
   // Move constructor
-  // AVL(argument) specifiers;
+  AVL(AVL&& tree);
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~AVL() specifiers;
+  ~AVL() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  AVL& operator=(const AVL& tree);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  AVL& operator=(AVLE&& tree);
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const AVL&) const noexcept ;
+  bool operator!=(const AVL&) const noexcept ;
 
   /* ************************************************************************ */
 
@@ -75,8 +76,8 @@ public:
 
   // Specific member functions
 
-  // type Insert(argument) specifiers; // Copy of the value
-  // type Insert(argument) specifiers; // Move of the value
+  void Insert(const Data& key) noexcept ; // Copy of the value
+  void Insert(Data&& key) noexcept ;  // Move of the value
   // type Remove(argument) specifiers;
 
   // type MinNRemove() specifiers; // (might throw std::length_error)
