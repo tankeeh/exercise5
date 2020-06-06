@@ -122,11 +122,11 @@ private:
   void RemoveMax(); // (might throw std::length_error)
 
   const Data& Predecessor(const Data& key); // (might throw std::length_error)
-  const Data& PredecessorNRemove(const Data& key); // (might throw std::length_error)
+  Data PredecessorNRemove(const Data& key); // (might throw std::length_error)
   void RemovePredecessor(const Data& key); // (might throw std::length_error)
 
   const Data& Successor(const Data& key); // (might throw std::length_error)
-  const Data& SuccessorNRemove(const Data& key); // (might throw std::length_error)
+  Data SuccessorNRemove(const Data& key); // (might throw std::length_error)
   void RemoveSuccessor(const Data& key); // (might throw std::length_error)
 
   /* ************************************************************************ */

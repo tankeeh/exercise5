@@ -107,16 +107,19 @@ void testBST() {
     }
 }
 
-    void testAVL(){
+void testAVL(){
 
         lasd::AVL<int> avl;
         avl.Insert(50);
         avl.Insert(59);
         avl.Insert(40);
         avl.Insert(38);
-        avl.Insert(35);
+        PrintElementTreePreOrder(avl);
 
-        PrintElementTreeInOrder(avl);
+        avl.Insert(35);
+        std::cout<<"\n\n";
+        PrintElementTreePreOrder(avl);
+
 
     }
 

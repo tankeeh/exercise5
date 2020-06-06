@@ -182,12 +182,12 @@ namespace lasd {
 
     template<typename Data>
     const typename BST<Data>::BSTNode& BST<Data>::Root() const {
-        return *((BSTNode*)BinaryTreeLnk<Data>::Node);
+        return static_cast<const BSTNode&>(BinaryTreeLnk<Data>::Root());
     }
 
     template<typename Data>
     typename BST<Data>::BSTNode& BST<Data>::Root(){
-        return *((BSTNode*)BinaryTreeLnk<Data>::Node);
+        return static_cast<BSTNode&>(BinaryTreeLnk<Data>::Root());
     }
 
     template<typename Data>
@@ -536,7 +536,7 @@ namespace lasd {
     }
 
     template<typename Data>
-    const Data &BST<Data>::PredecessorNRemove(const Data &key) {
+    Data BST<Data>::PredecessorNRemove(const Data &key) {
         Data predec = Predecessor(key);
         Remove(predec);
         return predec;
@@ -605,6 +605,21 @@ namespace lasd {
             }
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
+    }
+
+    template<typename Data>
+    void BST<Data>::RemovePredecessor(const Data &key) {
+
+    }
+
+    template<typename Data>
+    Data BST<Data>::SuccessorNRemove(const Data &key) {
+        return 0;
+    }
+
+    template<typename Data>
+    void BST<Data>::RemoveSuccessor(const Data &key) {
+
     }
 
 

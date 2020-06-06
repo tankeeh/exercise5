@@ -14,7 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class AVL : public BST<Data> { // Should extend BST<Data>
+class AVL : public BST<Data>{ // Should extend BST<Data>
 
 private:
 
@@ -32,6 +32,11 @@ struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
 
 protected:
 
+    AVLNode* Left(); // Mutable access to the element
+    AVLNode const* Left() const; // Immutable access to the element
+    AVLNode* Right(); // Mutable access to the element
+    AVLNode const* Right() const; // Immutable access to the element
+
     int height = 0;
     // ...
 public:
@@ -41,6 +46,7 @@ public:
 
     AVLNode(Data&& item); //MOVE CONSTRUCTOR
 
+    friend AVL<Data>;
   };
 
   /* ************************************************************************ */
@@ -104,13 +110,14 @@ public:
   /* ************************************************************************ */
 
 protected:
-    void SxBalance(AVLNode* node);
+    AVLNode* SxBalance(AVLNode* node);
     AVLNode* SxRotate(AVLNode* node);
     AVLNode* SxDoubleRotate(AVLNode* node);
 
     AVLNode& Root();
 
-
+    AVLNode* Insert(const Data& key,AVLNode*);
+    int Height(AVLNode* node);
     int Balance(AVLNode* node);
 
 };
