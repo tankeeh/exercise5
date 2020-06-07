@@ -5,6 +5,8 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+
+
 /** FUNZIONI NODO **/
 
     template <typename Data>
@@ -139,7 +141,7 @@ namespace lasd {
 
     //COPY ASSIGNMENT
     template<typename Data>
-    BST<Data>& BST<Data>::operator=(const BST & tree){
+    BST<Data>& BST<Data>::operator=(const BST& tree){
         BinaryTreeLnk<Data>::operator=(tree);
         return *this;
     }
@@ -287,7 +289,7 @@ namespace lasd {
                 tempnode = father->Left();
             else
                 tempnode = father->Right();
-        } else return;
+        }else return;
 
 
         if (tempnode->IsLeaf()) {
@@ -620,6 +622,13 @@ namespace lasd {
     template<typename Data>
     void BST<Data>::RemoveSuccessor(const Data &key) {
 
+    }
+
+    template<typename Data>
+    void BST<Data>::BeautyTree(typename lasd::BST<Data>::BSTNode &node, int depth, const std::string &prefix) {
+        std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "ROOT") << ": [" << node.Element() << "]\n";
+        if(node.HasLeftChild()) BeautyTree(*node.Left(), depth+1, prefix + "L");
+        if(node.HasRightChild()) BeautyTree(*node.Right(), depth+1, prefix + "R");
     }
 
 

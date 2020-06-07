@@ -28,9 +28,11 @@ protected:
 
 public:
 
-struct AVLNode : protected BST<Data>::BSTNode { // Should extend BSTNode
+struct AVLNode : public BST<Data>::BSTNode { // make public for test with beauty tree but has to be protected
 
 protected:
+
+    //using BinaryTreeLnk<Data>::NodeLnk::NodeLnk;
 
     AVLNode* Left(); // Mutable access to the element
     AVLNode const* Left() const; // Immutable access to the element
@@ -45,6 +47,8 @@ public:
     AVLNode(const Data& item); //COPY CONSTRUCTOR
 
     AVLNode(Data&& item); //MOVE CONSTRUCTOR
+
+    AVLNode(AVLNode& node); //REC CONSTRUCTOR
 
     friend AVL<Data>;
   };
@@ -83,23 +87,23 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  const AVLNode& Root() const; // Override BinaryTree member (might throw std::length_error)
-  // type NewRoot(argument) specifiers; // Override BinaryTree member (Copy of the value)
-  // type NewRoot(argument) specifiers; // Override BinaryTree member (Move of the value)
+  const AVLNode& Root() const override; // Override BinaryTree member (might throw std::length_error)
+  void NewRoot(const Data& key) noexcept override ; // Override BinaryTree member (Copy of the value)
+  void NewRoot(Data&& key) noexcept override ; // Override BinaryTree member (Move of the value)
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  void Insert(const Data& key); // Copy of the value
-  void Insert(Data&& key) ;  // Move of the value
-  // type Remove(argument) specifiers;
+  void Insert(const Data& key) override ; // Copy of the value
+  void Insert(Data&& key) override ;  // Move of the value
+  void Remove(const Data& key) noexcept override ;
 
-  // type MinNRemove() specifiers; // (might throw std::length_error)
-  // type RemoveMin() specifiers; // (might throw std::length_error)
+  const Data MinNRemove() override ; // (might throw std::length_error)
+  void RemoveMin() override ; // (might throw std::length_error)
 
-  // type MaxNRemove() specifiers; // (might throw std::length_error)
-  // type RemoveMax() specifiers; // (might throw std::length_error)
+  const Data MaxNRemove() override ; // (might throw std::length_error)
+  void RemoveMax() override ; // (might throw std::length_error)
 
   // type PredecessorNRemove(argument) specifiers; // (might throw std::length_error)
   // type RemovePredecessor(argument) specifiers; // (might throw std::length_error)
@@ -109,16 +113,27 @@ public:
 
   /* ************************************************************************ */
 
+
+    AVLNode& Root();
 protected:
+
+
+
     AVLNode* SxBalance(AVLNode* node);
     AVLNode* SxRotate(AVLNode* node);
     AVLNode* SxDoubleRotate(AVLNode* node);
 
-    AVLNode& Root();
+    AVLNode* DxBalance(AVLNode* node);
+    AVLNode* DxRotate(AVLNode* node);
+    AVLNode* DxDoubleRotate(AVLNode* node);
 
-    AVLNode* Insert(const Data& key,AVLNode*);
+    AVLNode* Remove(Data key,AVLNode*);
+    AVLNode* RemoveNode(AVLNode*);
+    AVLNode* StaccaMin(AVLNode* node,AVLNode* parent);
+    AVLNode* StaccaMax(AVLNode *node,AVLNode* parent);
+
+    AVLNode* Insert(Data key,AVLNode*);
     int Height(AVLNode* node);
-    int Balance(AVLNode* node);
 
 };
 

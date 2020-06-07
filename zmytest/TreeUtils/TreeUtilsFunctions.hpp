@@ -6,6 +6,7 @@
 #define EXERCISE2_TREEUTILSFUNCTIONS_HPP
 #include "../UtilityFunctions/commons/commons.hpp"
 #include "../../binarytree/binarytree.hpp"
+#include "../../bst/bst.hpp"
 //#include "../binarytree/binarytree.hpp"
 
 
@@ -36,6 +37,7 @@ void PrintElementTreeInOrder(lasd::BinaryTree<Data>& tree);
 
 template <typename Data>
 void PrintElementTreePostOrder(lasd::BinaryTree<Data>& tree);
+
 
 /*
 template <typename Data>

@@ -109,25 +109,25 @@ private:
 
   // Specific member functions
 
-  void Insert(const Data&); // Copy of the value
-  void Insert(Data&& );; // Move of the value
-  void Remove(const Data& del_item) noexcept ;
+  virtual void Insert(const Data&); // Copy of the value
+  virtual void Insert(Data&& );; // Move of the value
+  virtual void Remove(const Data& del_item) noexcept ;
 
-  const Data& Min() const; // (might throw std::length_error)
-  const Data MinNRemove()  ; // (might throw std::length_error)
-  void RemoveMin(); // (might throw std::length_error)
+  virtual const Data& Min() const; // (might throw std::length_error)
+  virtual const Data MinNRemove()  ; // (might throw std::length_error)
+  virtual void RemoveMin(); // (might throw std::length_error)
 
-  const Data& Max() const; // (might throw std::length_error)
-  const Data MaxNRemove() ; // (might throw std::length_error)
-  void RemoveMax(); // (might throw std::length_error)
+  virtual const Data& Max() const; // (might throw std::length_error)
+  virtual const Data MaxNRemove() ; // (might throw std::length_error)
+  virtual void RemoveMax(); // (might throw std::length_error)
 
-  const Data& Predecessor(const Data& key); // (might throw std::length_error)
-  Data PredecessorNRemove(const Data& key); // (might throw std::length_error)
-  void RemovePredecessor(const Data& key); // (might throw std::length_error)
+  virtual const Data& Predecessor(const Data& key); // (might throw std::length_error)
+  virtual Data PredecessorNRemove(const Data& key); // (might throw std::length_error)
+  virtual void RemovePredecessor(const Data& key); // (might throw std::length_error)
 
-  const Data& Successor(const Data& key); // (might throw std::length_error)
-  Data SuccessorNRemove(const Data& key); // (might throw std::length_error)
-  void RemoveSuccessor(const Data& key); // (might throw std::length_error)
+  virtual const Data& Successor(const Data& key); // (might throw std::length_error)
+  virtual Data SuccessorNRemove(const Data& key); // (might throw std::length_error)
+  virtual void RemoveSuccessor(const Data& key); // (might throw std::length_error)
 
   /* ************************************************************************ */
 
@@ -136,6 +136,7 @@ private:
   bool Exists(const Data&) const noexcept override ; // Override TestableContainer member
 
 
+    void BeautyTree(typename lasd::BST<Data>::BSTNode& node, int depth, const std::string& prefix);
 
 protected:
 
@@ -147,7 +148,9 @@ protected:
 
   using BinaryTreeLnk<Data>::Node;
 
+
 protected:
+
     const Data& SubtreeMin(BSTNode* node) const;
     const Data& SubtreeMax(BSTNode* node) const;
 

@@ -7,7 +7,14 @@
 #include "../list/list.hpp"
 #include "../bst/bst.hpp"
 #include "../bst/avl/avl.hpp"
-
+/*
+template <typename Data>
+void BeautyTree(typename lasd::AVL<Data>::AVLNode& node, int depth, const std::string& prefix){
+    std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "ROOT") << ": [" << node.Element() << "]\n";
+    if(node.HasLeftChild()) BeautyTree<Data>(*node.Left(), depth+1, prefix + "L");
+    if(node.HasRightChild()) BeautyTree<Data>(*node.Right(), depth+1, prefix + "R");
+}
+*/
 
 
 
@@ -109,7 +116,36 @@ void testBST() {
 
 void testAVL(){
 
+    int n = 10;
+
+        int i = 0;
         lasd::AVL<int> avl;
+        while(i < n) {
+            avl.Insert(n-i);
+            i++;
+        }
+
+        /*
+        avl.NewRoot(30);
+
+        lasd::AVL<int> avl2;
+        avl2.Insert(50);
+        avl2.Insert(59);
+
+        avl = avl2;
+        */
+
+        //avl.Remove(1);
+        //avl.Remove(29);
+
+
+
+        //avl.BeautyTree(avl.Root(),0,"");
+        /*
+        avl.Insert(50);
+        avl.Insert(59);
+        avl.Insert(40);
+        avl.Insert(38);
         avl.Insert(50);
         avl.Insert(59);
         avl.Insert(40);
@@ -118,76 +154,30 @@ void testAVL(){
 
         avl.Insert(35);
         std::cout<<"\n\n";
+         */
         PrintElementTreePreOrder(avl);
 
+        //std::cout<<" il min e' : "<<avl.MinNRemove()<<"\n\n";
+        avl.RemoveMin();
+        std::cout<<"\n\n";
+        //PrintElementTreePreOrder(avl);
+    avl.BeautyTree(avl.Root(),0,"");
 
-    }
+        avl.RemoveMax();
+    std::cout<<"\n\n";
 
+    avl.BeautyTree(avl.Root(),0,"");
+    //std::cout<<" il max e' : "<<avl.MaxNRemove()<<"\n\n";
+    //PrintElementTreePreOrder(avl);
 
-/*
-void testPriorityQueue(){
-
-
-    lasd::Vector<int> vettore(7);
-    for(int i=0;i<7;i++){
-        vettore[i] = 12 -i;
-    }
-
-
-    lasd::PriorityQueue<int> PQ1(vettore);
-    std::cout<<"*priority queue* "<<std::endl;
-
-    std::cout<<"TEST COPY CONSTRUCTOR : "<<std::endl;
-    lasd::PriorityQueue<int> PQ2(PQ1);
-    std::cout<<"stampa di LinearHeap2 : "<<std::endl;
-    PQ2.PrintArray();
-
-
-    std::cout<<"\n\nTEST MOVE CONSTRUCTOR : "<<std::endl;
-    lasd::PriorityQueue<int> PQ3(std::move(PQ1));
-    std::cout<<"stampa di LinearHeap passato con move (vuoto) : "<<std::endl;
-    PQ1.PrintArray();
-    std::cout<<"stampa di LinearHeap3  : "<<std::endl;
-    PQ3.PrintArray();
-
-    std::cout<<"\n\nTEST COPY ASSIGNMENT : "<<std::endl;
-    PQ1 = PQ3;
-    std::cout<<"stampa di LinearHeap al quale e' assegnato linearheap3  : "<<std::endl;
-    PQ1.PrintArray();
-
-    std::cout<<"\n\nTEST MOVE ASSIGNMENT : "<<std::endl;
-    PQ1 = std::move(PQ3);
-    std::cout<<"stampa di LinearHeap3 passato assegnato per move (vuoto) : "<<std::endl;
-    PQ3.PrintArray();
-    std::cout<<"stampa di LinearHeap al quale e' assegnato linearheap3 : "<<std::endl;
-    PQ1.PrintArray();
-
-    std::cout<<"\n\nTest di uguaglianza : \n";
-
-    if(PQ1 == PQ2) std::cout<<"le due strutture sono uguali\n";
-    else std::cout<<"sono diversi\n";
-
-    if(PQ1 == PQ3) std::cout<<"le due strutture sono uguali\n";
-    else std::cout<<"sono diversi\n";
-
-    lasd::PriorityQueue<int> PQ4;
-    if(PQ4 == PQ3) std::cout<<"le due strutture sono uguali\n";
-    else std::cout<<"sono diversi";
-
-    std::cout<<"\ntest vuotezza linearheap3 : "<<PQ3.Empty();
-
-    std::cout<<"\ntest vuotezza linearheap : "<<PQ1.Empty();
-
-    std::cout<<"\nsize linearheap : "<<PQ1.Size();
-
-
-
-
+    std::cout<<"size : "<<avl.Size();
 
 
 
 }
-*/
+
+
+
 
 
 
