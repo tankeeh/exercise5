@@ -28,7 +28,7 @@ protected:
 
 public:
 
-struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk {
+struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk{ //make prot
 
 
 private:
@@ -38,10 +38,10 @@ private:
   protected:
     using BinaryTreeLnk<Data>::NodeLnk::NodeLnk;
 
-    BSTNode* Left(); // Mutable access to the element
-    BSTNode const* Left() const; // Immutable access to the element
-    BSTNode* Right(); // Mutable access to the element
-    BSTNode const* Right() const; // Immutable access to the element
+     BSTNode* Left(); // Mutable access to the element
+     BSTNode const* Left() const; // Immutable access to the element
+     BSTNode* Right(); // Mutable access to the element
+     BSTNode const* Right() const; // Immutable access to the element
 
     BSTNode const* Find(const Data&)const;
     BSTNode const* FindParent(const Data&) const;
@@ -54,14 +54,15 @@ private:
     BSTNode const* MaxParent() const;
     BSTNode* MaxParent();
 
+    BSTNode* PredecessorParent(const Data&) const;
+    BSTNode* SuccessorParent(const Data&) const;
 
-    BSTNode* PredecessorParent(const Data&,BSTNode* parent) const;
-    BSTNode* SuccessorParent(const Data) const;
 
     // ...
 
   public:
-      friend class BST<Data>;
+
+    friend class BST<Data>;
 
     // ...
 
@@ -137,6 +138,7 @@ private:
 
 
     void BeautyTree(typename lasd::BST<Data>::BSTNode& node, int depth, const std::string& prefix);
+    BSTNode& Root() override ;
 
 protected:
 
@@ -154,7 +156,6 @@ protected:
     const Data& SubtreeMin(BSTNode* node) const;
     const Data& SubtreeMax(BSTNode* node) const;
 
-    BSTNode& Root() override ;
     void InOrderEnqueueNodes(QueueLst<Data>& queue,const BSTNode* node)const;
 };
 

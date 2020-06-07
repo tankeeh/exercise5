@@ -114,17 +114,91 @@ namespace lasd {
     }
 
     template<typename Data>
-    typename BST<Data>::BSTNode* BST<Data>::BSTNode::PredecessorParent(const Data& key,BSTNode* parent) const {
-      /*  BSTNode *tempnode = this;
-        BSTNode* father = nullptr;
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::PredecessorParent(const Data& key) const {
+        const BSTNode *currnode = this;
+        const BSTNode* temp = nullptr;
+        const BSTNode* grandpa= nullptr;
+        bool flag = true;
 
-        if(tempnode->Element < key){
-            father = tempnode;
-            tempnode =
+        while(flag && currnode != nullptr && currnode->Element() != key){
+            if(currnode->Element() < key){
+                if(!currnode->HasRightChild())
+                    flag = false;
 
+                grandpa = temp;
+
+                if(flag){
+                    temp = currnode;
+                    currnode = currnode->Right();
+                }
+            }
+
+            else {
+                if(!currnode->HasLeftChild())
+                    flag = false;
+
+                if(flag){
+                    temp = currnode;
+                    currnode = currnode->Left();
+                }
+            }
         }
 
-*/
+        if(currnode->HasLeftChild()){
+            if( !temp->Left()->HasRightChild())
+                return const_cast<BSTNode*>(temp);
+            else {
+                const BSTNode *temp2 = currnode->Left()->MaxParent();
+                return const_cast<BSTNode*>(temp2);
+            }
+        }
+        else return const_cast<BSTNode*>(grandpa);
+
+
+    }
+
+    template<typename Data>
+    typename BST<Data>::BSTNode* BST<Data>::BSTNode::SuccessorParent(const Data& key) const {
+        const BSTNode *currnode = this;
+        const BSTNode* temp = nullptr;
+        const BSTNode* grandpa= nullptr;
+        bool flag = true;
+
+        while(flag && currnode != nullptr && currnode->Element() != key){
+            if(currnode->Element() < key){
+                if(!currnode->HasRightChild())
+                    flag = false;
+
+
+                if(flag){
+                    temp = currnode;
+                    currnode = currnode->Right();
+                }
+            }
+
+            else {
+                if(!currnode->HasLeftChild())
+                    flag = false;
+
+                grandpa = temp;
+
+                if(flag){
+                    temp = currnode;
+                    currnode = currnode->Left();
+                }
+            }
+        }
+
+        if(currnode->HasRightChild()){
+            if( !temp->Right()->HasLeftChild())
+                return const_cast<BSTNode*>(temp);
+            else {
+                const BSTNode *temp2 = currnode->Right()->MinParent();
+                return const_cast<BSTNode*>(temp2);
+            }
+        }
+        else return const_cast<BSTNode*>(grandpa);
+
     }
 
 
@@ -525,7 +599,6 @@ namespace lasd {
                 }
             }
 
-            //if(temp == nullptr && currnode!= nullptr) temp = currnode;
             if (currnode != nullptr && currnode->HasLeftChild())
                 temp = temp->Left()->MaxParent()->Right();
 

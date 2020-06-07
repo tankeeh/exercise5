@@ -23,6 +23,57 @@ void BeautyTree(typename lasd::AVL<Data>::AVLNode& node, int depth, const std::s
 
 
 void testBST() {
+
+    lasd::BST<int> cTree;
+    //h0
+    cTree.Insert(1000);
+
+    //h1
+    cTree.Insert(500);
+    cTree.Insert(1500);
+
+    //h2
+    cTree.Insert(250);
+    cTree.Insert(750);
+    cTree.Insert(1250);
+    cTree.Insert(1750);
+
+    //h3
+    cTree.Insert(125);
+    cTree.Insert(375);
+    cTree.Insert(625);
+    cTree.Insert(875);
+
+    //h4
+    cTree.Insert(1125);
+    cTree.Insert(1375);
+    cTree.Insert(1625);
+    cTree.Insert(1875);
+
+    //h5
+    cTree.Insert(62);
+    cTree.Insert(187);
+    cTree.Insert(313);
+    cTree.Insert(437);
+    cTree.Insert(562);
+    cTree.Insert(687);
+    cTree.Insert(813);
+    cTree.Insert(900);
+    cTree.Insert(1100);
+    cTree.Insert(1150);
+    cTree.Insert(1313);
+    cTree.Insert(1437);
+    cTree.Insert(1563);
+    cTree.Insert(1687);
+    cTree.Insert(1813);
+    cTree.Insert(1937);
+
+    int val;
+    std::cin>>val;
+
+    std::cout<<"il succ parent di "<<val<<" e' "<<cTree.Root().SuccessorParent(val)->Element();
+    //std::cout<<cTree.Root().SuccessorParent(val);
+    /*
     lasd::BST<int> bst;
     bst.NewRoot(30);
     bst.Insert(21);
@@ -44,23 +95,18 @@ void testBST() {
     std::cout << "\n\n";
 
     lasd::BST<int> bst2;
-    bst2.NewRoot(30);
-    bst2.Insert(21);
-    bst2.Insert(8);
-    bst2.Insert(7);
-    //bst2.Insert(12);
-    //bst2.Insert(15);
-    bst2.Insert(6);
-    bst2.Insert(32);
-    bst2.Insert(42);
-    bst2.Insert(31);
-    bst2.Insert(60);
-    bst2.Insert(72);
-    bst2.Insert(78);
+    bst2.NewRoot(150);
+    bst2.Insert(175);
+    bst2.Insert(160);
+    bst2.Insert(158);
+    bst2.Insert(164);
+    bst2.Insert(180);
+    bst2.Insert(190);
+
 
     //std::cout<<"\n\n"<<(bst2.Root().FindParent(78))->Element()<<"\n\n";
 
-    PrintElementTreeInOrder(bst2);
+    //PrintElementTreeInOrder(bst2);
 
     //bst2.Root().FindParent(40);
     //bst2.Remove(40);
@@ -70,12 +116,12 @@ void testBST() {
 
 
 
-    std::cout << "\n\n STAMPA POST ELIMINAZIONE : \n\n";
-    PrintElementTreeInOrder(bst2);
+    //std::cout << "\n\n STAMPA POST ELIMINAZIONE : \n\n";
+    //PrintElementTreeInOrder(bst2);
 
-    bst2.NewRoot(20);
-    bst2.Remove(20);
-    bst2.Remove(20);
+    //bst2.NewRoot(20);
+    //bst2.Remove(20);
+    //bst2.Remove(20);
 
     std::cout << "\n\n STAMPA POST ELIMINAZIONE 2: \n\n";
     PrintElementTreeInOrder(bst2);
@@ -116,24 +162,34 @@ void testBST() {
 
 void testAVL(){
 
+    std::cout<<"AVL"<<std::endl;
+    lasd::AVL<int> myAvl;
+    int i = 0;
+    while (myAvl.Size() != 3) {
+        myAvl.Insert(10 - i);
+        i++;
+    }
+    myAvl.BeautyTree(myAvl.Root(), 0,"");
+/*
     int n = 10;
 
         int i = 0;
         lasd::AVL<int> avl;
+
         while(i < n) {
             avl.Insert(n-i);
             i++;
         }
 
-        /*
-        avl.NewRoot(30);
+/*
+    avl.NewRoot(30);
 
-        lasd::AVL<int> avl2;
-        avl2.Insert(50);
-        avl2.Insert(59);
+    lasd::AVL<int> avl2;
+    avl2.Insert(50);
+    avl2.Insert(59);
 
-        avl = avl2;
-        */
+    avl = avl2;
+    */
 
         //avl.Remove(1);
         //avl.Remove(29);
@@ -155,25 +211,29 @@ void testAVL(){
         avl.Insert(35);
         std::cout<<"\n\n";
          */
-        PrintElementTreePreOrder(avl);
+        //PrintElementTreePreOrder(avl);
 
         //std::cout<<" il min e' : "<<avl.MinNRemove()<<"\n\n";
+        /*
         avl.RemoveMin();
         std::cout<<"\n\n";
         //PrintElementTreePreOrder(avl);
     avl.BeautyTree(avl.Root(),0,"");
 
-        avl.RemoveMax();
+        //avl.RemoveMax();
     std::cout<<"\n\n";
 
     avl.BeautyTree(avl.Root(),0,"");
     //std::cout<<" il max e' : "<<avl.MaxNRemove()<<"\n\n";
+    avl.BeautyTree(avl.Root(),0,"");
+
+
     //PrintElementTreePreOrder(avl);
 
-    std::cout<<"size : "<<avl.Size();
+    std::cout<<"\n\n size : "<<avl.Size();
 
 
-
+*/
 }
 
 

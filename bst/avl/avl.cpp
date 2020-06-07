@@ -177,7 +177,7 @@ namespace lasd {
             }
         }
         else{
-            node= new AVLNode(key);
+            node = new AVLNode(key);
             this->size++;
         }
         return node;
@@ -190,6 +190,17 @@ namespace lasd {
         this->size = tree.size;
         return *this;
     }
+
+    template<typename Data>
+    AVL<Data>& AVL<Data>::operator=(AVL&& tree) {
+        this->Clear();
+        std::swap(this->Node,tree.Node);
+        std::swap(this->size,tree.size);
+        return *this;
+    }
+
+
+
 
     template<typename Data>
     void AVL<Data>::Remove(const Data &key) noexcept {
@@ -308,7 +319,8 @@ namespace lasd {
         if(!(this->Empty())) {
             AVLNode* curr = &this->Root() ;
             this->size--;
-            StaccaMin(curr->Left(),curr);
+            AVLNode* uselessNode = StaccaMin(curr->Left(),curr);
+            delete uselessNode; //e' legit?
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
@@ -319,9 +331,20 @@ namespace lasd {
         if(!(this->Empty())) {
             AVLNode* curr = &this->Root() ;
             this->size--;
-            StaccaMax(curr->Right(),curr);
+            AVLNode* uselessNode = StaccaMax(curr->Right(),curr);
+            delete uselessNode;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
+    }
+
+    template<typename Data>
+    bool AVL<Data>::operator==(const AVL &tree) const noexcept {
+        return BST<Data>::operator==(tree);
+    }
+
+    template<typename Data>
+    bool AVL<Data>::operator!=(const AVL &tree) const noexcept {
+        return BST<Data>::operator!=(tree);
     }
 
 
