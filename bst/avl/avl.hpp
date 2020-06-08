@@ -14,7 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class AVL : public BST<Data>{ // Should extend BST<Data>
+class AVL : public BST<Data>{
 
 private:
 
@@ -38,6 +38,8 @@ protected:
     AVLNode const* Left() const; // Immutable access to the element
     AVLNode* Right(); // Mutable access to the element
     AVLNode const* Right() const; // Immutable access to the element
+
+    AVLNode const* MaxParent() const override;
 
     int height = 0;
     // ...
@@ -105,11 +107,11 @@ public:
   const Data MaxNRemove() override ; // (might throw std::length_error)
   void RemoveMax() override ; // (might throw std::length_error)
 
-  // type PredecessorNRemove(argument) specifiers; // (might throw std::length_error)
-  // type RemovePredecessor(argument) specifiers; // (might throw std::length_error)
+  Data PredecessorNRemove(const Data& key) override ; // (might throw std::length_error)
+  void RemovePredecessor(const Data& key) override ; // (might throw std::length_error)
 
-  // type SuccessorNRemove(argument) specifiers; // (might throw std::length_error)
-  // type RemoveSuccessor(argument) specifiers; // (might throw std::length_error)
+  Data SuccessorNRemove(const Data& key) override ; // (might throw std::length_error)
+  void RemoveSuccessor(const Data& key) override ; // (might throw std::length_error)
 
   /* ************************************************************************ */
 
@@ -133,6 +135,11 @@ protected:
 
     AVLNode* Insert(Data key,AVLNode*);
     int Height(AVLNode* node);
+
+    AVLNode*  AVLSubtreeMax(const AVLNode* node) const;
+    AVLNode*  AVLSubtreeMin(const AVLNode* node) const;
+
+    const AVLNode* PredecessorNode(const Data &key) const;
 
 };
 

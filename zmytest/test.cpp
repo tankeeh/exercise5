@@ -72,11 +72,23 @@ void testBST() {
     //std::cin>>val;
 
     //std::cout<<"il succ parent di "<<val<<" e' "<<bstree.Root().SuccessorParent(val)->Element();
-    bstree.Remove(187);
-    bstree.Remove(62);
-    bstree.Remove(125);
+    //bstree.Remove(1500);
+    //bstree.Remove(62);
+    //bstree.Remove(125);
+    int elem;
 
     bstree.BeautyTree(bstree.Root(),0,"");
+    while(elem!=-1){
+       std::cout<<"Di quale elemento vuoi rimuovere il predecessore? \n";
+       std::cin>>elem;
+       try {
+           std::cout << "il predecessore di " << elem << " e' " << bstree.PredecessorNRemove(elem) << "\n\n";
+           bstree.BeautyTree(bstree.Root(),0,"");
+       }
+       catch(std::length_error err){ std::cout<<"\n\n"<<err.what()<<"\n\n";}
+       }
+
+
 
     //std::cout<<bstree.Root().SuccessorParent(val);
     /*
@@ -219,14 +231,82 @@ void testAVL(){
     //std::cin>>val;
     std::cout<<"\n\n";
 
+    int elem;
+    while(elem!=-1){
+        std::cout<<"Di quale elemento vuoi rimuovere il predecessore? \n";
+        std::cin>>elem;
+        try {
+            std::cout << "il predecessore di " << elem << " e' ";
+            std::cout<< avltree.PredecessorNRemove(elem) << "\n\n";
+            avltree.BeautyTree(avltree.Root(),0,"");
+        }
+        catch(std::length_error err){ std::clog<<"\n\n"<<err.what()<<"\n\n";}
+    }
     //std::cout<<"il succ parent di "<<val<<" e' "<<bstree.Root().SuccessorParent(val)->Element();
-    avltree.Remove(187);
-    avltree.Remove(62);
-    avltree.Remove(125);
+    //avltree.Remove(187);
+    //avltree.Remove(62);
+    //avltree.Remove(125);
+/*
+    lasd::AVL<int> avltree2;
+    //h0
+    avltree2.Insert(1000);
 
-    PrintElementTreeInOrder(avltree);
+    //h1
+    avltree2.Insert(500);
+    avltree2.Insert(1500);
+
+    //h2
+    avltree2.Insert(250);
+    avltree2.Insert(750);
+    avltree2.Insert(1250);
+    avltree2.Insert(1750);
+
+    //h3
+    avltree2.Insert(125);
+    avltree2.Insert(375);
+    avltree2.Insert(625);
+    avltree2.Insert(875);
+
+    //h4
+    avltree2.Insert(1125);
+    avltree2.Insert(1375);
+    avltree2.Insert(1625);
+    avltree2.Insert(1875);
+
+    //h5
+    avltree2.Insert(62);
+    avltree2.Insert(187);
+    avltree2.Insert(313);
+    avltree2.Insert(437);
+    avltree2.Insert(562);
+    avltree2.Insert(687);
+    avltree2.Insert(813);
+    avltree2.Insert(900);
+    avltree2.Insert(1100);
+    avltree2.Insert(1150);
+    avltree2.Insert(1313);
+    avltree2.Insert(1437);
+    avltree2.Insert(1563);
+    avltree2.Insert(1687);
+    avltree2.Insert(1813);
+    avltree2.Insert(1937);
+
+
+    avltree2.BeautyTree(avltree2.Root(),0,"");
+    //int val;
+    //std::cin>>val;
+    std::cout<<"\n\n";
+
+    //std::cout<<"il succ parent di "<<val<<" e' "<<bstree.Root().SuccessorParent(val)->Element();
+    avltree2.Remove(187);
+    avltree2.Remove(62);
+
+    //PrintElementTreeInOrder(avltree);
     std::cout<<"\n\n";
     avltree.BeautyTree(avltree.Root(),0,"");
+
+    if(avltree2 == avltree)std::cout<<"\n uguali";
+    else std::cout<<"\ndiversi";
     /*
     std::cout<<"AVL"<<std::endl;
     lasd::AVL<int> myAvl;

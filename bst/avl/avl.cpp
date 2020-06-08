@@ -59,6 +59,17 @@ namespace lasd {
         if(node.dx != nullptr) this->dx = new AVLNode((AVLNode&)*node.dx);
     }
 
+    template<typename Data>
+    const typename AVL<Data>::AVLNode* AVL<Data>::AVLNode::MaxParent() const {
+        const AVLNode *tempnode = this;
+        const AVLNode* father;
+        while (tempnode->HasRightChild()) {
+            father = tempnode;
+            tempnode = tempnode->Right();
+        }
+        return father;
+    }
+
     //NEWROOT PER COPY
     template<typename Data>
     void AVL<Data>::NewRoot(const Data &item) noexcept {
@@ -87,7 +98,7 @@ namespace lasd {
     //FUNZIONE DI BILANCIAMENTO SUL SOTTOALBERO SINISTRO
     template<typename Data>
     typename AVL<Data>::AVLNode* AVL<Data>::SxBalance(AVLNode* currnode) {
-        if(Height(currnode->Left()) - Height(currnode->Right()) == 2) {
+        if(abs(Height(currnode->Left()) - Height(currnode->Right())) == 2) {
             if (Height(currnode->Left()->Left()) > Height(currnode->Left()->Right())) {
                 currnode = SxRotate(currnode);
             } else {
@@ -102,7 +113,7 @@ namespace lasd {
     //FUNZIONE DI BILANCIAMENTO SUL SOTTOALBERO DESTRO
     template<typename Data>
     typename AVL<Data>::AVLNode* AVL<Data>::DxBalance(AVLNode* currnode) {
-        if(Height(currnode->Left()) - Height(currnode->Right()) == 2) {
+        if(abs(Height(currnode->Left()) - Height(currnode->Right())) == 2) {
             if (Height(currnode->Right()->Right()) > Height(currnode->Right()->Left())) {
                 currnode = DxRotate(currnode);
             } else {
@@ -122,7 +133,7 @@ namespace lasd {
         node->sx = root->Right();
         root->dx = node;
         node->height = 1 + std::max(Height(node->Left()),Height(node->Right()));
-        //root->height = 1 + std::max(Height(root->Left()),Height(root->Right()));
+        root->height = 1 + std::max(Height(root->Left()),Height(root->Right()));
         return root;
     }
 
@@ -142,7 +153,7 @@ namespace lasd {
         node->dx = root->Left();
         root->sx = node;
         node->height = 1 + std::max(Height(node->Left()),Height(node->Right()));
-        //root->height = 1 + std::max(Height(root->Left()),Height(root->Right()));
+        root->height = 1 + std::max(Height(root->Left()),Height(root->Right()));
         return root;
     }
 
@@ -284,8 +295,8 @@ namespace lasd {
     //FUNZIONE PER STACCARE UN MIN
     template<typename Data>
     typename AVL<Data>::AVLNode* AVL<Data>::StaccaMin(AVLNode *node, AVL::AVLNode* parent) {
-        AVLNode* ret;
-        AVLNode* newroot;
+        AVLNode* ret = nullptr;
+        AVLNode* newroot = nullptr;
         if(node != nullptr){
             if(node->Left() != nullptr) {
                 ret = StaccaMin(node->Left(), node);
@@ -294,14 +305,14 @@ namespace lasd {
             else{
                 ret = node;
                 newroot = node->Right();
-                if(parent->Left() == node)
-                    parent->sx = newroot;
-                else
-                    parent->dx = newroot;
             }
-            return ret;
+
+            if(parent->Left() == node)
+                parent->sx = newroot;
+            else
+                parent->dx = newroot;
         }
-        return nullptr;
+        return ret;
     }
 
     //FUNZIONE PER STACCARE IL MAX
@@ -317,11 +328,13 @@ namespace lasd {
             else{
                 ret = node;
                 newroot = node->Left();
-                if(parent->Right() == node)
-                    parent->dx = newroot;
-                else
-                    parent->sx = newroot;
             }
+
+            if(parent->Right() == node)
+                parent->dx = newroot;
+            else
+                parent->sx = newroot;
+
             return ret;
         }
         return nullptr;
@@ -385,7 +398,76 @@ namespace lasd {
         return BST<Data>::operator!=(tree);
     }
 
+    template<typename Data>
+    Data AVL<Data>::PredecessorNRemove(const Data &key) {
+        Data ret = this->Predecessor(key);
+        Remove(ret);
+        return ret;
+    }
 
+    template<typename Data>
+    void AVL<Data>::RemovePredecessor(const Data &key) {
+        Remove(this->Predecessor(key));
+    }
+
+    template<typename Data>
+    Data AVL<Data>::SuccessorNRemove(const Data &key) {
+        Data ret = this->Successor(key);
+        Remove(ret);
+        return ret;
+    }
+
+    template<typename Data>
+    void AVL<Data>::RemoveSuccessor(const Data &key) {
+        Remove(this->Successor(key));
+    }
+
+
+    template<typename Data>
+    const typename AVL<Data>::AVLNode* AVL<Data>::PredecessorNode(const Data &key) const{
+        const AVLNode* currnode = &this->Root();
+        const AVLNode* temp = nullptr;
+        if(!this->Empty())
+            if (currnode->Element() == key){
+                if (currnode->HasLeftChild())return AVLSubtreeMax(currnode->Left());
+                else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+            }else {
+                while (currnode != nullptr && currnode->Element() != key) {
+                    if (currnode->Element() < key) {
+                        temp = currnode;
+                        currnode = currnode->Right();
+                    } else {
+                        currnode = currnode->Left();
+                    }
+                }
+
+                if (currnode != nullptr && currnode->HasLeftChild())
+                    temp = temp->Left()->MaxParent()->Right();
+
+
+                if (temp != nullptr)
+                    return temp;
+                else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+            }
+        else throw std::length_error("Albero vuoto. Non e'possibile trovare un predecessore.");
+    }
+
+
+    template<typename Data>
+    typename AVL<Data>::AVLNode* AVL<Data>::AVLSubtreeMax(const AVLNode* node) const {
+        const AVLNode *tempnode = node;
+        while (tempnode->HasRightChild())
+            tempnode = tempnode->Right();
+        return const_cast<AVLNode*>(tempnode);
+    }
+
+    template<typename Data>
+    typename AVL<Data>::AVLNode* AVL<Data>::AVLSubtreeMin(const AVLNode* node) const {
+        AVLNode *tempnode = node;
+        while (tempnode->HasLeftChild())
+            tempnode = tempnode->Left();
+        return tempnode;
+    }
 // ...
 
 /* ************************************************************************** */

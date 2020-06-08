@@ -51,7 +51,8 @@ private:
 
     BSTNode const* MinParent() const;
     BSTNode* MinParent();
-    BSTNode const* MaxParent() const;
+
+    virtual BSTNode const* MaxParent() const;
     BSTNode* MaxParent();
 
     BSTNode* PredecessorParent(const Data&) const;
@@ -114,19 +115,19 @@ private:
   virtual void Insert(Data&& );; // Move of the value
   virtual void Remove(const Data& del_item) noexcept ;
 
-  virtual const Data& Min() const; // (might throw std::length_error)
+  const Data& Min() const; // (might throw std::length_error)
   virtual const Data MinNRemove()  ; // (might throw std::length_error)
   virtual void RemoveMin(); // (might throw std::length_error)
 
-  virtual const Data& Max() const; // (might throw std::length_error)
+  const Data& Max() const; // (might throw std::length_error)
   virtual const Data MaxNRemove() ; // (might throw std::length_error)
   virtual void RemoveMax(); // (might throw std::length_error)
 
-  virtual const Data& Predecessor(const Data& key); // (might throw std::length_error)
+  const Data& Predecessor(const Data& key) const; // (might throw std::length_error)
   virtual Data PredecessorNRemove(const Data& key); // (might throw std::length_error)
   virtual void RemovePredecessor(const Data& key); // (might throw std::length_error)
 
-  virtual const Data& Successor(const Data& key); // (might throw std::length_error)
+  const Data& Successor(const Data& key) const; // (might throw std::length_error)
   virtual Data SuccessorNRemove(const Data& key); // (might throw std::length_error)
   virtual void RemoveSuccessor(const Data& key); // (might throw std::length_error)
 
@@ -142,7 +143,7 @@ private:
 
 protected:
 
-  //void Remove(const Data& del_item) noexcept ;
+  void Remove(BSTNode* node,BSTNode* father) noexcept ;
   void RemoveMin(BSTNode* node,BSTNode*);
   // type RemoveMax(argument) specifiers;
   void SkipOnLeft(BSTNode* father,BSTNode* son);
@@ -153,8 +154,8 @@ protected:
 
 protected:
 
-    const Data& SubtreeMin(BSTNode* node) const;
-    const Data& SubtreeMax(BSTNode* node) const;
+    const Data& SubtreeMin(const BSTNode* node) const;
+    const Data& SubtreeMax(const BSTNode* node) const;
 
     void InOrderEnqueueNodes(QueueLst<Data>& queue,const BSTNode* node)const;
 };
