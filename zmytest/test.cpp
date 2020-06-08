@@ -24,55 +24,61 @@ void BeautyTree(typename lasd::AVL<Data>::AVLNode& node, int depth, const std::s
 
 void testBST() {
 
-    lasd::BST<int> cTree;
+    lasd::BST<int> bstree;
     //h0
-    cTree.Insert(1000);
+    bstree.Insert(1000);
 
     //h1
-    cTree.Insert(500);
-    cTree.Insert(1500);
+    bstree.Insert(500);
+    bstree.Insert(1500);
 
     //h2
-    cTree.Insert(250);
-    cTree.Insert(750);
-    cTree.Insert(1250);
-    cTree.Insert(1750);
+    bstree.Insert(250);
+    bstree.Insert(750);
+    bstree.Insert(1250);
+    bstree.Insert(1750);
 
     //h3
-    cTree.Insert(125);
-    cTree.Insert(375);
-    cTree.Insert(625);
-    cTree.Insert(875);
+    bstree.Insert(125);
+    bstree.Insert(375);
+    bstree.Insert(625);
+    bstree.Insert(875);
 
     //h4
-    cTree.Insert(1125);
-    cTree.Insert(1375);
-    cTree.Insert(1625);
-    cTree.Insert(1875);
+    bstree.Insert(1125);
+    bstree.Insert(1375);
+    bstree.Insert(1625);
+    bstree.Insert(1875);
 
     //h5
-    cTree.Insert(62);
-    cTree.Insert(187);
-    cTree.Insert(313);
-    cTree.Insert(437);
-    cTree.Insert(562);
-    cTree.Insert(687);
-    cTree.Insert(813);
-    cTree.Insert(900);
-    cTree.Insert(1100);
-    cTree.Insert(1150);
-    cTree.Insert(1313);
-    cTree.Insert(1437);
-    cTree.Insert(1563);
-    cTree.Insert(1687);
-    cTree.Insert(1813);
-    cTree.Insert(1937);
+    bstree.Insert(62);
+    bstree.Insert(187);
+    bstree.Insert(313);
+    bstree.Insert(437);
+    bstree.Insert(562);
+    bstree.Insert(687);
+    bstree.Insert(813);
+    bstree.Insert(900);
+    bstree.Insert(1100);
+    bstree.Insert(1150);
+    bstree.Insert(1313);
+    bstree.Insert(1437);
+    bstree.Insert(1563);
+    bstree.Insert(1687);
+    bstree.Insert(1813);
+    bstree.Insert(1937);
 
-    int val;
-    std::cin>>val;
+    //int val;
+    //std::cin>>val;
 
-    std::cout<<"il succ parent di "<<val<<" e' "<<cTree.Root().SuccessorParent(val)->Element();
-    //std::cout<<cTree.Root().SuccessorParent(val);
+    //std::cout<<"il succ parent di "<<val<<" e' "<<bstree.Root().SuccessorParent(val)->Element();
+    bstree.Remove(187);
+    bstree.Remove(62);
+    bstree.Remove(125);
+
+    bstree.BeautyTree(bstree.Root(),0,"");
+
+    //std::cout<<bstree.Root().SuccessorParent(val);
     /*
     lasd::BST<int> bst;
     bst.NewRoot(30);
@@ -158,10 +164,70 @@ void testBST() {
     } catch (std::length_error err) {
         std::clog << err.what();
     }
+     */
 }
 
 void testAVL(){
 
+    lasd::AVL<int> avltree;
+    //h0
+    avltree.Insert(1000);
+
+    //h1
+    avltree.Insert(500);
+    avltree.Insert(1500);
+
+    //h2
+    avltree.Insert(250);
+    avltree.Insert(750);
+    avltree.Insert(1250);
+    avltree.Insert(1750);
+
+    //h3
+    avltree.Insert(125);
+    avltree.Insert(375);
+    avltree.Insert(625);
+    avltree.Insert(875);
+
+    //h4
+    avltree.Insert(1125);
+    avltree.Insert(1375);
+    avltree.Insert(1625);
+    avltree.Insert(1875);
+
+    //h5
+    avltree.Insert(62);
+    avltree.Insert(187);
+    avltree.Insert(313);
+    avltree.Insert(437);
+    avltree.Insert(562);
+    avltree.Insert(687);
+    avltree.Insert(813);
+    avltree.Insert(900);
+    avltree.Insert(1100);
+    avltree.Insert(1150);
+    avltree.Insert(1313);
+    avltree.Insert(1437);
+    avltree.Insert(1563);
+    avltree.Insert(1687);
+    avltree.Insert(1813);
+    avltree.Insert(1937);
+
+
+    avltree.BeautyTree(avltree.Root(),0,"");
+    //int val;
+    //std::cin>>val;
+    std::cout<<"\n\n";
+
+    //std::cout<<"il succ parent di "<<val<<" e' "<<bstree.Root().SuccessorParent(val)->Element();
+    avltree.Remove(187);
+    avltree.Remove(62);
+    avltree.Remove(125);
+
+    PrintElementTreeInOrder(avltree);
+    std::cout<<"\n\n";
+    avltree.BeautyTree(avltree.Root(),0,"");
+    /*
     std::cout<<"AVL"<<std::endl;
     lasd::AVL<int> myAvl;
     int i = 0;
@@ -169,8 +235,8 @@ void testAVL(){
         myAvl.Insert(10 - i);
         i++;
     }
-    myAvl.BeautyTree(myAvl.Root(), 0,"");
-/*
+   // myAvl.BeautyTree(myAvl.Root(), 0,"");
+
     int n = 10;
 
         int i = 0;

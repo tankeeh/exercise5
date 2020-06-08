@@ -9,8 +9,8 @@
 
 int main(){
 
-    testBST();
-    //testAVL();
+   // testBST();
+    testAVL();
 
 
 /**MENU' FINALE**/

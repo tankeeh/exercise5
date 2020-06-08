@@ -114,9 +114,9 @@ public:
   /* ************************************************************************ */
 
 
-protected:
-
     AVLNode& Root();
+
+protected:
 
     AVLNode* SxBalance(AVLNode* node);
     AVLNode* SxRotate(AVLNode* node);

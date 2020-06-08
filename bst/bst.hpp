@@ -138,7 +138,7 @@ private:
 
 
     void BeautyTree(typename lasd::BST<Data>::BSTNode& node, int depth, const std::string& prefix);
-    BSTNode& Root() override ;
+    BSTNode& Root() override ; //make prot
 
 protected:
 

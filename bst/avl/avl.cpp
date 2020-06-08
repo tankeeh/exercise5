@@ -109,6 +109,7 @@ namespace lasd {
         node->sx = root->Right();
         root->dx = node;
         node->height = 1 + std::max(Height(node->Left()),Height(node->Right()));
+        //root->height = 1 + std::max(Height(root->Left()),Height(root->Right()));
         return root;
     }
 
@@ -124,6 +125,7 @@ namespace lasd {
         node->dx = root->Left();
         root->sx = node;
         node->height = 1 + std::max(Height(node->Left()),Height(node->Right()));
+        //root->height = 1 + std::max(Height(root->Left()),Height(root->Right()));
         return root;
     }
 
@@ -230,8 +232,8 @@ namespace lasd {
 
     template<typename Data>
     typename AVL<Data>::AVLNode *AVL<Data>::RemoveNode(AVLNode* node) {
-        AVLNode* temp;
         if(node != nullptr){
+            AVLNode* temp;
             if(node->Left() == nullptr || node->Right() == nullptr){
                 temp = node;
                 if(node->Left() == nullptr)
@@ -244,9 +246,9 @@ namespace lasd {
                 node->Element() = temp->Element();
                 node = SxBalance(node);
             }
-            return node;
         }
-        else return nullptr;
+        return node;
+
     }
 
     template<typename Data>
