@@ -6,9 +6,9 @@ namespace lasd {
 /* ************************************************************************** */
 
 
-
 /** FUNZIONI NODO **/
 
+    //INCAPSULAMENTO DI LEFTCHILD DA BTLINK (NON CONST)
     template <typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode:: Left(){
        if(this->HasLeftChild())
@@ -17,6 +17,7 @@ namespace lasd {
            return nullptr;
     }
 
+    //INCAPSULAMENTO DI LEFTCHILD DA BTLINK
     template <typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode:: Left() const{
         if(this->HasLeftChild())
@@ -25,6 +26,7 @@ namespace lasd {
             return nullptr;
     }
 
+    //INCAPSULAMENTO DI RIGHTCHILD DA BTLINK (NON CONST)
     template <typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode:: Right(){
         if(this->HasRightChild())
@@ -33,6 +35,7 @@ namespace lasd {
             return nullptr;
     }
 
+    //INCAPSULAMENTO DI RIGHTCHILD DA BTLINK
     template <typename Data>
     typename BST<Data>:: BSTNode const* BST<Data>::BSTNode:: Right()const{
         if(this->HasRightChild())
@@ -41,7 +44,7 @@ namespace lasd {
             return nullptr;
     }
 
-
+    //FUNZIONE DI RICERCA DI UN NODO
     template <typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode::Find(const Data& key)const{
         const BSTNode* temp = this;
@@ -53,6 +56,7 @@ namespace lasd {
     }
 
 
+    //RICERCA DEL PADRE DI UN NODO
     template <typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode::FindParent(const Data& key)const {
         const BSTNode* temp = this;
@@ -75,11 +79,13 @@ namespace lasd {
         }
     }
 
+    //RICERCA DEL PADRE DI UN NODO(VERSIONE NON CONST)
     template <typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode::FindParent(const Data &key){
         return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->FindParent(key));
     }
 
+    //RICERCA DEL PADRE DEL MINIMO DI UN ALBERO
     template<typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode::MinParent() const {
         const BSTNode *tempnode = this;
@@ -91,12 +97,14 @@ namespace lasd {
         return father;
     }
 
+    //RICERCA DEL PADRE DEL MINIMO DI UN ALBERO (NON CONST)
     template <typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode::MinParent(){
         return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->MinParent());
     }
 
 
+    //RICERCA DEL PADRE DEL MASSIMO DI UN ALBERO
     template<typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode::MaxParent() const {
         const BSTNode *tempnode = this;
@@ -108,11 +116,13 @@ namespace lasd {
         return father;
     }
 
+    //RICERCA DEL PADRE DEL MINIMO DI UN ALBERO (NON CONST)
     template <typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode::MaxParent(){
         return const_cast<BSTNode*>(const_cast<const BST<Data>::BSTNode*>(this)->MaxParent());
     }
 
+    //RICERCA DEL PADRE DEL PREDECESSORE DI UN NODO DATA UNA CHIAVE
     template<typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode::PredecessorParent(const Data& key) const {
         const BSTNode *currnode = this;
@@ -157,6 +167,7 @@ namespace lasd {
 
     }
 
+    //RICERCA DEL PADRE DEL SUCCESSORE DI UN NODO DATA UNA CHIAVE
     template<typename Data>
     typename BST<Data>::BSTNode* BST<Data>::BSTNode::SuccessorParent(const Data& key) const {
         const BSTNode *currnode = this;
@@ -227,6 +238,7 @@ namespace lasd {
         return *this;
     }
 
+    //FUNZIONE RICORSIVA CHE RIEMPIE STRUTTURE PER IL CONFRONTO DI ALBERI
     template <typename Data>
     void BST<Data>::InOrderEnqueueNodes(QueueLst<Data>& queue,const BSTNode* node)const {
             if (node->HasLeftChild()) InOrderEnqueueNodes(queue,node->Left());
@@ -234,7 +246,7 @@ namespace lasd {
             if (node->HasRightChild()) InOrderEnqueueNodes(queue,node->Right());
     }
 
-    //COMPARISON OPERATOR ==
+    //OPERATORE DI UGUAGLIANZA
     template<typename Data>
     bool BST<Data>::operator==(const BST& tree) const noexcept {
         QueueLst<Data> queue1;
@@ -251,21 +263,25 @@ namespace lasd {
         return queue1 == queue2;
     }
 
+    //DISUGUAGLIANZA
     template<typename Data>
     bool BST<Data>::operator!=(const BST& tree) const noexcept {
         return (!(BST<Data>::operator==(tree)));
     }
 
+    // ROOT (IMMUTABLE)
     template<typename Data>
     const typename BST<Data>::BSTNode& BST<Data>::Root() const {
         return static_cast<const BSTNode&>(BinaryTreeLnk<Data>::Root());
     }
 
+    // ROOT MUTABLE (PER NECESSITA' DI ALCUNE FUNZIONI)
     template<typename Data>
     typename BST<Data>::BSTNode& BST<Data>::Root(){
         return static_cast<BSTNode&>(BinaryTreeLnk<Data>::Root());
     }
 
+    //FUNZIONE DI NEWROOT PER COPY
     template<typename Data>
     void BST<Data>::NewRoot(const Data& item) noexcept {
         BinaryTreeLnk<Data>::Clear();
@@ -273,6 +289,7 @@ namespace lasd {
         this->size++;
     }
 
+    //FUNZIONE DI NEWROOT PER MOVE
     template<typename Data>
     void BST<Data>::NewRoot(Data&& item) noexcept {
         BinaryTreeLnk<Data>::Clear();
@@ -280,6 +297,8 @@ namespace lasd {
         this->size++;
     }
 
+
+    //FUNZIONE DI INSERT PER COPY
     template<typename Data>
     void BST<Data>::Insert(const Data& newitem) {
         BSTNode* tempnode = &this->Root();
@@ -311,6 +330,8 @@ namespace lasd {
         }
     }
 
+
+    //FUNZIONE DI INSERT PER MOVE
     template<typename Data>
     void BST<Data>::Insert(Data&& newitem) {
         BSTNode* tempnode = &this->Root();
@@ -343,14 +364,13 @@ namespace lasd {
     }
 
 
-
+    //FUNZIONE EXISTS
     template<typename Data>
     bool BST<Data>::Exists(const Data& item) const noexcept {
         return this->Root().Find(item) != nullptr;
     }
 
-
-
+    //FUNZIONE DI RIMOZIONE DI UN NODO
     template<typename Data>
     void BST<Data>::Remove(const Data& del_item) noexcept {
     if(!(this->Empty())){
@@ -405,6 +425,7 @@ namespace lasd {
     }
     }
 
+    //FUNZIONE DI RIMOZIONE DEL MINIMO
     template<typename Data>
     void BST<Data>::RemoveMin(BSTNode* node,BSTNode *startnode) {
         BSTNode* cercamin = startnode;
@@ -464,6 +485,7 @@ namespace lasd {
     }
 */
 
+    //RICERCA E RESTITUISCE IL MINIMO
     template<typename Data>
     const Data &BST<Data>::Min() const {
         if(!this->Empty()) {
@@ -476,6 +498,7 @@ namespace lasd {
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
 
+    //FUNZIONE CUSTOM CHE RESTITUISCE IL MINIMO DI UN SOTTOALBERO
     template<typename Data>
     const Data& BST<Data>::SubtreeMin(BSTNode* node) const {
         BSTNode *tempnode = node;
@@ -484,6 +507,7 @@ namespace lasd {
         return tempnode->Element();
     }
 
+    //FUNZIONE CHE CERCA E RESTITUISCE IL MASSIMO
     template<typename Data>
     const Data &BST<Data>::Max() const {
         if(!this->Empty()) {
@@ -496,6 +520,7 @@ namespace lasd {
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
+    //FUNZIONE CUSTOM CHE RESTITUISCE IL MASSIMO DI UN SOTTOALBERO
     template<typename Data>
     const Data& BST<Data>::SubtreeMax(BSTNode* node) const {
         BSTNode *tempnode = node;
@@ -504,6 +529,7 @@ namespace lasd {
         return tempnode->Element();
     }
 
+    //FUNZIONE CHE COLLEGA PADRE E FIGLIO SINISTRO DEL NODO RIMOSSO
     template<typename Data>
     void BST<Data>::SkipOnLeft(BSTNode *father, BSTNode* son) {
         if(son->Element() < father->Element()){
@@ -518,6 +544,8 @@ namespace lasd {
         }
     }
 
+
+    //FUNZIONE CHE COLLEGA PADRE E FIGLIO DESTRO DEL NODO RIMOSSO
     template<typename Data>
     void BST<Data>::SkipOnRight(BSTNode *father,BSTNode *son) {
         if(son->Element() < father->Element()){
@@ -532,6 +560,7 @@ namespace lasd {
         }
     }
 
+    //FUNZIONE CHE RESTITUISCE IL SUCCESSORE DI UN DATO NODO
     template<typename Data>
     const Data& BST<Data>::Successor(const Data &key) {
         BSTNode *currnode = &this->Root();
@@ -553,25 +582,6 @@ namespace lasd {
             if (currnode != nullptr && currnode->HasRightChild())
                 temp = temp->Right()->MinParent()->Left();
 
-            /*
-            if(currnode != nullptr) {
-                currnode = currnode->Right();
-                if(currnode == nullptr)
-                    if(temp != nullptr)
-                    return temp->Element();
-                    else throw std::length_error("Non e' presente un successore per questo elemento.");
-                else{
-                    temp = currnode;
-                    currnode = currnode->MinParent()->Left();
-                    if(currnode == nullptr)
-                        return temp->Element();
-                    else
-                        return currnode->Element();
-                }
-
-            }*/
-
-
             if (temp != nullptr)
                 return temp->Element();
             else throw std::length_error("Non e' presente un successore per questo elemento.");
@@ -580,7 +590,7 @@ namespace lasd {
     }
 
 
-
+    //FUNZIONE CHE RESTITUISCE IL PREDECESSORE DI UN DATO NODO
     template<typename Data>
     const Data& BST<Data>::Predecessor(const Data &key) {
         BSTNode *currnode = &this->Root();
@@ -610,6 +620,7 @@ namespace lasd {
         else throw std::length_error("Albero vuoto. Non e'possibile trovare un predecessore.");
     }
 
+    //FUNZIONE CHE RESTITUISCE IL PREDECESSORE DI UN NODO E LO RIMUOVE
     template<typename Data>
     Data BST<Data>::PredecessorNRemove(const Data &key) {
         Data predec = Predecessor(key);
@@ -618,6 +629,7 @@ namespace lasd {
     }
 
 
+    //FUNZIONE CHE RESTITUISCE IL MINIMO DI UN SOTTOALBERO E LO RIMUOVE
     template<typename Data>
     const Data BST<Data>::MinNRemove(){
         if(!(this->Empty())) {
@@ -636,6 +648,7 @@ namespace lasd {
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
 
+    //RIMOZIONE DEL MINIMO
     template<typename Data>
     void BST<Data>::RemoveMin() {
         if(!(this->Empty())) {
@@ -650,6 +663,7 @@ namespace lasd {
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
 
+    //FUNZIONE CHE RESTITUISCE IL MASSIMO DI UN SOTTOALBERO E LO RIMUOVE
     template<typename Data>
     const Data BST<Data>::MaxNRemove(){
         if(!(this->Empty())) {
@@ -668,6 +682,7 @@ namespace lasd {
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
+    //FUNZIONE DI RIMOZIONE DI UN MAX
     template<typename Data>
     void BST<Data>::RemoveMax() {
         if(!(this->Empty())) {
@@ -682,16 +697,19 @@ namespace lasd {
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
+    //RIMOZIONE DEL PREDECESSORE DI UN NODO
     template<typename Data>
     void BST<Data>::RemovePredecessor(const Data &key) {
 
     }
 
+    //RESTITUISCE E RIMUOVE IL SUCCESSORE DI UN NODO
     template<typename Data>
     Data BST<Data>::SuccessorNRemove(const Data &key) {
         return 0;
     }
 
+    //RIMOZIONE DEL SUCCESSORE DI UN NODO
     template<typename Data>
     void BST<Data>::RemoveSuccessor(const Data &key) {
 
