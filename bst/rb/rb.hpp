@@ -13,7 +13,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class RB { // Should extend BST<Data>
+class RB : public BST<Data>{ // Should extend BST<Data>
 
 private:
 
@@ -21,79 +21,91 @@ private:
 
 protected:
 
+    enum Colori{Red,Black,DeepBlack};
   // using BST<Data>::???;
 
   // ...
 
 public:
 
-  struct RBNode { // Should extend BSTNode
+struct RBNode : protected BST<Data>::BSTNode{ // Should extend BSTNode
 
-    // ...
+protected:
+    RBNode() = default;
+    RBNode(const Data&);
+    RBNode(Data&& );
+
+    Colori color = 0;
+
+public:
+    friend class RB<Data>;
 
   };
 
   /* ************************************************************************ */
 
   // Default constructor
-  // RB() specifiers;
+  RB() = default;
 
   // Copy constructor
-  // RB(argument) specifiers;
+  RB(const RB&) ;
 
   // Move constructor
-  // RB(argument) specifiers;
+  RB(RB&&) ;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~RB() specifiers;
+  ~RB() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  RB& operator=(const RB& tree);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  RB& operator=(RB && tree) ;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const RB&) const noexcept ;
+  bool operator!=(const RB&) const noexcept ;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BinaryTree)
 
-  // type Root() specifiers; // Override BinaryTree member (might throw std::length_error)
-  // type NewRoot(argument) specifiers; // Override BinaryTree member (Copy of the value)
-  // type NewRoot(argument) specifiers; // Override BinaryTree member (Move of the value)
+  RBNode& Root() override ; // Override BinaryTree member (might throw std::length_error)
+  void NewRoot(const Data& key) override ; // Override BinaryTree member (Copy of the value)
+  void NewRoot(Data&& key) override ;  // Override BinaryTree member (Move of the value)
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // type Insert(argument) specifiers; // Copy of the value
-  // type Insert(argument) specifiers; // Move of the value
-  // type Remove(argument) specifiers;
+  void Insert(const Data& key) override; // Copy of the value
+  void Insert(Data&& key) override;  // Move of the value
+  void Remove(const Data& key) override;
 
-  // type MinNRemove() specifiers; // (might throw std::length_error)
-  // type RemoveMin() specifiers; // (might throw std::length_error)
+  Data MinNRemove() override; // (might throw std::length_error)
+  void RemoveMin() override; // (might throw std::length_error)
 
-  // type MaxNRemove() specifiers; // (might throw std::length_error)
-  // type RemoveMax() specifiers; // (might throw std::length_error)
+  Data MaxNRemove() override; // (might throw std::length_error)
+  void RemoveMax() override; // (might throw std::length_error)
 
-  // type PredecessorNRemove(argument) specifiers; // (might throw std::length_error)
-  // type RemovePredecessor(argument) specifiers; // (might throw std::length_error)
+  Data PredecessorNRemove(const Data& key) override; // (might throw std::length_error)
+  void RemovePredecessor(const Data& key) override; // (might throw std::length_error)
 
-  // type SuccessorNRemove(argument) specifiers; // (might throw std::length_error)
-  // type RemoveSuccessor(argument) specifiers; // (might throw std::length_error)
+  Data SuccessorNRemove(const Data& key) override; // (might throw std::length_error)
+  void RemoveSuccessor(const Data& key) override; // (might throw std::length_error)
 
   /* ************************************************************************ */
 
 };
+
+
+
 
 }
 

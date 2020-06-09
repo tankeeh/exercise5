@@ -11,7 +11,7 @@ int FoldDiscendentCount(const Data&, const void* par,void* acc){
 
 //costruttore di default ???
 template <typename Data>
-BinaryTreeLnk<Data>::BinaryTreeLnk(Data& item){
+BinaryTreeLnk<Data>::BinaryTreeLnk(const Data& item){
     if(!(this->Empty())) this->Clear();
     this->NewRoot(item);
 }
@@ -29,7 +29,7 @@ BinaryTreeLnk<Data>:: BinaryTreeLnk(Data&& item){
 
 
 template <typename Data>
-BinaryTreeLnk<Data>:: BinaryTreeLnk(BinaryTreeLnk& tree){
+BinaryTreeLnk<Data>:: BinaryTreeLnk(const BinaryTreeLnk& tree){
     this->Node = new NodeLnk(*tree.Node);
     this->size = tree.size;
 }
@@ -60,7 +60,7 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>:: operator=(BinaryTreeLnk&& tree) noexc
 
 
 template <typename Data>
-bool BinaryTreeLnk<Data>:: operator==(BinaryTreeLnk& tree) const noexcept{
+bool BinaryTreeLnk<Data>:: operator==(const BinaryTreeLnk& tree) const noexcept{
     if(this->size == tree.size && this->size != 0)
         return this->Root().operator==(tree.Root());
     else {
@@ -71,7 +71,7 @@ bool BinaryTreeLnk<Data>:: operator==(BinaryTreeLnk& tree) const noexcept{
     }
 
 template <typename Data>
-bool BinaryTreeLnk<Data>:: operator!=(BinaryTreeLnk& tree) const noexcept{
+bool BinaryTreeLnk<Data>:: operator!=(const BinaryTreeLnk& tree) const noexcept{
     return (!(this->operator==(tree)));
 }
 

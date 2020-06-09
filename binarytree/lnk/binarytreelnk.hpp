@@ -26,7 +26,7 @@ protected:
 public:
 
 
-struct NodeLnk : virtual public  BinaryTree<Data>::Node{
+struct NodeLnk : public  BinaryTree<Data>::Node{
 
     private:
 
@@ -87,11 +87,11 @@ struct NodeLnk : virtual public  BinaryTree<Data>::Node{
   BinaryTreeLnk() = default;
 
   // Specific constructors
-  BinaryTreeLnk(Data& item) ; // Construct a tree with a given root data (Copy of the value)
+  BinaryTreeLnk(const Data& item) ; // Construct a tree with a given root data (Copy of the value)
   BinaryTreeLnk(Data&& item) ; // Construct a tree with a given root data (Move of the value)
 
   // Copy constructor
-  BinaryTreeLnk(BinaryTreeLnk&);
+  BinaryTreeLnk(const BinaryTreeLnk&);
 
   // Move constructor
   BinaryTreeLnk(BinaryTreeLnk&&) noexcept ;
@@ -113,9 +113,9 @@ struct NodeLnk : virtual public  BinaryTree<Data>::Node{
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(BinaryTreeLnk&) const noexcept ;
+  bool operator==(const BinaryTreeLnk&) const noexcept ;
 
-  bool operator!=(BinaryTreeLnk&) const noexcept ;
+  bool operator!=(const BinaryTreeLnk&) const noexcept ;
 
   /* ************************************************************************ */
 

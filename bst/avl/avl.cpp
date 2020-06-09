@@ -7,11 +7,21 @@ namespace lasd {
 
     //COPY CONSTRUCTOR DEL NODO
     template<typename Data>
-    AVL<Data>::AVLNode::AVLNode(const Data &item):BST<Data>::BSTNode(item) {}
+    AVL<Data>::AVLNode::AVLNode(const Data& item){
+        this->val = new Data(item);
+        this->height = 0;
+        this->sx = nullptr;
+        this->dx = nullptr;
+    }
 
     //MOVE CONSTRUCTOR DEL NODO
     template<typename Data>
-    AVL<Data>::AVLNode::AVLNode(Data &&item):BST<Data>::BSTNode(std::move(item)) {}
+    AVL<Data>::AVLNode::AVLNode(Data &&item){
+        this->val = new Data(std::move(item));
+        this->height = 0;
+        this->sx = nullptr;
+        this->dx = nullptr;
+    }
 
     //INCAPSULAMENTO DEL LEFTCHILD DI BTLNK (NON CONST)
     template<typename Data>
@@ -88,11 +98,17 @@ namespace lasd {
 
     //COPY CONSTRUCTOR AVL
     template<typename Data>
-    AVL<Data>::AVL(const AVL& tree):BinaryTreeLnk<Data>(tree){}
+    AVL<Data>::AVL(const AVL& tree){
+        this->Node = new AVLNode(*tree.Node);
+        this->size = tree.size;
+    }
 
     //MOVE CONSTRUCTOR AVL
     template<typename Data>
-    AVL<Data>::AVL(AVL&& tree):BinaryTreeLnk<Data>(std::move(tree)){}
+    AVL<Data>::AVL(AVL&& tree){
+        std::swap(this->Node,tree.Node);
+        std::swap(this->size,tree.size);
+    }
 
 
     //FUNZIONE DI BILANCIAMENTO SUL SOTTOALBERO SINISTRO
@@ -286,6 +302,7 @@ namespace lasd {
                 node->Element() = temp->Element();
                 node = SxBalance(node);
             }
+            this->size--;
         }
         return node;
 
@@ -344,9 +361,9 @@ namespace lasd {
     template<typename Data>
     const Data AVL<Data>::MinNRemove() {
         if(!(this->Empty())) {
-            AVLNode* curr = &this->Root() ;
-            this->size--;
-            return StaccaMin(curr->Left(),curr)->Element();
+            Data min = this->Min();
+            Remove(min);
+            return min;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
@@ -355,9 +372,9 @@ namespace lasd {
     template<typename Data>
     const Data AVL<Data>::MaxNRemove() {
         if(!(this->Empty())) {
-            AVLNode* curr = &this->Root() ;
-            this->size--;
-            return StaccaMax(curr->Right(),curr)->Element();
+            Data max = this->Max();
+            Remove(max);
+            return max;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
@@ -366,10 +383,7 @@ namespace lasd {
     template<typename Data>
     void AVL<Data>::RemoveMin() {
         if(!(this->Empty())) {
-            AVLNode* curr = &this->Root() ;
-            this->size--;
-            AVLNode* uselessNode = StaccaMin(curr->Left(),curr);
-            delete uselessNode; //e' legit?
+            Remove(this->Min());
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
@@ -378,10 +392,7 @@ namespace lasd {
     template<typename Data>
     void AVL<Data>::RemoveMax() {
         if(!(this->Empty())) {
-            AVLNode* curr = &this->Root() ;
-            this->size--;
-            AVLNode* uselessNode = StaccaMax(curr->Right(),curr);
-            delete uselessNode;
+            Remove(this->Max());
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }

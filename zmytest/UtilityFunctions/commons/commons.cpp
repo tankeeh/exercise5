@@ -33,7 +33,7 @@ void UpperCase(Data& elem, void* par){
 
 template <typename Data>
 void PrintElement(Data& elem, void* par){
-    std::cout<<elem<<" -- ";
+    std::cout<<elem<<"    --    ";
 }
 
 template <typename Data>

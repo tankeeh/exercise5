@@ -22,12 +22,11 @@ include_directories(zlasdtest)
 include_directories(zmytest)
 include_directories(zmytest/RandomGens)
 include_directories(zmytest/TreeUtils)
-include_directories(zmytest/TreeUtils/treeNavFunctions)
 include_directories(zmytest/UtilityFunctions)
 include_directories(zmytest/UtilityFunctions/commons)
 
 add_executable(exercise5
-        zlasdtest/test.cpp
         zmytest/RandomGens/RandomValues.cpp
         zmytest/test.cpp
+        zlasdtest/test.cpp
         main.cpp)

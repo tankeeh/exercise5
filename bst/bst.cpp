@@ -386,46 +386,6 @@ namespace lasd {
         }else return;
 
         Remove(tempnode,father);
-/*
-        if (tempnode->IsLeaf()) {
-            if (father == nullptr) {
-                delete this->Node;
-                this->Node = nullptr;
-            } else {
-                if (tempnode->Element() < father->Element()) {
-                    father->sx = nullptr;
-                } else {
-                    father->dx = nullptr;
-                }
-                delete tempnode;
-            }
-        } else if (tempnode->HasLeftChild() && !tempnode->HasRightChild()) {
-            if (tempnode->Left()->IsLeaf()) {
-                std::swap(tempnode->Element(), tempnode->Left()->Element());
-                delete tempnode->Left();
-            } else SkipOnLeft(father, tempnode);
-
-        } else if (!tempnode->HasLeftChild() && tempnode->HasRightChild()) {
-            if (tempnode->Right()->IsLeaf()) {
-                std::swap(tempnode->Element(), tempnode->Right()->Element());
-                delete tempnode->Right();
-            } else SkipOnRight(father, tempnode);
-        } else { //ha entrambe i sottoalberi e bisogna discriminare i vari casi...
-            if (tempnode->Left()->IsLeaf()) {
-                std::swap(tempnode->Element(), tempnode->Left()->Element());
-                delete tempnode->Left();
-                tempnode->sx = nullptr;
-            } else if (tempnode->Right()->IsLeaf()) {
-                std::swap(tempnode->Element(), tempnode->Right()->Element());
-                delete tempnode->Right();
-                tempnode->dx = nullptr;
-            } else { //(entrambi i nodi non sono foglie)
-                //prende il min del sotto albero sinistro e lo mette al posto del nodo che si sta Eliminando
-                RemoveMin(tempnode, tempnode->Right());
-            }
-        }
-        this->size--;
-*/
     }
     }
 
@@ -497,6 +457,7 @@ namespace lasd {
             node->Element() = cercamin->Element();
             SkipOnRight(node,cercamin);
         }
+        this->size--;
     }
 
 
@@ -711,6 +672,7 @@ namespace lasd {
                 todeleteMin->dx = nullptr;
             }
 
+            this->size--;
             return max;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
@@ -727,6 +689,7 @@ namespace lasd {
                 delete todeleteMin->Right();
                 todeleteMin->dx = nullptr;
             }
+            this->size--;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
@@ -800,9 +763,9 @@ namespace lasd {
 
     template<typename Data>
     void BST<Data>::BeautyTree(typename lasd::BST<Data>::BSTNode &node, int depth, const std::string &prefix) {
-        std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "ROOT") << ": [" << node.Element() << "]\n";
-        if(node.HasLeftChild()) BeautyTree(*node.Left(), depth+1, prefix + "L");
-        if(node.HasRightChild()) BeautyTree(*node.Right(), depth+1, prefix + "R");
+        std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "Tree Root") << ": [" << node.Element() << "]\n";
+        if(node.HasLeftChild()) BeautyTree(*node.Left(), depth+1, prefix + "S");
+        if(node.HasRightChild()) BeautyTree(*node.Right(), depth+1, prefix + "D");
     }
 
 

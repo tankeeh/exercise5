@@ -58,7 +58,7 @@ private:
     BSTNode* PredecessorParent(const Data&) const;
     BSTNode* SuccessorParent(const Data&) const;
 
-
+    //i constructor del nodo non sono presenti ma sono implicitamente richiamati quelli della superclasse "BinaryTreeLnk"
     // ...
 
   public:

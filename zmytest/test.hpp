@@ -8,7 +8,7 @@ void mytest();
 
 void testBST();
 void testAVL();
-//void testPriorityQueue();
+void testRB();
 
 // ...
 
