@@ -284,7 +284,9 @@ namespace lasd {
     //FUNZIONE DI NEWROOT PER COPY
     template<typename Data>
     void BST<Data>::NewRoot(const Data& item) noexcept {
+        if(!(this->Empty()))
         BinaryTreeLnk<Data>::Clear();
+
         this->Node = new BSTNode(item);
         this->size++;
     }
@@ -292,7 +294,9 @@ namespace lasd {
     //FUNZIONE DI NEWROOT PER MOVE
     template<typename Data>
     void BST<Data>::NewRoot(Data&& item) noexcept {
-        BinaryTreeLnk<Data>::Clear();
+        if(!(this->Empty()))
+            BinaryTreeLnk<Data>::Clear();
+
         this->Node = new BSTNode(std::move(item));
         this->size++;
     }
@@ -626,7 +630,7 @@ namespace lasd {
 
     //FUNZIONE CHE RESTITUISCE IL MINIMO DI UN SOTTOALBERO E LO RIMUOVE
     template<typename Data>
-    const Data BST<Data>::MinNRemove(){
+    Data BST<Data>::MinNRemove(){
         if(!(this->Empty())) {
             BSTNode *todeleteMin;
             Data min = 0;
@@ -660,7 +664,7 @@ namespace lasd {
 
     //FUNZIONE CHE RESTITUISCE IL MASSIMO DI UN SOTTOALBERO E LO RIMUOVE
     template<typename Data>
-    const Data BST<Data>::MaxNRemove(){
+    Data BST<Data>::MaxNRemove(){
         if(!(this->Empty())) {
             BSTNode *todeleteMin;
             Data max = 0;

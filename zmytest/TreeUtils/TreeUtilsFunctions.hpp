@@ -6,7 +6,9 @@
 #define EXERCISE2_TREEUTILSFUNCTIONS_HPP
 #include "../UtilityFunctions/commons/commons.hpp"
 #include "../../binarytree/binarytree.hpp"
-#include "../../bst/bst.hpp"
+#include "../../bst/avl/avl.hpp"
+#include "../../bst/rb/rb.hpp"
+
 //#include "../binarytree/binarytree.hpp"
 
 
@@ -58,6 +60,8 @@ Data FoldTreeFloatSumBiggerThan(const Data& par, lasd::BinaryTree<Data> &tree);
 template <typename Data>
 Data FoldTreeStringConcatLowerEqualsThan(const Data& par, lasd::BinaryTree<Data> &tree);
 
+template <typename Data>
+void RBCoolTree(typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
 
 #include "TreeUtilsFunctions.cpp"
 #endif //EXERCISE2_TREEUTILSFUNCTIONS_HPP

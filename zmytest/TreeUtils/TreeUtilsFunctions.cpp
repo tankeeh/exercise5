@@ -97,6 +97,8 @@ Data FoldTreeHeapStringConcatLowerEqualsThan(const int& par, lasd::Heap<Data> &h
     return acc;
 }
 */
+
+
 template <typename Data>
 Data FoldTreeIntMoltiplicateSmallerThan(const Data& par, lasd::BinaryTree<Data> &tree){
     int acc = 1;
@@ -120,6 +122,13 @@ Data FoldTreeFloatSumBiggerThan(const Data& par, lasd::BinaryTree<Data> &tree){
     return acc;
 }
 
-
-
+/*
+template<typename Data>
+void RBCoolTree(typename lasd::RB<Data>::RBNode &node, int depth, const std::string &prefix) {
+    std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "Tree Root") << ": [" << node.Element() << "]"<<" -- ";
+    if(node.getColor() == lasd::Colori::Red) std::cout<<"Red \n"; else std::cout<<"Black \n";
+    if(node.HasLeftChild()) RBBeautyTree(*node.Left(), depth+1, prefix + "S");
+    if(node.HasRightChild()) RBBeautyTree(*node.Right(), depth+1, prefix + "D");
+}
+*/
 

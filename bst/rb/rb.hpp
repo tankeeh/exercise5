@@ -11,6 +11,7 @@
 namespace lasd {
 
 /* ************************************************************************** */
+    enum Colori{Red,Black,DeepBlack};
 
 template <typename Data>
 class RB : public BST<Data>{ // Should extend BST<Data>
@@ -21,7 +22,6 @@ private:
 
 protected:
 
-    enum Colori{Red,Black,DeepBlack};
   // using BST<Data>::???;
 
   // ...
@@ -31,18 +31,35 @@ public:
 struct RBNode : protected BST<Data>::BSTNode{ // Should extend BSTNode
 
 protected:
-    RBNode() = default;
-    RBNode(const Data&);
-    RBNode(Data&& );
 
-    Colori color = 0;
+    RBNode* Left(); // Mutable access to the element
+    RBNode const* Left() const; // Immutable access to the element
+    RBNode* Right(); // Mutable access to the element
+    RBNode const* Right() const; // Immutable access to the element
+
+    RBNode() = default;
+
+    RBNode(const Data& item);
+
+    RBNode(Data&& item);
+
+    RBNode(RBNode& node); //REC CONSTRUCTOR
+
+    Colori color = Red;
 
 public:
     friend class RB<Data>;
+    using BinaryTreeLnk<Data>::NodeLnk::Element;
+    using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
+    using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
+    Colori getColor(){return this->color;};
+
 
   };
 
   /* ************************************************************************ */
+
+  //static RBNode* NILNode;
 
   // Default constructor
   RB() = default;
@@ -76,9 +93,9 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  RBNode& Root() override ; // Override BinaryTree member (might throw std::length_error)
-  void NewRoot(const Data& key) override ; // Override BinaryTree member (Copy of the value)
-  void NewRoot(Data&& key) override ;  // Override BinaryTree member (Move of the value)
+  const RBNode& Root() const override ; // Override BinaryTree member (might throw std::length_error)
+  void NewRoot(const Data& key) noexcept override ; // Override BinaryTree member (Copy of the value)
+  void NewRoot(Data&& key) noexcept override ;  // Override BinaryTree member (Move of the value)
 
   /* ************************************************************************ */
 
@@ -86,7 +103,7 @@ public:
 
   void Insert(const Data& key) override; // Copy of the value
   void Insert(Data&& key) override;  // Move of the value
-  void Remove(const Data& key) override;
+  void Remove(const Data& key) noexcept override;
 
   Data MinNRemove() override; // (might throw std::length_error)
   void RemoveMin() override; // (might throw std::length_error)
@@ -101,6 +118,40 @@ public:
   void RemoveSuccessor(const Data& key) override; // (might throw std::length_error)
 
   /* ************************************************************************ */
+
+  void RBCoolTree(typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
+
+    RBNode& Root();
+
+protected:
+
+
+    int Vcase_sx(RBNode* sx,RBNode* dx);
+    int Vcase_dx(RBNode* sx,RBNode* dx);
+
+
+    RBNode* SxBalance_Case1(RBNode* node);
+    RBNode* SxBalance_Case2(RBNode* node);
+    RBNode* SxBalance_Case3(RBNode* node);
+
+    RBNode* DxBalance_Case1(RBNode* node);
+    RBNode* DxBalance_Case2(RBNode* node);
+    RBNode* DxBalance_Case3(RBNode* node);
+
+
+    RBNode* SxBalance(RBNode* node);
+    RBNode* DxBalance(RBNode* node);
+
+
+    RBNode* Insert(Data&& key,RBNode* node);
+
+    RBNode* SxRotate(RBNode* node);
+    RBNode* DxRotate(RBNode* node);
+
+    RBNode* DxDoubleRotate(RBNode* node);
+    RBNode* SxDoubleRotate(RBNode* node);
+
+
 
 };
 

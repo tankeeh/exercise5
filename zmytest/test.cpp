@@ -69,6 +69,10 @@ void testBST() {
     bstree.Insert(1813);
     bstree.Insert(1937);
 
+    lasd::BST<int> tempbst(bstree);
+
+    std::cout<<"MIN DI TEMP : "<<tempbst.Min();
+
     //int val;
     //std::cin>>val;
 
@@ -385,49 +389,66 @@ void testAVL(){
 
 void testRB() {
 
-    lasd::BST<int> bstree;
+    lasd::RB<int> myRB;
     //h0
-    bstree.Insert(1000);
+    //rbtree.Insert(1000);
 
     //h1
-    bstree.Insert(500);
-    bstree.Insert(1500);
+    //rbtree.Insert(500);
+    //rbtree.Insert(1500);
 
     //h2
-    bstree.Insert(250);
-    bstree.Insert(750);
-    bstree.Insert(1250);
-    bstree.Insert(1750);
+    //rbtree.Insert(250);
+
+    myRB.Insert(13);
+    myRB.Insert(8);
+    myRB.Insert(16);
+    myRB.Insert(18);
+    myRB.Insert(5);
+    myRB.Insert(6);
+    myRB.Insert(7);
+    myRB.Insert(9);
+    myRB.Insert(0);
+    myRB.Insert(10);
+    myRB.Insert(20);
+    myRB.Insert(1);
+    myRB.Insert(4);
+    myRB.Insert(2);
+    myRB.Insert(12);
+    myRB.Insert(3);
+    /*rbtree.Insert(750);
+    rbtree.Insert(1250);
+    rbtree.Insert(1750);
 
     //h3
-    bstree.Insert(125);
-    bstree.Insert(375);
-    bstree.Insert(625);
-    bstree.Insert(875);
+    rbtree.Insert(125);
+    rbtree.Insert(375);
+    rbtree.Insert(625);
+    rbtree.Insert(875);
 
     //h4
-    bstree.Insert(1125);
-    bstree.Insert(1375);
-    bstree.Insert(1625);
-    bstree.Insert(1875);
+    rbtree.Insert(1125);
+    rbtree.Insert(1375);
+    rbtree.Insert(1625);
+    rbtree.Insert(1875);
 
     //h5
-    bstree.Insert(62);
-    bstree.Insert(187);
-    bstree.Insert(313);
-    bstree.Insert(437);
-    bstree.Insert(562);
-    bstree.Insert(687);
-    bstree.Insert(813);
-    bstree.Insert(900);
-    bstree.Insert(1100);
-    bstree.Insert(1150);
-    bstree.Insert(1313);
-    bstree.Insert(1437);
-    bstree.Insert(1563);
-    bstree.Insert(1687);
-    bstree.Insert(1813);
-    bstree.Insert(1937);
+    rbtree.Insert(62);
+    rbtree.Insert(187);
+    rbtree.Insert(313);
+    rbtree.Insert(437);
+    rbtree.Insert(562);
+    rbtree.Insert(687);
+    rbtree.Insert(813);
+    rbtree.Insert(900);
+    rbtree.Insert(1100);
+    rbtree.Insert(1150);
+    rbtree.Insert(1313);
+    rbtree.Insert(1437);
+    rbtree.Insert(1563);
+    rbtree.Insert(1687);
+    rbtree.Insert(1813);
+    rbtree.Insert(1937);
 
     //int val;
     //std::cin>>val;
@@ -436,9 +457,10 @@ void testRB() {
     //bstree.Remove(1500);
     //bstree.Remove(62);
     //bstree.Remove(125);
-    int elem;
-
-    bstree.BeautyTree(bstree.Root(),0,"");
+    //int elem;
+*/
+    myRB.RBCoolTree(myRB.Root(),0,"");
+    /*
     while(elem!=-1){
         std::cout<<"Di quale elemento vuoi rimuovere il predecessore? \n";
         std::cin>>elem;
@@ -448,7 +470,7 @@ void testRB() {
         }
         catch(std::length_error err){ std::cout<<"\n\n"<<err.what()<<"\n\n";}
     }
-
+*/
 
 
     //std::cout<<bstree.Root().SuccessorParent(val);

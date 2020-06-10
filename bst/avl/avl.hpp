@@ -34,6 +34,14 @@ protected:
 
     //using BinaryTreeLnk<Data>::NodeLnk::NodeLnk;
 
+    AVLNode() = default;
+
+    AVLNode(const Data& item); //COPY CONSTRUCTOR
+
+    AVLNode(Data&& item); //MOVE CONSTRUCTOR
+
+    AVLNode(AVLNode& node); //REC CONSTRUCTOR
+
     AVLNode* Left(); // Mutable access to the element
     AVLNode const* Left() const; // Immutable access to the element
     AVLNode* Right(); // Mutable access to the element
@@ -44,13 +52,7 @@ protected:
     int height = 0;
     // ...
 public:
-    AVLNode() = default;
 
-    AVLNode(const Data& item); //COPY CONSTRUCTOR
-
-    AVLNode(Data&& item); //MOVE CONSTRUCTOR
-
-    AVLNode(AVLNode& node); //REC CONSTRUCTOR
 
     friend AVL<Data>;
   };
@@ -101,10 +103,10 @@ public:
   void Insert(Data&& key) override ;  // Move of the value
   void Remove(const Data& key) noexcept override ;
 
-  const Data MinNRemove() override ; // (might throw std::length_error)
+  Data MinNRemove() override ; // (might throw std::length_error)
   void RemoveMin() override ; // (might throw std::length_error)
 
-  const Data MaxNRemove() override ; // (might throw std::length_error)
+  Data MaxNRemove() override ; // (might throw std::length_error)
   void RemoveMax() override ; // (might throw std::length_error)
 
   Data PredecessorNRemove(const Data& key) override ; // (might throw std::length_error)
@@ -133,7 +135,7 @@ protected:
     AVLNode* StaccaMin(AVLNode* node,AVLNode* parent);
     AVLNode* StaccaMax(AVLNode *node,AVLNode* parent);
 
-    AVLNode* Insert(Data key,AVLNode*);
+    AVLNode* Insert(Data&& key,AVLNode*);
     int Height(AVLNode* node);
 
     AVLNode*  AVLSubtreeMax(const AVLNode* node) const;

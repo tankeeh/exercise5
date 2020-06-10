@@ -30,10 +30,7 @@ public:
 
 struct BSTNode : protected BinaryTreeLnk<Data>::NodeLnk{ //make prot
 
-
 private:
-
-    // ...
 
   protected:
     using BinaryTreeLnk<Data>::NodeLnk::NodeLnk;
@@ -42,10 +39,9 @@ private:
      BSTNode const* Left() const; // Immutable access to the element
      BSTNode* Right(); // Mutable access to the element
      BSTNode const* Right() const; // Immutable access to the element
-
-    BSTNode const* Find(const Data&)const;
-    BSTNode const* FindParent(const Data&) const;
-    BSTNode* FindParent(const Data&);
+     BSTNode const* Find(const Data&)const;
+     BSTNode const* FindParent(const Data&) const;
+     BSTNode* FindParent(const Data&);
 
 
 
@@ -59,8 +55,6 @@ private:
     BSTNode* SuccessorParent(const Data&) const;
 
     //i constructor del nodo non sono presenti ma sono implicitamente richiamati quelli della superclasse "BinaryTreeLnk"
-    // ...
-
   public:
 
     friend class BST<Data>;
@@ -116,11 +110,11 @@ private:
   virtual void Remove(const Data& del_item) noexcept ;
 
   const Data& Min() const; // (might throw std::length_error)
-  virtual const Data MinNRemove()  ; // (might throw std::length_error)
+  virtual Data MinNRemove()  ; // (might throw std::length_error)
   virtual void RemoveMin(); // (might throw std::length_error)
 
   const Data& Max() const; // (might throw std::length_error)
-  virtual const Data MaxNRemove() ; // (might throw std::length_error)
+  virtual Data MaxNRemove() ; // (might throw std::length_error)
   virtual void RemoveMax(); // (might throw std::length_error)
 
   const Data& Predecessor(const Data& key) const; // (might throw std::length_error)
@@ -138,7 +132,7 @@ private:
   bool Exists(const Data&) const noexcept override ; // Override TestableContainer member
 
 
-    void BeautyTree(typename lasd::BST<Data>::BSTNode& node, int depth, const std::string& prefix);
+    void BeautyTree(typename lasd::BST<Data>::BSTNode& node, int depth, const std::string& prefix); //sposta in un altro file possibilmente
     BSTNode& Root() override ; //make prot
 
 protected:

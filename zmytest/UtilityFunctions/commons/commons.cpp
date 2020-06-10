@@ -36,6 +36,13 @@ void PrintElement(Data& elem, void* par){
     std::cout<<elem<<"    --    ";
 }
 
+/*
+template <typename Data>
+void RBPrintElement(Data& elem, void* par){
+    std::cout<<elem<<" "<<"    --    ";
+}
+ */
+
 template <typename Data>
 void SquaredFloat(Data& elem, void* par){
     elem *= elem;

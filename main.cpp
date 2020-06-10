@@ -9,13 +9,13 @@
 
 int main(){
 
-     //testBST();
+    //testBST();
     //testAVL();
-    //testRB();
-
+    testRB();
 
 
 /**MENU' FINALE**/
+/*
 
     char scelta = '0';
 
@@ -47,6 +47,7 @@ int main(){
     }
 
   return 0;
+*/
 
 }
 

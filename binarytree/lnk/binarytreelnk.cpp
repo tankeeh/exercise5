@@ -91,13 +91,17 @@ Data& BinaryTreeLnk<Data>::NodeLnk::Element() noexcept {
 }
 
 template <typename Data>
-typename BinaryTreeLnk<Data>::NodeLnk & BinaryTreeLnk<Data>::Root() {
-    return (*(this->Node));
+typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() {
+    if(!(this->Empty()))
+        return (*(this->Node));
+    else throw std::length_error("\nAlbero vuoto\n");
 }
 
 template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk const& BinaryTreeLnk<Data>::Root()const {
-    return (*(this->Node));
+    if(!(this->Empty()))
+        return (*(this->Node));
+    else throw std::length_error("\nAlbero vuoto\n");
 }
 
 template <typename Data>

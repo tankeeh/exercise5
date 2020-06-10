@@ -1,4 +1,6 @@
 
+#include "rb.hpp"
+
 namespace lasd {
 
 /* ************************************************************************** */
@@ -7,7 +9,7 @@ namespace lasd {
     template<typename Data>
     RB<Data>::RBNode::RBNode(const Data& item){
         this->val = new Data(item);
-        this->color = 0;
+        this->color = Red;
         this->sx = nullptr;
         this->dx = nullptr;
     }
@@ -16,10 +18,102 @@ namespace lasd {
     template<typename Data>
     RB<Data>::RBNode::RBNode(Data &&item){
         this->val = new Data(std::move(item));
-        this->color = 0;
+        this->color = Red;
         this->sx = nullptr;
         this->dx = nullptr;
     }
+
+    //COSTRUTTORE RICORSIVO DI RBNODE
+    template <typename Data>
+    RB<Data>::RBNode:: RBNode(RBNode& node){
+        this->val = new Data(*node.val);
+        this->color = node.color;
+        if(node.sx != nullptr) this->sx = new RBNode((RBNode&)*node.sx);
+        if(node.dx != nullptr) this->dx = new RBNode((RBNode&)*node.dx);
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::RBNode::Left() {
+        if(this->HasLeftChild())
+            return const_cast<RBNode*>(const_cast<const RB<Data>::RBNode*>(this)->Left());
+        else
+            return nullptr;
+    }
+
+    //INCAPSULAMENTO DI LEFTCHILD DA BTLINK
+    template <typename Data>
+    typename RB<Data>::RBNode const* RB<Data>::RBNode:: Left() const{
+        if(this->HasLeftChild())
+            return static_cast<const RBNode *>(&BinaryTreeLnk<Data>::NodeLnk::LeftChild());
+        else
+            return nullptr;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::RBNode::Right() {
+        if(this->HasRightChild())
+            return const_cast<RBNode*>(const_cast<const RB<Data>::RBNode*>(this)->Right());
+        else
+            return nullptr;
+    }
+
+    //INCAPSULAMENTO DI RIGHTCHILD DA BTLINK
+    template <typename Data>
+    typename RB<Data>::RBNode const* RB<Data>::RBNode:: Right() const{
+        if(this->HasRightChild())
+            return static_cast<const RBNode *>(&BinaryTreeLnk<Data>::NodeLnk::RightChild());
+        else
+            return nullptr;
+    }
+
+
+    //COPY CONSTRUCTOR RB
+    template<typename Data>
+    RB<Data>::RB(const RB& tree){
+        this->Node = new RBNode(*tree.Node);
+        this->size = tree.size;
+    }
+
+    //MOVE CONSTRUCTOR RB
+    template<typename Data>
+    RB<Data>::RB(RB&& tree){
+        std::swap(this->Node,tree.Node);
+        std::swap(this->size,tree.size);
+    }
+
+    template<typename Data>
+    const typename RB<Data>::RBNode& RB<Data>::Root() const{
+        return static_cast<const RBNode&>(BinaryTreeLnk<Data>::Root());
+        //return (*(this->Node));
+    }
+
+    //ROOT (MUTABLE PER NECESSITA' DI ALCUNE FUNZIONI)
+    template<typename Data>
+    typename RB<Data>::RBNode& RB<Data>::Root() {
+        return static_cast<RBNode&>(BinaryTreeLnk<Data>::Root());
+    }
+
+
+    template<typename Data>
+    void RB<Data>::NewRoot(const Data &key) noexcept {
+        if(!this->Empty())
+            BinaryTreeLnk<Data>::Clear();
+
+        this->Node = new RBNode(key);
+        static_cast<RBNode*>(this->Node)->color = Black;
+        this->size++;
+    }
+
+    template<typename Data>
+    void RB<Data>::NewRoot(Data&& key) noexcept {
+        if(!this->Empty())
+            BinaryTreeLnk<Data>::Clear();
+
+        this->Node = new RBNode(std::move(key));
+        static_cast<RBNode*>(this->Node)->color = Black;
+        this->size++;
+    }
+
 
     //OPERATORE DI UGUAGLIANZA (CHE RICHIAMA QUELLO DI BST)
     template<typename Data>
@@ -32,6 +126,274 @@ namespace lasd {
     bool RB<Data>::operator!=(const RB &tree) const noexcept {
         return BST<Data>::operator!=(tree);
     }
+
+    //ROTAZIONE A SINISTRA
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::SxRotate(RBNode* node) {
+        RBNode* root = node->Left();
+        node->sx = root->Right();
+        root->dx = node;
+        return root;
+    }
+
+
+    //DOPPIA ROTAZIONE A SINISTRA
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::SxDoubleRotate(RBNode* node){
+        node->sx = DxRotate(node->Left());
+        return SxRotate(node);
+    }
+
+
+    //ROTAZIONE A DESTRA
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::DxRotate(RBNode* node) {
+        RBNode* root = node->Right();
+        node->dx = root->Left();
+        root->sx = node;
+        return root;
+    }
+
+    //DOPPIA ROTAZIONE A DESTRA
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::DxDoubleRotate(RBNode* node){
+        node->dx = SxRotate(node->Right());
+        return DxRotate(node);
+    }
+
+    //COPY ASSIGNMENT RB
+    template<typename Data>
+    RB<Data>& RB<Data>::operator=(const RB &tree) {
+        this->Clear();
+        this->Node = new RBNode((RBNode&)*tree.Node);
+        this->size = tree.size;
+        return *this;
+    }
+
+    //MOVE ASSIGNMENT RB
+    template<typename Data>
+    RB<Data>& RB<Data>::operator=(RB&& tree) {
+        this->Clear();
+        std::swap(this->Node, tree.Node);
+        std::swap(this->size, tree.size);
+        return *this;
+    }
+
+    template<typename Data>
+    void RB<Data>::Insert(const Data& key) {
+        Data item = key;
+        if(this->Empty()) NewRoot(std::move(item));
+        else this->Node = Insert(std::move(item),&this->Root());
+    }
+
+    template<typename Data>
+    void RB<Data>::Insert(Data&& key) {
+        if(this->Empty()) NewRoot(std::move(key));
+        else this->Node = Insert(std::move(key),&this->Root());
+    }
+
+    template <typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Insert(Data&& key,RBNode* node){
+        if(node != nullptr){
+            if(key >= node->Element()){
+                node->dx = Insert(std::move(key),node->Right());
+                node = DxBalance(node);
+            }
+            else{
+                node->sx = Insert(std::move(key),node->Left());
+                node = SxBalance(node);
+            }
+        }
+        else{
+            node = new RBNode(std::move(key));
+            this->size++;
+        }
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::SxBalance(RB::RBNode *node) {
+        int vcase;
+        if (!(node->Left()->IsLeaf())) {
+            vcase = Vcase_sx(node->Left(), node->Right());
+            if (vcase == 1)
+                node = SxBalance_Case1(node);
+            else if (vcase == 2) {
+                node = SxBalance_Case2(node);
+                node = SxBalance_Case3(node);
+            } else if (vcase == 3)
+                node = SxBalance_Case3(node);
+
+        }
+        return node;
+    }
+
+
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::SxBalance_Case1(RBNode *node) {
+        if(node != this->Node)node->color = Red;
+        else node->color = Black;
+        node->Right()->color = Black;
+        node->Left()->color = Black;
+
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::SxBalance_Case2(RBNode *node) {
+        node->sx = DxRotate(node->Left());
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::SxBalance_Case3(RBNode *node) {
+        node = SxRotate(node);
+        node ->color = Black;
+        node->Right()->color = Red;
+        return node;
+    }
+
+    template<typename Data>
+    int RB<Data>::Vcase_sx(RBNode* sx,RBNode* dx) {
+        int v = 0;
+        if(sx->color == Red && (dx != nullptr ? dx->color == Red : 0)){
+            if((sx->Left() != nullptr ? sx->Left()->color == Red : 0) || (sx->Right() != nullptr ? sx->Right()->color == Red : 0))
+                v = 1;
+        }
+        else{
+            if(sx->color == Red){
+                if(sx->Right() != nullptr ? sx->Right()->color == Red : 0){
+                    v = 2;
+                }else{
+                    if(sx->Left() != nullptr ? sx->Left()->color == Red : 0)
+                        v = 3;
+                }
+            }
+        }
+        return v;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::DxBalance(RB::RBNode *node) {
+        int vcase;
+        if (!(node->Right()->IsLeaf())) {
+            vcase = Vcase_dx(node->Left(), node->Right());
+            if (vcase == 1)
+                node = DxBalance_Case1(node);
+            else if (vcase == 2) {
+                node = DxBalance_Case2(node);
+                node = DxBalance_Case3(node);
+            } else if (vcase == 3)
+                node = DxBalance_Case3(node);
+
+        }
+        return node;
+    }
+
+    template<typename Data>
+    int RB<Data>::Vcase_dx(RB::RBNode *sx, RB::RBNode *dx) {
+        int v = 0;
+        if((sx != nullptr ? sx->color == Red : 0) && dx->color == Red){
+            if((dx->Left() != nullptr ? dx->Left()->color == Red : 0) || (dx->Right() != nullptr ? dx->Right()->color == Red : 0))
+                v = 1;
+        }
+        else{
+            if(dx->color == Red){
+                if(dx->Left() != nullptr ? dx->Left()->color == Red : 0){
+                    v = 2;
+                }else{
+                    if( dx->Right() != nullptr ? dx->Right()->color == Red : 0)
+                        v = 3;
+                }
+            }
+        }
+        return v;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::DxBalance_Case1(RBNode *node) {
+        if(node != this->Node)node->color = Red;
+        else node->color = Black;
+
+        node->Left()->color = Black;
+        node->Right()->color = Black;
+
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::DxBalance_Case2(RBNode *node) {
+        node->dx = SxRotate(node->Right());
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::DxBalance_Case3(RBNode *node) {
+        node = DxRotate(node);
+        node ->color = Black;
+        node->Left()->color = Red;
+        return node;
+    }
+
+
+
+
+    template<typename Data>
+    void RB<Data>::Remove(const Data &key) noexcept {
+        //BST::Remove(key);
+    }
+
+    template<typename Data>
+    Data RB<Data>::MinNRemove() {
+        return 0;
+    }
+
+    template<typename Data>
+    void RB<Data>::RemoveMin() {
+        //
+    }
+
+    template<typename Data>
+    Data RB<Data>::MaxNRemove() {
+        return 0;
+    }
+
+    template<typename Data>
+    void RB<Data>::RemoveMax() {
+        //
+    }
+
+    template<typename Data>
+    Data RB<Data>::PredecessorNRemove(const Data &key) {
+        return 0;
+    }
+
+    template<typename Data>
+    void RB<Data>::RemovePredecessor(const Data &key) {
+        //BST::RemovePredecessor(key);
+    }
+
+    template<typename Data>
+    Data RB<Data>::SuccessorNRemove(const Data &key) {
+        return 0;
+    }
+
+    template<typename Data>
+    void RB<Data>::RemoveSuccessor(const Data &key) {
+        //
+    }
+
+
+    template<typename Data>
+    void RB<Data>::RBCoolTree(typename lasd::RB<Data>::RBNode &node, int depth, const std::string &prefix) {
+        std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "Tree Root") << ": [" << node.Element() << "]"<<" -- ";
+        if(node.getColor() == lasd::Colori::Red) std::cout<<"Red \n"; else std::cout<<"Black \n";
+        if(node.HasLeftChild()) RBCoolTree(*node.Left(), depth+1, prefix + "S");
+        if(node.HasRightChild()) RBCoolTree(*node.Right(), depth+1, prefix + "D");
+    }
+
+
 
 /* ************************************************************************** */
 

@@ -83,7 +83,9 @@ namespace lasd {
     //NEWROOT PER COPY
     template<typename Data>
     void AVL<Data>::NewRoot(const Data &item) noexcept {
+        if(!this->Empty())
         BinaryTreeLnk<Data>::Clear();
+
         this->Node = new AVLNode(item);
         this->size++;
     }
@@ -91,7 +93,9 @@ namespace lasd {
     //NEWROOT PER MOVE
     template<typename Data>
     void AVL<Data>::NewRoot(Data&& item) noexcept {
+        if(!this->Empty())
         BinaryTreeLnk<Data>::Clear();
+
         this->Node = new AVLNode(std::move(item));
         this->size++;
     }
@@ -185,15 +189,15 @@ namespace lasd {
     //INSERT PER COPY
     template<typename Data>
     void AVL<Data>::Insert(const Data& newitem) {
-        this->Node = Insert(newitem,&this->Root());
+        Data item = newitem;
+        this->Node = Insert(std::move(item),&this->Root());
     }
 
 
     //INSERT PER MOVE
     template<typename Data>
-    void AVL<Data>::Insert(Data &&newitem) {
-        Data item = newitem;
-        this->Node = Insert(std::move(item),&this->Root());
+    void AVL<Data>::Insert(Data&& newitem) {
+        this->Node = Insert(std::move(newitem),&this->Root());
     }
 
     //ROOT (MUTABLE PER NECESSITA' DI ALCUNE FUNZIONI)
@@ -219,16 +223,16 @@ namespace lasd {
 
     //FUNZIONE DI INSERIMENTO RICORSIVO
     template<typename Data>
-    typename AVL<Data>::AVLNode* AVL<Data>::Insert(Data key,AVLNode* node) {
+    typename AVL<Data>::AVLNode* AVL<Data>::Insert(Data&& key,AVLNode* node) {
         if (node != nullptr) {
             if (node->Element() == key) {
                 return node;
             } else if (node->Element() > key) {
-                node->sx = Insert(key,node->Left());
+                node->sx = Insert(std::move(key),node->Left());
                 node = SxBalance(node);
             }
             else{
-                node->dx = Insert(key,node->Right());
+                node->dx = Insert(std::move(key),node->Right());
                 node = DxBalance(node);
             }
         }
@@ -359,7 +363,7 @@ namespace lasd {
 
     //RESTITUISCE IL MINIMO E LO RIMUOVE
     template<typename Data>
-    const Data AVL<Data>::MinNRemove() {
+    Data AVL<Data>::MinNRemove() {
         if(!(this->Empty())) {
             Data min = this->Min();
             Remove(min);
@@ -370,7 +374,7 @@ namespace lasd {
 
     //RESTITUISCE IL MAX E E LO RIMUOVE
     template<typename Data>
-    const Data AVL<Data>::MaxNRemove() {
+    Data AVL<Data>::MaxNRemove() {
         if(!(this->Empty())) {
             Data max = this->Max();
             Remove(max);
