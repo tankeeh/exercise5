@@ -108,7 +108,7 @@ namespace lasd {
     template<typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode::MaxParent() const {
         const BSTNode *tempnode = this;
-        const BSTNode* father;
+        const BSTNode* father = tempnode;
         while (tempnode->HasRightChild()) {
             father = tempnode;
             tempnode = tempnode->Right();
@@ -561,14 +561,18 @@ namespace lasd {
                 }
             }
 
-            if (currnode != nullptr && currnode->HasRightChild())
-                temp = temp->Right()->MinParent()->Left();
+            if (currnode != nullptr && currnode->HasRightChild()) {
+                if(currnode->Right()->HasLeftChild())
+                    temp = currnode->Right()->MinParent()->Left();
+                else
+                    temp = currnode->Right();
+            }
 
             if (temp != nullptr)
                 return temp->Element();
             else throw std::length_error("Non e' presente un successore per questo elemento.");
         }
-        else throw std::length_error("Albero vuoto. Non e'possibile trovare un predecessore.");
+        else throw std::length_error("Albero vuoto. Non e'possibile trovare un successore.");
     }
 
 
@@ -577,27 +581,31 @@ namespace lasd {
     const Data& BST<Data>::Predecessor(const Data &key) const{
         const BSTNode *currnode = &this->Root();
         const BSTNode *temp = nullptr;
-        if(!this->Empty())
-        if (currnode->Element() == key){
-            if (currnode->HasLeftChild())return SubtreeMax(currnode->Left());
-            else throw std::length_error("Non e' presente un predecessore per questo elemento.");
-        }else {
-            while (currnode != nullptr && currnode->Element() != key) {
-                if (currnode->Element() < key) {
-                    temp = currnode;
-                    currnode = currnode->Right();
-                } else {
-                    currnode = currnode->Left();
+        if(!this->Empty()) {
+            if (currnode->Element() == key) {
+                if (currnode->HasLeftChild())return SubtreeMax(currnode->Left());
+                else throw std::length_error("Non e' presente un predecessore per questo elemento.");
+            } else {
+                while (currnode != nullptr && currnode->Element() != key) {
+                    if (currnode->Element() < key) {
+                        temp = currnode;
+                        currnode = currnode->Right();
+                    } else {
+                        currnode = currnode->Left();
+                    }
                 }
+
+                if (currnode != nullptr && currnode->HasLeftChild()) {
+                    if (currnode->Left()->HasRightChild())
+                        temp = currnode->Left()->MaxParent()->Right();
+                    else temp = currnode->Left();
+                }
+
+
+                if (temp != nullptr)
+                    return temp->Element();
+                else throw std::length_error("Non e' presente un predecessore per questo elemento.");
             }
-
-            if (currnode != nullptr && currnode->HasLeftChild())
-                temp = temp->Left()->MaxParent()->Right();
-
-
-            if (temp != nullptr)
-                return temp->Element();
-            else throw std::length_error("Non e' presente un predecessore per questo elemento.");
         }
         else throw std::length_error("Albero vuoto. Non e'possibile trovare un predecessore.");
     }

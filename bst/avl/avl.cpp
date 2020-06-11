@@ -118,7 +118,7 @@ namespace lasd {
     //FUNZIONE DI BILANCIAMENTO SUL SOTTOALBERO SINISTRO
     template<typename Data>
     typename AVL<Data>::AVLNode* AVL<Data>::SxBalance(AVLNode* currnode) {
-        if(abs(Height(currnode->Left()) - Height(currnode->Right())) == 2) {
+        if(std::abs(Height(currnode->Left()) - Height(currnode->Right())) == 2) {
             if (Height(currnode->Left()->Left()) > Height(currnode->Left()->Right())) {
                 currnode = SxRotate(currnode);
             } else {
@@ -133,7 +133,7 @@ namespace lasd {
     //FUNZIONE DI BILANCIAMENTO SUL SOTTOALBERO DESTRO
     template<typename Data>
     typename AVL<Data>::AVLNode* AVL<Data>::DxBalance(AVLNode* currnode) {
-        if(abs(Height(currnode->Left()) - Height(currnode->Right())) == 2) {
+        if(std::abs(Height(currnode->Left()) - Height(currnode->Right())) == 2) {
             if (Height(currnode->Right()->Right()) > Height(currnode->Right()->Left())) {
                 currnode = DxRotate(currnode);
             } else {

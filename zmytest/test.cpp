@@ -24,7 +24,14 @@ void BeautyTree(typename lasd::AVL<Data>::AVLNode& node, int depth, const std::s
 
 
 void testBST() {
-
+    lasd::BST<int> mBST;
+    mBST.NewRoot(10);
+    mBST.Insert(2);
+    mBST.Insert(1);
+    mBST.Insert(12);
+    mBST.Insert(13);
+    std::cout<< mBST.Predecessor(12);
+/*
     lasd::BST<int> bstree;
     //h0
     bstree.Insert(1000);
@@ -388,7 +395,64 @@ void testAVL(){
 }
 
 void testRB() {
+    lasd::RB<int> myRB;
+    myRB.Insert(33);
+    myRB.Insert(22);
+    myRB.Insert(44);
+    myRB.Insert(11);
+    myRB.Insert(31);
+    myRB.Insert(35);
+    myRB.Insert(66);
+    myRB.Insert(10);
+    myRB.Insert(29);
+    myRB.Insert(32);
+    myRB.Insert(34);
+    myRB.Insert(38);
+    myRB.Insert(55);
+    myRB.Insert(77);
+    myRB.Insert(26);
+    myRB.Insert(30);
+    myRB.Insert(36);
+    myRB.Insert(39);
+    myRB.Insert(50);
+    myRB.Insert(88);
+    myRB.RBCoolTree(myRB.Root(),0,"");
 
+    myRB.Remove(11);
+    myRB.RBCoolTree(myRB.Root(),0,"");
+
+    myRB.Remove(20);
+    myRB.Remove(30);
+    myRB.Remove(34);
+    myRB.Remove(29);
+    myRB.Remove(32);
+    myRB.Remove(44);
+    myRB.Remove(10);
+    myRB.Remove(15);
+    myRB.Remove(31);
+    myRB.Remove(22);
+    myRB.Remove(23);
+    myRB.Remove(55);
+    myRB.Remove(33);
+    myRB.Remove(28);
+    myRB.Remove(80);
+    myRB.Remove(36);
+    myRB.Remove(35);
+    myRB.Remove(42);
+    myRB.Remove(38);
+    myRB.Remove(66);
+    myRB.Remove(50);
+    myRB.Remove(77);
+    myRB.Remove(39);
+    myRB.Remove(40);
+    myRB.Remove(85);
+    myRB.Remove(90);
+    myRB.Remove(60);
+    myRB.Remove(70);
+    myRB.Remove(88);
+    myRB.Remove(65);
+
+/*
     lasd::RB<int> myRB;
     //h0
     //rbtree.Insert(1000);

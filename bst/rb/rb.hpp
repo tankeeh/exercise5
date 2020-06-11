@@ -125,7 +125,7 @@ public:
 
 protected:
 
-
+    /** INSERT SUPPORT FUNCTIONS **/
     int Vcase_sx(RBNode* sx,RBNode* dx);
     int Vcase_dx(RBNode* sx,RBNode* dx);
 
@@ -144,6 +144,38 @@ protected:
 
 
     RBNode* Insert(Data&& key,RBNode* node);
+
+
+    /** REMOVE SUPPORT FUNCTIONS **/
+
+    int Remove_Vcase_sx(RBNode* sx,RBNode* dx);
+    int Remove_Vcase_dx(RBNode* sx,RBNode* dx);
+
+    RBNode* Remove_SxBalance_Case1(RBNode* node);
+    RBNode* Remove_SxBalance_Case2(RBNode* node);
+    RBNode* Remove_SxBalance_Case3(RBNode* node);
+    RBNode* Remove_SxBalance_Case4(RBNode* node);
+
+
+    RBNode* Remove_DxBalance_Case1(RBNode* node);
+    RBNode* Remove_DxBalance_Case2(RBNode* node);
+    RBNode* Remove_DxBalance_Case3(RBNode* node);
+    RBNode* Remove_DxBalance_Case4(RBNode* node);
+
+
+    RBNode* Remove(RBNode* node,const Data& key);
+
+    RBNode* RemoveNode(RBNode* node);
+
+    void BlackPropagate(RBNode* node);
+
+    RBNode* StaccaMin(RBNode* node,RBNode* parent);
+
+    RBNode* Remove_SxBalance(RBNode* node);
+    RBNode* Remove_DxBalance(RBNode* node);
+
+
+
 
     RBNode* SxRotate(RBNode* node);
     RBNode* DxRotate(RBNode* node);

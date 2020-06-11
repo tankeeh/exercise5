@@ -341,7 +341,7 @@ namespace lasd {
 
     template<typename Data>
     void RB<Data>::Remove(const Data &key) noexcept {
-        //BST::Remove(key);
+        this->Node = Remove(&this->Root(),key);
     }
 
     template<typename Data>
@@ -371,7 +371,7 @@ namespace lasd {
 
     template<typename Data>
     void RB<Data>::RemovePredecessor(const Data &key) {
-        //BST::RemovePredecessor(key);
+
     }
 
     template<typename Data>
@@ -384,6 +384,232 @@ namespace lasd {
         //
     }
 
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove(RB::RBNode *node,const Data& key) {
+        if(node != nullptr){
+            if(node->Element() < key){
+                node->dx = Remove(node->Right(),key);
+                node = Remove_DxBalance(node);
+            }
+            else if(node->Element() > key){
+                node->sx = Remove(node->Left(),key);
+                node = Remove_DxBalance(node);
+            }
+            else
+                node = RemoveNode(node);
+        }
+        return node;
+    }
+
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::RemoveNode(RB::RBNode *node) {
+        RBNode* temp;
+        if((!node->HasLeftChild()) || (!node->HasRightChild())){
+            temp = node;
+
+            if(!node->HasLeftChild())
+                node = node->Right();
+            else if(!node->HasRightChild())
+                node = node->Left();
+
+
+            if(temp->color == Black && node != nullptr)
+                BlackPropagate(node);
+        }
+        else{
+            temp = StaccaMin(node->Right(),node);
+            node->Element() = temp->Element();
+            node = Remove_DxBalance(node);
+        }
+
+        return node;
+    }
+
+    template<typename Data>
+    void RB<Data>::BlackPropagate(RBNode *node) {
+        if(node->color == Red)
+            node->color = Black;
+        else
+            node->color = DeepBlack;
+    }
+
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::StaccaMin(RBNode *node, RBNode *parent) {
+        RBNode* temp = nullptr;
+        if(node != nullptr){
+            if(node->HasLeftChild()){
+                temp = StaccaMin(node->Left(),node);
+                if(node == parent->Left())
+                    parent->sx = Remove_SxBalance(node);
+                else
+                    parent->dx = Remove_DxBalance(node);
+
+                node = temp;
+            }
+            else{
+                temp = node;
+                if(node == parent->Left())
+                    parent->sx = node->Right();
+                else
+                    parent->dx = node->Right();
+
+                if(node->color == Black && node->Right()!= nullptr)
+                    BlackPropagate(node->Right());
+            }
+        }
+        return temp;
+    }
+
+
+
+
+
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance(RBNode *node) {
+        if(!(node->IsLeaf())){
+            int vcase = Remove_Vcase_sx(node->Left(),node->Right());
+
+            if (vcase == 1) {
+                node = Remove_SxBalance_Case1(node);
+                node->sx = Remove_SxBalance(node->Left());
+            }
+            else if (vcase == 2)
+                node = Remove_SxBalance_Case2(node);
+            else if (vcase == 3)
+                node = Remove_SxBalance_Case3(node);
+            else if (vcase == 4)
+                node = Remove_SxBalance_Case4(node);
+        }
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case1(RBNode *node) {
+        node = DxRotate(node);
+        node->color = Black;
+        node->Left()->color = Red;
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case2(RBNode *node) {
+        node->Right()->color = Red;
+        node->Left()->color = Black;
+        BlackPropagate(node);
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case3(RBNode *node) {
+        node->dx = SxRotate(node->Right());
+        node->Right()->color = Black;
+        node->Right()->Right()->color = Red;
+        node = Remove_SxBalance_Case4(node);
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case4(RBNode *node) {
+        node = DxRotate(node);
+        node->Right()->color = node->color;
+        node->color = node->Left()->color;
+        node->Left()->color = Black;
+        node->Left()->Left()->color = Black;
+        return node;
+    }
+
+    template<typename Data>
+    int RB<Data>::Remove_Vcase_sx(RBNode *sx,RBNode *dx) {
+        int v = 0;
+        if(sx->color == DeepBlack) {
+            if (dx->color == Red)
+                v = 1;
+            else if ((dx->Right() != nullptr ? dx->Right()->color : 0) == Black && (dx->Left() != nullptr ? dx->Left()->color == Black : 0))
+                v = 2;
+            else if(dx->Right() != nullptr ? dx->Right()->color == Black : 0)
+                v = 3;
+            else
+                v = 4;
+        }
+        return v;
+    }
+
+/**RIGHT PART **/
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance(RBNode *node) {
+        if(!(node->IsLeaf())){
+            int vcase = Remove_Vcase_dx(node->Left(),node->Right());
+
+            if (vcase == 1) {
+                node = Remove_DxBalance_Case1(node);
+                node->dx = Remove_DxBalance(node->Right());
+            }
+            else if (vcase == 2)
+                node = Remove_DxBalance_Case2(node);
+            else if (vcase == 3)
+                node = Remove_DxBalance_Case3(node);
+            else if (vcase == 4)
+                node = Remove_DxBalance_Case4(node);
+        }
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case1(RBNode *node) {
+        node = SxRotate(node);
+        node->color = Black;
+        node->Right()->color = Red;
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case2(RBNode *node) {
+        node->Left()->color = Red;
+        node->Right()->color = Black;
+        BlackPropagate(node);
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case3(RBNode *node) {
+        node->sx = DxRotate(node->Left());
+        node->Left()->color = Black;
+        node->Left()->Left()->color = Red;
+        node = Remove_DxBalance_Case4(node);
+        return node;
+    }
+
+    template<typename Data>
+    typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case4(RBNode *node) {
+        node = SxRotate(node);
+        node->Left()->color = node->color;
+        node->color = node->Right()->color;
+        node->Right()->color = Black;
+        node->Right()->Right()->color = Black;
+        return node;
+    }
+
+    template<typename Data>
+    int RB<Data>::Remove_Vcase_dx(RBNode *sx,RBNode *dx) {
+        int v = 0;
+        if(dx != nullptr ? dx->color == DeepBlack : 0) {
+            if (sx->color == Red)
+                v = 1;
+            else if ((sx->Right() != nullptr ? sx->Right()->color == Black : 0) && (sx->Left() != nullptr ? sx->Left()->color == Black : 0))
+                v = 2;
+            else if(sx->Left() != nullptr ? sx->Left()->color == Black : 0)
+                v = 3;
+            else
+                v = 4;
+        }
+        return v;
+    }
+
+
 
     template<typename Data>
     void RB<Data>::RBCoolTree(typename lasd::RB<Data>::RBNode &node, int depth, const std::string &prefix) {
@@ -392,6 +618,11 @@ namespace lasd {
         if(node.HasLeftChild()) RBCoolTree(*node.Left(), depth+1, prefix + "S");
         if(node.HasRightChild()) RBCoolTree(*node.Right(), depth+1, prefix + "D");
     }
+
+
+
+
+
 
 
 
