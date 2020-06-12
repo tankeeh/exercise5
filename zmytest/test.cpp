@@ -416,6 +416,7 @@ void testRB() {
     myRB.Insert(39);
     myRB.Insert(50);
     myRB.Insert(88);
+    myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
 
     /** remove part **/
     myRB.Remove(11);
@@ -440,10 +441,10 @@ void testRB() {
     myRB.Remove(36);
     myRB.Remove(35);
     myRB.Remove(42);
-    myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
 
     myRB.Remove(38);
     myRB.Remove(66);
+    myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
     myRB.Remove(50);
     myRB.Remove(77);
     myRB.Remove(39);
