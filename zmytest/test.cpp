@@ -417,9 +417,8 @@ void testRB() {
     myRB.Insert(50);
     myRB.Insert(88);
 
+    /** remove part **/
     myRB.Remove(11);
-    myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
-
     myRB.Remove(20);
     myRB.Remove(30);
     myRB.Remove(34);
@@ -427,10 +426,11 @@ void testRB() {
     myRB.Remove(32);
     myRB.Remove(44);
     myRB.Remove(10);
-    myRB.Remove(15);
-    myRB.Remove(31);
     myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
 
+
+    myRB.Remove(15);
+    myRB.Remove(31);
     myRB.Remove(22);
     myRB.Remove(23);
     myRB.Remove(55);
@@ -440,6 +440,8 @@ void testRB() {
     myRB.Remove(36);
     myRB.Remove(35);
     myRB.Remove(42);
+    myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
+
     myRB.Remove(38);
     myRB.Remove(66);
     myRB.Remove(50);
@@ -452,6 +454,9 @@ void testRB() {
     myRB.Remove(70);
     myRB.Remove(88);
     myRB.Remove(65);
+
+    myRB.RBCoolTree(myRB.Root(),0,"");
+
 
 /*
     lasd::RB<int> myRB;
@@ -524,7 +529,6 @@ void testRB() {
     //bstree.Remove(125);
     //int elem;
 */
-    myRB.RBCoolTree(myRB.Root(),0,"");
     /*
     while(elem!=-1){
         std::cout<<"Di quale elemento vuoi rimuovere il predecessore? \n";

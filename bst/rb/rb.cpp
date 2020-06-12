@@ -393,7 +393,7 @@ namespace lasd {
             }
             else if(node->Element() > key){
                 node->sx = Remove(node->Left(),key);
-                node = Remove_DxBalance(node);
+                node = Remove_SxBalance(node);
             }
             else
                 node = RemoveNode(node);
@@ -524,15 +524,18 @@ namespace lasd {
     template<typename Data>
     int RB<Data>::Remove_Vcase_sx(RBNode *sx,RBNode *dx) {
         int v = 0;
-        if(sx->color == DeepBlack) {
-            if (dx->color == Red)
-                v = 1;
-            else if ((dx->Right() != nullptr ? dx->Right()->color : 0) == Black && (dx->Left() != nullptr ? dx->Left()->color == Black : 0))
-                v = 2;
-            else if(dx->Right() != nullptr ? dx->Right()->color == Black : 0)
-                v = 3;
-            else
-                v = 4;
+        if(sx != nullptr ? sx->color == DeepBlack : 0) {
+            if(dx != nullptr) {
+                if (dx->color == Red)
+                    v = 1;
+                else if ((dx->Right() != nullptr ? dx->Right()->color : 0) == Black &&
+                         (dx->Left() != nullptr ? dx->Left()->color == Black : 0))
+                    v = 2;
+                else if (dx->Right() != nullptr ? dx->Right()->color == Black : 0)
+                    v = 3;
+                else if( dx->Right() != nullptr ? dx->Right()->color == Red : 0)
+                    v = 4;
+            }
         }
         return v;
     }
@@ -586,10 +589,12 @@ namespace lasd {
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case4(RBNode *node) {
         node = SxRotate(node);
-        node->Left()->color = node->color;
-        node->color = node->Right()->color;
-        node->Right()->color = Black;
-        node->Right()->Right()->color = Black;
+        if(node->HasLeftChild())node->Left()->color = node->color;
+        if(node->HasRightChild()) {
+            node->color = node->Right()->color;
+            node->Right()->color = Black;
+            node->Right()->Right()->color = Black;
+        }
         return node;
     }
 
@@ -597,13 +602,13 @@ namespace lasd {
     int RB<Data>::Remove_Vcase_dx(RBNode *sx,RBNode *dx) {
         int v = 0;
         if(dx != nullptr ? dx->color == DeepBlack : 0) {
-            if (sx->color == Red)
+            if ( sx != nullptr ? sx->color == Red : 0)
                 v = 1;
-            else if ((sx->Right() != nullptr ? sx->Right()->color == Black : 0) && (sx->Left() != nullptr ? sx->Left()->color == Black : 0))
+            else if (sx != nullptr ? ((sx->Right() != nullptr ? sx->Right()->color == Black : 0) && (sx->Left() != nullptr ? sx->Left()->color == Black : 0)) : 0)
                 v = 2;
-            else if(sx->Left() != nullptr ? sx->Left()->color == Black : 0)
+            else if(sx != nullptr ? (sx->Left() != nullptr ? sx->Left()->color == Black : 0) : 0)
                 v = 3;
-            else
+            else if(sx != nullptr ? (sx->Left() != nullptr ? sx->Left()->color == Red : 0) : 0)
                 v = 4;
         }
         return v;
