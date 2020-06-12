@@ -50,8 +50,8 @@ protected:
 public:
     friend class RB<Data>;
     using BinaryTreeLnk<Data>::NodeLnk::Element;
-    using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
-    using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
+    //using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
+    //using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
     Colori getColor(){return this->color;};
 
 

@@ -190,6 +190,72 @@ void testBST() {
     }
      */
 }
+void testBSToperations() {
+    lasd::BST<int> mBST;
+    mBST.Insert(10);
+    mBST.Insert(2);
+    mBST.Insert(1);
+    mBST.Insert(12);
+    mBST.Insert(13);
+
+    std::cout<<"stampa albero iniziale : \n";
+    mBST.BeautyTree(mBST.Root(),0,"");
+
+    std::cout<<"\n\n TEST COPY CONSTRUCTOR : \n";
+    lasd::BST<int> bst2(mBST);
+    bst2.BeautyTree(bst2.Root(),0,"");
+    std::cout<<"\n\nSe è stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+
+    std::cout<<" TEST MOVE CONSTRUCTOR : \n";
+    lasd::BST<int> bst3(std::move(mBST));
+    bst3.BeautyTree(bst3.Root(),0,"");
+    std::cout<<"\n\nSe è stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+    std::cout<<"Stampa dell' albero passato per move : (DEVE ESSERE VUOTO)\n";
+    mBST.BeautyTree(mBST.Root(),0,"");
+
+    std::cout<<" TEST COPY ASSIGNMENT : \n\n";
+    lasd::BST<int> A;
+    A.Insert(10);
+    A.Insert(2);
+    A.Insert(1);
+    std::cout<<"stampa di A : \n";
+    A.BeautyTree(A.Root(),0,"");
+
+    lasd::BST<int> B;
+    B.Insert(18);
+    B.Insert(21);
+    B.Insert(12);
+    std::cout<<"stampa di B : \n";
+    B.BeautyTree(A.Root(),0,"");
+
+    A = B;
+    std::cout<<"stampa di A POST ASSEGNAMENTO : \n";
+    A.BeautyTree(A.Root(),0,"");
+    std::cout<<"\n\nSe è stato stampato un albero uquale all' albero B, ha funzionato\n\n";
+
+    B = std::move(A);
+    std::cout<<"stampa di B POST ASSEGNAMENTO DI A PASSATO PER MOVE : \n";
+    B.BeautyTree(B.Root(),0,"");
+    std::cout<<"\n\nSe è stato stampato un albero uquale all' albero A, ha funzionato\n\n";
+    std::cout<<"stampa di A PASSATO PER MOVE : \n";
+    A.BeautyTree(A.Root(),0,"");
+
+    lasd::BST<int> C;
+    B.Insert(27);
+    B.Insert(38);
+    B.Insert(92);
+    B.Insert(25);
+    B.Insert(3);
+    B.Insert(71);
+    B.Insert(40);
+    B.Insert(99);
+    B.Insert(135);
+
+
+
+
+}
+
 
 void testAVL(){
 
@@ -393,6 +459,11 @@ void testAVL(){
 
 */
 }
+void testAVLoperations(){
+
+
+}
+
 
 void testRB() {
     lasd::RB<int> myRB;
@@ -418,7 +489,10 @@ void testRB() {
     myRB.Insert(88);
     myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
 
+
+
     /** remove part **/
+    /*
     myRB.Remove(11);
     myRB.Remove(20);
     myRB.Remove(30);
@@ -454,10 +528,13 @@ void testRB() {
     myRB.Remove(60);
     myRB.Remove(70);
     myRB.Remove(88);
-    myRB.Remove(65);
+    myRB.Remove(65);*/
+
+    myRB.Remove(10);
+    myRB.Remove(11);
 
     myRB.RBCoolTree(myRB.Root(),0,"");
-
+    std::cout<<"\n size : "<<myRB.Size();
 
 /*
     lasd::RB<int> myRB;
@@ -631,6 +708,10 @@ void testRB() {
     }
      */
 }
+void testRBoperations() {
+
+}
+
 
 
 
@@ -2005,22 +2086,443 @@ void AVLTree(){
 //quando hai tempo inserisci coolTreePrintAVL tra le funzioni in modo da
 //dare la possibilità di verificare
 
+void RBTreeString(){
+    char scelta = '0';
+    int n;
+
+    lasd::RB<std::string> rb;
+    std::cout << "Quanti elementi deve contenere il R&B? : \n";
+    std::cin>>n;
+    while(rb.Size()<n)
+        rb.Insert(CharValueGenerator());
+
+
+
+    std::cout << "\n\n ** Generazione albero casuale R&B ... ** \n\n";
+
+    while (scelta != 'b') {
+        std::cout << "\n\nCosa vuoi fare con il seguente R&B di stringhe? : \n";
+        std::cout << "1. MapPreOrder Print. \n";
+        std::cout << "2. MapInOrder Print. \n";
+        std::cout << "3. MapPostOrder Print. \n";
+        std::cout << "4. MapBreadth Print. \n";
+        std::cout << "5. Exists. \n";
+        std::cout << "6. Fold TreeStringConcatLowerEqualsThan. \n";
+
+        std::cout << "7. Inserimento di un dato. \n";
+        std::cout << "8. Rimozione di un dato. \n";
+
+        std::cout << "q. Lettura del Minimo \n";
+        std::cout << "w. Lettura e rimozione del Minimo \n";
+        std::cout << "e. Rimozione del Minimo \n";
+
+        std::cout << "r. Lettura del Massimo \n";
+        std::cout << "t. Lettura e rimozione del Massimo \n";
+        std::cout << "y. Rimozione del Massimo \n";
+
+        std::cout << "u. Lettura del Predecessore di un dato elemento \n";
+        std::cout << "i. Lettura e rimozione del Predecessore di un dato elemento \n";
+        std::cout << "o. Rimozione del Predecessore di un dato elemento \n";
+
+        std::cout << "p. Lettura del Successore di un dato elemento \n";
+        std::cout << "a. Lettura e rimozione del Successore di un dato elemento \n";
+        std::cout << "s. Rimozione del Successore di un dato elemento \n";
+
+        std::cout << "b. tornare indietro. \n\n\n";
+
+        std::cin >> scelta;
+
+        switch (scelta) {
+
+            case '1':
+                std::cout << " ** PREORDER PRINT ** \n\n";
+                PrintElementTreePreOrder(rb);
+                break;
+            case '2':
+                std::cout << " ** INORDER PRINT ** \n\n";
+                PrintElementTreeInOrder(rb);
+                break;
+            case '3':
+                std::cout << " ** POSTORDER PRINT ** \n\n";
+                PrintElementTreePostOrder(rb);
+                break;
+            case '4':
+                std::cout << " ** BREADTH PRINT ** \n\n";
+                PrintElementTreeBreadth(rb);
+                break;
+            case '5': {
+                std::cout << " ** EXISTS ** \n\n";
+                std::cout << "Inserire il valore di cui si vuole verificare l'esistenza : ";
+                std::string item;
+                std::cin >> item;
+                if (rb.Exists(item))std::cout << "\nL'elemento e' presente nell' albero";
+                else std::cout << "\nL'elemento e' assente nell' albero";
+                break;
+            }
+            case '6':
+                std::cout << " ** FOLD TreeStringConcatLowerEqualsThan ** \n\n";
+                std::cout << "Inserire il valore con cui chiamare la Fold : ";
+                int elem;
+                std::cin >> elem;
+                std::cout<<"La concatenazione delle stringhe con lunghezza minore o uguale di "<<elem<<" e' :"<<FoldTreeStringConcatLowerEqualsThan(elem, rb);
+                break;
+            case '7': {
+                std::cout << " ** INSERT ** \n\n";
+                std::cout << "Quale valore si intende inserire all' interno del R&B: ";
+                std::string d;
+                std::cin >> d;
+                rb.Insert(d);
+                std::cout << "\nInserimento effettuato con successo!\n\n";
+                break;
+            }
+            case '8': {
+                std::cout << " ** REMOVE ** \n\n";
+                std::cout << "Quale valore si intende rimuovere dal R&B: ";
+                std::string r;
+                std::cin >> r;
+                rb.Remove(r);
+                std::cout << "\nRimozione effettuata con successo!\n\n";
+                break;
+            }
+            case 'q'://lettura
+                std::cout << " ** MIN ** \n\n";
+                try {
+                    std::cout << "Il valore minimo del seguente R&B e' : " << rb.Min();
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'w'://lettura con rimozione
+                std::cout << " ** MIN&REMOVE ** \n\n";
+                try{
+                    std::cout << "Il valore minimo del seguente R&B e' : "<<rb.MinNRemove();
+                    std::cout <<"\nElemento minimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'e'://rimozione
+                std::cout << " ** REMOVE MIN ** \n\n";
+                try{
+                    rb.RemoveMin();
+                    std::cout <<"\nElemento minimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'r':
+                std::cout << " ** MAX ** \n\n";
+                try{
+                    std::cout << "Il valore massimo del seguente R&B e' : "<<rb.Max();
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 't':
+                std::cout << " ** MAX&REMOVE ** \n\n";
+                try{
+                    std::cout << "Il valore massimo del seguente R&B e' : "<<rb.MaxNRemove();
+                    std::cout <<"\nElemento massimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'y':
+                std::cout << " ** REMOVE MAX ** \n\n";
+                try{
+                    rb.RemoveMax();
+                    std::cout <<"\nElemento massimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'u':
+                std::cout << " ** PREDECESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole trovare il predecessore all' interno dell' albero : \n";
+                    std::string predeced_item;
+                    std::cin>>predeced_item;
+                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del R&B e' "<<rb.Predecessor(predeced_item);
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'i':
+                std::cout << " ** PREDECESSOR & REMOVE ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
+                    std::string predeced_item;
+                    std::cin>>predeced_item;
+                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del R&B e' "<<rb.PredecessorNRemove(predeced_item);
+                    std::cout<<"\nPredecessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 'o':
+                std::cout << " ** REMOVE PREDECESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
+                    std::string predeced_item;
+                    std::cin>>predeced_item;
+                    rb.RemovePredecessor(predeced_item);
+                    std::cout<<"\nPredecessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 'p':
+                std::cout << " ** SUCCESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole trovare il successore all' interno dell' albero : \n";
+                    std::string succeeded_item;
+                    std::cin>>succeeded_item;
+                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del R&B e' "<<rb.Successor(succeeded_item);
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 'a':
+                std::cout << " ** SUCCESSOR & REMOVE ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
+                    std::string succeeded_item;
+                    std::cin>>succeeded_item;
+                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del R&B e' "<<rb.SuccessorNRemove(succeeded_item);
+                    std::cout<<"\nSuccessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 's':
+                std::cout << " ** REMOVE SUCCESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
+                    std::string succeeded_item;
+                    std::cin>>succeeded_item;
+                    rb.RemoveSuccessor(succeeded_item);
+                    std::cout<<"\nSuccessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+
+            case 'b':
+                return;
+            default:
+                std::cout << " Hai inserito un codice non valido! riprovare : ";
+
+        }
+
+    }
+}
+
+void RBTreeFloat(){
+    char scelta = '0';
+    int n;
+
+    lasd::RB<float> rb;
+    std::cout << "Quanti elementi deve contenere il R&B? : \n";
+    std::cin>>n;
+    while(rb.Size()<n)
+        rb.Insert(FloatValueGenerator());
+
+
+
+    std::cout << "\n\n ** Generazione albero casuale R&B ... ** \n\n";
+
+    while (scelta != 'b') {
+        std::cout << "\n\nCosa vuoi fare con il seguente R&B di float? : \n";
+        std::cout << "1. MapPreOrder Print. \n";
+        std::cout << "2. MapInOrder Print. \n";
+        std::cout << "3. MapPostOrder Print. \n";
+        std::cout << "4. MapBreadth Print. \n";
+        std::cout << "5. Exists. \n";
+        std::cout << "6. Fold TreeFloatSumBiggerThan. \n";
+
+        std::cout << "7. Inserimento di un dato. \n";
+        std::cout << "8. Rimozione di un dato. \n";
+
+        std::cout << "q. Lettura del Minimo \n";
+        std::cout << "w. Lettura e rimozione del Minimo \n";
+        std::cout << "e. Rimozione del Minimo \n";
+
+        std::cout << "r. Lettura del Massimo \n";
+        std::cout << "t. Lettura e rimozione del Massimo \n";
+        std::cout << "y. Rimozione del Massimo \n";
+
+        std::cout << "u. Lettura del Predecessore di un dato elemento \n";
+        std::cout << "i. Lettura e rimozione del Predecessore di un dato elemento \n";
+        std::cout << "o. Rimozione del Predecessore di un dato elemento \n";
+
+        std::cout << "p. Lettura del Successore di un dato elemento \n";
+        std::cout << "a. Lettura e rimozione del Successore di un dato elemento \n";
+        std::cout << "s. Rimozione del Successore di un dato elemento \n";
+
+        std::cout << "b. tornare indietro. \n\n\n";
+
+        std::cin >> scelta;
+
+        switch (scelta) {
+
+            case '1':
+                std::cout << " ** PREORDER PRINT ** \n\n";
+                PrintElementTreePreOrder(rb);
+                break;
+            case '2':
+                std::cout << " ** INORDER PRINT ** \n\n";
+                PrintElementTreeInOrder(rb);
+                break;
+            case '3':
+                std::cout << " ** POSTORDER PRINT ** \n\n";
+                PrintElementTreePostOrder(rb);
+                break;
+            case '4':
+                std::cout << " ** BREADTH PRINT ** \n\n";
+                PrintElementTreeBreadth(rb);
+                break;
+            case '5':
+                std::cout << " ** EXISTS ** \n\n";
+                std::cout << "Inserire il valore di cui si vuole verificare l'esistenza : ";
+                int item;
+                std::cin >> item;
+                if(rb.Exists(item))std::cout<<"\nL'elemento e' presente nell' albero";
+                else std::cout<<"\nL'elemento e' assente nell' albero";
+                break;
+            case '6':
+                std::cout << " ** FOLD MoltiplicateIntSmallerThan ** \n\n";
+                std::cout << "Inserire il valore con cui chiamare la Fold : ";
+                float elem;
+                std::cin >> elem;
+                std::cout<<"La somma degli elementi maggiori di "<<elem<<" e' :"<<FoldTreeFloatSumBiggerThan(elem, rb);
+                break;
+            case '7':
+                std::cout << " ** INSERT ** \n\n";
+                std::cout << "Quale valore si intende inserire all' interno del R&B: ";
+                float d;
+                std::cin >> d;
+                rb.Insert(d);
+                std::cout<<"\nInserimento effettuato con successo!\n\n";
+
+                break;
+            case '8':
+                std::cout << " ** REMOVE ** \n\n";
+                std::cout << "Quale valore si intende rimuovere dal R&B: ";
+                float r;
+                std::cin >> r;
+                rb.Remove(r);
+                std::cout<<"\nRimozione effettuata con successo!\n\n";
+
+                break;
+            case 'q'://lettura
+                std::cout << " ** MIN ** \n\n";
+                try {
+                    std::cout << "Il valore minimo del seguente R&B e' : " << rb.Min();
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'w'://lettura con rimozione
+                std::cout << " ** MIN&REMOVE ** \n\n";
+                try{
+                    std::cout << "Il valore minimo del seguente R&B e' : "<<rb.MinNRemove();
+                    std::cout <<"\nElemento minimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'e'://rimozione
+                std::cout << " ** REMOVE MIN ** \n\n";
+                try{
+                    rb.RemoveMin();
+                    std::cout <<"\nElemento minimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'r':
+                std::cout << " ** MAX ** \n\n";
+                try{
+                    std::cout << "Il valore massimo del seguente R&B e' : "<<rb.Max();
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 't':
+                std::cout << " ** MAX&REMOVE ** \n\n";
+                try{
+                    std::cout << "Il valore massimo del seguente R&B e' : "<<rb.MaxNRemove();
+                    std::cout <<"\nElemento massimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'y':
+                std::cout << " ** REMOVE MAX ** \n\n";
+                try{
+                    rb.RemoveMax();
+                    std::cout <<"\nElemento massimo rimosso con successo!";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'u':
+                std::cout << " ** PREDECESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole trovare il predecessore all' interno dell' albero : \n";
+                    float predeced_item;
+                    std::cin>>predeced_item;
+                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del R&B e' "<<rb.Predecessor(predeced_item);
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+            case 'i':
+                std::cout << " ** PREDECESSOR & REMOVE ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
+                    float predeced_item;
+                    std::cin>>predeced_item;
+                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del R&B e' "<<rb.PredecessorNRemove(predeced_item);
+                    std::cout<<"\nPredecessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 'o':
+                std::cout << " ** REMOVE PREDECESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
+                    float predeced_item;
+                    std::cin>>predeced_item;
+                    rb.RemovePredecessor(predeced_item);
+                    std::cout<<"\nPredecessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 'p':
+                std::cout << " ** SUCCESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole trovare il successore all' interno dell' albero : \n";
+                    float succeeded_item;
+                    std::cin>>succeeded_item;
+                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del R&B e' "<<rb.Successor(succeeded_item);
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 'a':
+                std::cout << " ** SUCCESSOR & REMOVE ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
+                    float succeeded_item;
+                    std::cin>>succeeded_item;
+                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del R&B e' "<<rb.SuccessorNRemove(succeeded_item);
+                    std::cout<<"\nSuccessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+
+                break;
+            case 's':
+                std::cout << " ** REMOVE SUCCESSOR ** \n\n";
+                try{
+                    std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
+                    float succeeded_item;
+                    std::cin>>succeeded_item;
+                    rb.RemoveSuccessor(succeeded_item);
+                    std::cout<<"\nSuccessore eliminato con successo!. \n";
+                }catch(std::length_error error){ std::clog<<error.what();}
+                break;
+
+            case 'b':
+                return;
+            default:
+                std::cout << " Hai inserito un codice non valido! riprovare : ";
+
+        }
+
+    }
+}
+
 void RBTreeInt(){
     char scelta = '0';
     int n;
 
-    lasd::BST<int> bst;
-    std::cout << "Quanti elementi deve contenere il BST? : \n";
+    lasd::RB<int> rb;
+    std::cout << "Quanti elementi deve contenere il R&B? : \n";
     std::cin>>n;
-    while(bst.Size()<n)
-        bst.Insert(IntValueGenerator());
+    while(rb.Size()<n)
+        rb.Insert(IntValueGenerator());
 
 
 
-    std::cout << "\n\n ** Generazione albero casuale BST ... ** \n\n";
+    std::cout << "\n\n ** Generazione albero casuale R&B ... ** \n\n";
 
     while (scelta != 'b') {
-        std::cout << "\n\nCosa vuoi fare con il seguente BST di interi? : \n";
+        std::cout << "\n\nCosa vuoi fare con il seguente R&B di interi? : \n";
         std::cout << "1. MapPreOrder Print. \n";
         std::cout << "2. MapInOrder Print. \n";
         std::cout << "3. MapPostOrder Print. \n";
@@ -2055,91 +2557,91 @@ void RBTreeInt(){
 
             case '1':
                 std::cout << " ** PREORDER PRINT ** \n\n";
-                PrintElementTreePreOrder(bst);
+                PrintElementTreePreOrder(rb);
                 break;
             case '2':
                 std::cout << " ** INORDER PRINT ** \n\n";
-                PrintElementTreeInOrder(bst);
+                PrintElementTreeInOrder(rb);
                 break;
             case '3':
                 std::cout << " ** POSTORDER PRINT ** \n\n";
-                PrintElementTreePostOrder(bst);
+                PrintElementTreePostOrder(rb);
                 break;
             case '4':
                 std::cout << " ** BREADTH PRINT ** \n\n";
-                PrintElementTreeBreadth(bst);
+                PrintElementTreeBreadth(rb);
                 break;
             case '5':
                 std::cout << " ** EXISTS ** \n\n";
                 std::cout << "Inserire il valore di cui si vuole verificare l'esistenza : ";
                 int item;
                 std::cin >> item;
-                if(bst.Exists(item))std::cout<<"L'elemento e' presente nell' albero";
-                else std::cout<<"L'elemento e' assente nell' albero";
+                if(rb.Exists(item))std::cout<<"\nL'elemento e' presente nell' albero";
+                else std::cout<<"\nL'elemento e' assente nell' albero";
                 break;
             case '6':
                 std::cout << " ** FOLD MoltiplicateIntSmallerThan ** \n\n";
                 std::cout << "Inserire il valore con cui chiamare la Fold : ";
                 int elem;
                 std::cin >> elem;
-                std::cout<<"La moltiplicazione degli elementi minori di "<<elem<<" e' :"<<FoldTreeIntMoltiplicateSmallerThan(elem, bst);
+                std::cout<<"La moltiplicazione degli elementi minori di "<<elem<<" e' :"<<FoldTreeIntMoltiplicateSmallerThan(elem, rb);
                 break;
             case '7':
                 std::cout << " ** INSERT ** \n\n";
-                std::cout << "Quale valore si intende inserire all' interno del BST: ";
+                std::cout << "Quale valore si intende inserire all' interno del R&B: ";
                 int d;
                 std::cin >> d;
-                bst.Insert(d);
+                rb.Insert(d);
                 std::cout<<"\nInserimento effettuato con successo!\n\n";
 
                 break;
             case '8':
                 std::cout << " ** REMOVE ** \n\n";
-                std::cout << "Quale valore si intende rimuovere dal BST: ";
+                std::cout << "Quale valore si intende rimuovere dal R&B: ";
                 int r;
                 std::cin >> r;
-                bst.Remove(r);
+                rb.Remove(r);
                 std::cout<<"\nRimozione effettuata con successo!\n\n";
 
                 break;
             case 'q'://lettura
                 std::cout << " ** MIN ** \n\n";
                 try {
-                    std::cout << "Il valore minimo del seguente BST e' : " << bst.Min();
+                    std::cout << "Il valore minimo del seguente R&B e' : " << rb.Min();
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 'w'://lettura con rimozione
                 std::cout << " ** MIN&REMOVE ** \n\n";
                 try{
-                    std::cout << "Il valore minimo del seguente BST e' : "<<bst.MinNRemove();
-                    std::cout <<"Elemento minimo rimosso con successo!";
+                    std::cout << "Il valore minimo del seguente R&B e' : "<<rb.MinNRemove();
+                    std::cout <<"\nElemento minimo rimosso con successo!";
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 'e'://rimozione
                 std::cout << " ** REMOVE MIN ** \n\n";
                 try{
-                    bst.RemoveMin();
-                    std::cout <<"Elemento minimo rimosso con successo!";
+                    rb.RemoveMin();
+                    std::cout <<"\nElemento minimo rimosso con successo!";
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 'r':
                 std::cout << " ** MAX ** \n\n";
                 try{
-                    std::cout << "Il valore massimo del seguente BST e' : "<<bst.Max();
+                    std::cout << "Il valore massimo del seguente R&B e' : "<<rb.Max();
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 't':
                 std::cout << " ** MAX&REMOVE ** \n\n";
                 try{
-                    std::cout << "Il valore massimo del seguente BST e' : "<<bst.MaxNRemove();
-                    std::cout <<"Elemento massimo rimosso con successo!";
+                    std::cout << "Il valore massimo del seguente R&B e' : "<<rb.MaxNRemove();
+                    std::cout <<"\nElemento massimo rimosso con successo!";
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 'y':
                 std::cout << " ** REMOVE MAX ** \n\n";
                 try{
-                    bst.RemoveMax();
-                    std::cout <<"Elemento massimo rimosso con successo!";
+                    rb.RemoveMax();
+                    std::cout <<"\nElemento massimo rimosso con successo!";
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 'u':
@@ -2148,7 +2650,7 @@ void RBTreeInt(){
                     std::cout<<"Inserire il valore del quale si vuole trovare il predecessore all' interno dell' albero : \n";
                     int predeced_item;
                     std::cin>>predeced_item;
-                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del BST e' "<<bst.Predecessor(predeced_item);
+                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del R&B e' "<<rb.Predecessor(predeced_item);
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
             case 'i':
@@ -2157,8 +2659,8 @@ void RBTreeInt(){
                     std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
                     int predeced_item;
                     std::cin>>predeced_item;
-                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del BST e' "<<bst.PredecessorNRemove(predeced_item);
-                    std::cout<<"Predecessore eliminato con successo!. \n";
+                    std::cout << "Il predecessore di "<<predeced_item<<" all' interno del R&B e' "<<rb.PredecessorNRemove(predeced_item);
+                    std::cout<<"\nPredecessore eliminato con successo!. \n";
                 }catch(std::length_error error){ std::clog<<error.what();}
 
                 break;
@@ -2168,8 +2670,8 @@ void RBTreeInt(){
                     std::cout<<"Inserire il valore del quale si vuole eliminare il predecessore all' interno dell' albero : \n";
                     int predeced_item;
                     std::cin>>predeced_item;
-                    bst.RemovePredecessor(predeced_item);
-                    std::cout<<"Predecessore eliminato con successo!. \n";
+                    rb.RemovePredecessor(predeced_item);
+                    std::cout<<"\nPredecessore eliminato con successo!. \n";
                 }catch(std::length_error error){ std::clog<<error.what();}
 
                 break;
@@ -2179,7 +2681,7 @@ void RBTreeInt(){
                     std::cout<<"Inserire il valore del quale si vuole trovare il successore all' interno dell' albero : \n";
                     int succeeded_item;
                     std::cin>>succeeded_item;
-                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del BST e' "<<bst.Successor(succeeded_item);
+                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del R&B e' "<<rb.Successor(succeeded_item);
                 }catch(std::length_error error){ std::clog<<error.what();}
 
                 break;
@@ -2189,8 +2691,8 @@ void RBTreeInt(){
                     std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
                     int succeeded_item;
                     std::cin>>succeeded_item;
-                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del BST e' "<<bst.SuccessorNRemove(succeeded_item);
-                    std::cout<<"Successore eliminato con successo!. \n";
+                    std::cout << "Il successore di "<<succeeded_item<<" all' interno del R&B e' "<<rb.SuccessorNRemove(succeeded_item);
+                    std::cout<<"\nSuccessore eliminato con successo!. \n";
                 }catch(std::length_error error){ std::clog<<error.what();}
 
                 break;
@@ -2200,8 +2702,8 @@ void RBTreeInt(){
                     std::cout<<"Inserire il valore del quale si vuole eliminare il successore all' interno dell' albero : \n";
                     int succeeded_item;
                     std::cin>>succeeded_item;
-                    bst.RemoveSuccessor(succeeded_item);
-                    std::cout<<"Successore eliminato con successo!. \n";
+                    rb.RemoveSuccessor(succeeded_item);
+                    std::cout<<"\nSuccessore eliminato con successo!. \n";
                 }catch(std::length_error error){ std::clog<<error.what();}
                 break;
 
@@ -2220,9 +2722,9 @@ void RBTree(){
 
     while (scelta != 'e') {
         std::cout << "Vuoi testare : \n";
-        std::cout << "1.BST di interi. \n";
-        std::cout << "2.BST di float. \n";
-        std::cout << "3.BST di string. \n";
+        std::cout << "1.R&B di interi. \n";
+        std::cout << "2.R&B di float. \n";
+        std::cout << "3.R&B di string. \n";
 
         std::cout<<"\nb. tornare indietro.\n";
         std::cout << "e. per uscire \n\n\n";
@@ -2232,16 +2734,16 @@ void RBTree(){
         switch (scelta) {
 
             case '1':
-                std::cout << " ** BST DI INTERI ** \n\n";
-                BinarySearchTreeInt();
+                std::cout << " ** R&B DI INTERI ** \n\n";
+                RBTreeInt();
                 break;
             case '2':
-                std::cout << " ** BST DI FLOAT ** \n\n";
-                //BinarySearchTreeFloat();
+                std::cout << " ** R&B DI FLOAT ** \n\n";
+                RBTreeFloat();
                 break;
             case '3':
-                std::cout << " ** BST DI STRINGHE ** \n\n";
-                //BinarySearchTreeString();
+                std::cout << " ** R&B DI STRINGHE ** \n\n";
+                RBTreeString();
                 break;
             case 'b':
                 return;
