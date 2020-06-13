@@ -204,21 +204,27 @@ void testBSToperations() {
     std::cout<<"\n\n TEST COPY CONSTRUCTOR : \n";
     lasd::BST<int> bst2(mBST);
     bst2.BeautyTree(bst2.Root(),0,"");
-    std::cout<<"\n\nSe è stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+    std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
 
     std::cout<<" TEST MOVE CONSTRUCTOR : \n";
     lasd::BST<int> bst3(std::move(mBST));
     bst3.BeautyTree(bst3.Root(),0,"");
-    std::cout<<"\n\nSe è stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+    std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
     std::cout<<"Stampa dell' albero passato per move : (DEVE ESSERE VUOTO)\n";
+
+    try{
     mBST.BeautyTree(mBST.Root(),0,"");
+    }catch(std::length_error err){ std::clog<<err.what();}
+
+
+
 
     std::cout<<" TEST COPY ASSIGNMENT : \n\n";
     lasd::BST<int> A;
     A.Insert(10);
     A.Insert(2);
     A.Insert(1);
-    std::cout<<"stampa di A : \n";
+    std::cout<<"stampa di A : \n\n";
     A.BeautyTree(A.Root(),0,"");
 
     lasd::BST<int> B;
@@ -226,19 +232,24 @@ void testBSToperations() {
     B.Insert(21);
     B.Insert(12);
     std::cout<<"stampa di B : \n";
-    B.BeautyTree(A.Root(),0,"");
+    B.BeautyTree(B.Root(),0,"");
 
     A = B;
     std::cout<<"stampa di A POST ASSEGNAMENTO : \n";
     A.BeautyTree(A.Root(),0,"");
-    std::cout<<"\n\nSe è stato stampato un albero uquale all' albero B, ha funzionato\n\n";
+    std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero B, ha funzionato\n\n";
 
     B = std::move(A);
     std::cout<<"stampa di B POST ASSEGNAMENTO DI A PASSATO PER MOVE : \n";
     B.BeautyTree(B.Root(),0,"");
-    std::cout<<"\n\nSe è stato stampato un albero uquale all' albero A, ha funzionato\n\n";
+
+
+    std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero A, ha funzionato\n\n";
     std::cout<<"stampa di A PASSATO PER MOVE : \n";
-    A.BeautyTree(A.Root(),0,"");
+    try{
+        A.BeautyTree(A.Root(),0,"");
+    }catch(std::length_error err){ std::clog<<err.what();}
+
 
     lasd::BST<int> C;
     C.Insert(27);
@@ -285,6 +296,11 @@ void testBSToperations() {
     D.Remove(38);
 
     std::cout<<"La size di D dopo due rimozioni e' : "<<D.Size()<<" e dovrebbe essere 7\n";
+
+    D.RemoveMin();
+    std::cout<<"\nLa size di D dopo rimozione del min e' : "<<D.Size()<<" e dovrebbe essere 6\n";
+
+
 }
 
 

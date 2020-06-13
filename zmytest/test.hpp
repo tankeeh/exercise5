@@ -7,8 +7,13 @@
 void mytest();
 
 void testBST();
+void testBSToperations();
+
 void testAVL();
+void testAVLoperations();
+
 void testRB();
+void testRBoperations();
 
 // ...
 

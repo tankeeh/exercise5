@@ -305,12 +305,12 @@ namespace lasd {
     //FUNZIONE DI INSERT PER COPY
     template<typename Data>
     void BST<Data>::Insert(const Data& newitem) {
-        BSTNode* tempnode = &this->Root();
         if(this->Empty()) {
             this->Node = new BSTNode(newitem);
             this->size++;
         }
         else {
+            BSTNode* tempnode = &this->Root();
             while (tempnode->Element() != newitem) {
                 if (newitem < tempnode->Element()) {
                     if (tempnode->HasLeftChild())
@@ -338,12 +338,12 @@ namespace lasd {
     //FUNZIONE DI INSERT PER MOVE
     template<typename Data>
     void BST<Data>::Insert(Data&& newitem) {
-        BSTNode* tempnode = &this->Root();
         if(this->Empty()){
             this->Node = new BSTNode(std::move(newitem));
             this->size++;
         }
         else {
+            BSTNode* tempnode = &this->Root();
             while (tempnode->Element() != newitem) {
                 if (newitem < tempnode->Element()) {
                     if (tempnode->HasLeftChild())
@@ -461,7 +461,6 @@ namespace lasd {
             node->Element() = cercamin->Element();
             SkipOnRight(node,cercamin);
         }
-        this->size--;
     }
 
 
@@ -649,7 +648,7 @@ namespace lasd {
                 delete todeleteMin->Left();
                 todeleteMin->sx = nullptr;
             }
-
+            this->size--;
             return min;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
@@ -666,6 +665,7 @@ namespace lasd {
                 delete todeleteMin->Left();
                 todeleteMin->sx = nullptr;
             }
+            this->size--;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
