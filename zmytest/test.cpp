@@ -580,7 +580,7 @@ void testRB() {
     myRB.Remove(65);*/
 
     myRB.Remove(10);
-    myRB.Remove(11);
+    //myRB.Remove(11);
 
     myRB.RBCoolTree(myRB.Root(),0,"");
     std::cout<<"\n size : "<<myRB.Size();

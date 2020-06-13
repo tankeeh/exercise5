@@ -11,9 +11,9 @@ int main(){
 
     //testBST();
     //testAVL();
-    //testRB();
+    testRB();
 
-    testBSToperations();
+    //testBSToperations();
     //testAVLoperations();
     //testRBoperations();
 

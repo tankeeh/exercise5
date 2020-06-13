@@ -406,7 +406,7 @@ namespace lasd {
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::RemoveNode(RB::RBNode *node) {
         RBNode* temp;
-        if((!node->HasLeftChild()) || (!node->HasRightChild())){
+        if( node->Left() == nullptr || node->Right() == nullptr){
             temp = node;
 
             if(!node->HasLeftChild())
@@ -467,7 +467,7 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance(RBNode *node) {
-        if(!(node->IsLeaf())){
+        if(!(node->IsLeaf())){ // if node->HasRightChild()
             int vcase = Remove_Vcase_sx(node->Left(),node->Right());
 
             if (vcase == 1) {
@@ -522,16 +522,16 @@ namespace lasd {
     template<typename Data>
     int RB<Data>::Remove_Vcase_sx(RBNode *sx,RBNode *dx) {
         int v = 0;
-        if(sx != nullptr || sx->color == DeepBlack ) {
+        if(sx != nullptr && sx->color == DeepBlack ) { //&& al posto di || ??
             if(dx != nullptr) {
                 if (dx->color == Red)
                     v = 1;
-                else if ((dx->Right() != nullptr ? dx->Right()->color == Black : 0)  &&
-                         (dx->Left() != nullptr ? dx->Left()->color == Black : 0))
+                else if ((dx->Right() == nullptr || dx->Right()->color == Black)  &&
+                         (dx->Left() == nullptr || dx->Left()->color == Black ))
                     v = 2;
-                else if (dx->Right() != nullptr ? dx->Right()->color == Black : 0)
+                else if (dx->Right() == nullptr || dx->Right()->color == Black )
                     v = 3;
-                else if( dx->Right() != nullptr ? dx->Right()->color == Red : 0)
+                else
                     v = 4;
             }
         }
@@ -539,17 +539,17 @@ namespace lasd {
     }
 
     template<typename Data>
-    int RB<Data>::Remove_Vcase_dx(RBNode *dx,RBNode *sx) {
+    int RB<Data>::Remove_Vcase_dx(RBNode *sx,RBNode *dx) {
         int v = 0;
-        if(dx != nullptr || dx->color == DeepBlack ) {
+        if(dx != nullptr && dx->color == DeepBlack ) {
             if(sx != nullptr){
                 if ( sx != nullptr ? sx->color == Red : 0)
                     v = 1;
-                else if ((sx->Right() != nullptr ? sx->Right()->color == Black : 0) && (sx->Left() != nullptr ? sx->Left()->color == Black : 0))
+                else if ((sx->Left() == nullptr || sx->Left()->color == Black ) && (sx->Right() == nullptr || sx->Right()->color == Black ))
                     v = 2;
-                else if(sx->Left() != nullptr ? sx->Left()->color == Black : 0)
+                else if(sx->Left() == nullptr || sx->Left()->color == Black )
                     v = 3;
-                else if(sx->Left() != nullptr ? sx->Left()->color == Red : 0)
+                else
                     v = 4;
             }
         }
