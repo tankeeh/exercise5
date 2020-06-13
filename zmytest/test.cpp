@@ -241,19 +241,50 @@ void testBSToperations() {
     A.BeautyTree(A.Root(),0,"");
 
     lasd::BST<int> C;
-    B.Insert(27);
-    B.Insert(38);
-    B.Insert(92);
-    B.Insert(25);
-    B.Insert(3);
-    B.Insert(71);
-    B.Insert(40);
-    B.Insert(99);
-    B.Insert(135);
+    C.Insert(27);
+    C.Insert(38);
+    C.Insert(92);
+    C.Insert(25);
+    C.Insert(3);
+    C.Insert(71);
+    C.Insert(40);
+    C.Insert(99);
+    C.Insert(135);
 
+    lasd::BST<int> D;
+    D.Insert(47);
+    D.Insert(38);
+    D.Insert(92);
+    D.Insert(75);
+    D.Insert(3);
+    D.Insert(71);
+    D.Insert(40);
+    D.Insert(99);
+    D.Insert(135);
 
+    if(C == D)std::cout<<"\nLe strutture sono uguali!\n";
+    else std::cout<<"\nLe strutture sono diverse! (ed e' giusto in tal caso)\n";
 
+    lasd::BST<int> E;
+    E.Insert(47);
+    E.Insert(38);
+    E.Insert(92);
+    E.Insert(75);
+    E.Insert(3);
+    E.Insert(71);
+    E.Insert(40);
+    E.Insert(99);
+    E.Insert(135);
 
+    if(E == D)std::cout<<"\nLe strutture sono uguali! (ed e' giusto in tal caso)\n";
+    else std::cout<<"\nLe strutture sono diverse! \n";
+
+    std::cout<<"La size di D e' : "<<D.Size()<<" e dovrebbe essere 9\n";
+
+    D.Remove(47);
+    D.Remove(38);
+
+    std::cout<<"La size di D dopo due rimozioni e' : "<<D.Size()<<" e dovrebbe essere 7\n";
 }
 
 
@@ -466,6 +497,7 @@ void testAVLoperations(){
 
 
 void testRB() {
+
     lasd::RB<int> myRB;
     myRB.Insert(33);
     myRB.Insert(22);
@@ -487,6 +519,7 @@ void testRB() {
     myRB.Insert(39);
     myRB.Insert(50);
     myRB.Insert(88);
+    std::cout<<"\n\n";
     myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
 
 
