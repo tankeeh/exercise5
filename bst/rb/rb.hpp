@@ -50,10 +50,14 @@ protected:
     Colori color = Red;
 
 public:
+
+    const RBNode& LeftChild() const noexcept override; // Override Node member
+    const RBNode& RightChild() const noexcept override;
+
     friend class RB<Data>;
     using BinaryTreeLnk<Data>::NodeLnk::Element;
-    //using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
-    //using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
+    using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
+    using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
     Colori getColor(){return this->color;};
 
 
@@ -123,7 +127,7 @@ public:
 
   /* ************************************************************************ */
 
-  void RBCoolTree(typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
+  //void RBCoolTree(typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
 
 
 protected:

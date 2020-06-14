@@ -67,6 +67,15 @@ namespace lasd {
             return nullptr;
     }
 
+    template<typename Data>
+    const typename RB<Data>::RBNode& RB<Data>::RBNode::LeftChild() const noexcept {
+        return static_cast<const RBNode&>(BinaryTreeLnk<Data>::NodeLnk::LeftChild());
+    }
+
+    template<typename Data>
+    const typename RB<Data>::RBNode& RB<Data>::RBNode::RightChild() const noexcept {
+        return static_cast<const RBNode&>(BinaryTreeLnk<Data>::NodeLnk::RightChild());
+    }
 
 
     //COPY CONSTRUCTOR RB
@@ -640,7 +649,7 @@ namespace lasd {
 
 
 
-
+/*
 
     template<typename Data>
     void RB<Data>::RBCoolTree(typename lasd::RB<Data>::RBNode &node, int depth, const std::string &prefix) {
@@ -650,6 +659,7 @@ namespace lasd {
         if(node.HasRightChild()) RBCoolTree(*node.Right(), depth+1, prefix + "D");
     }
 
+ */
 
 
 

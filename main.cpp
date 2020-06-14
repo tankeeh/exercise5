@@ -11,11 +11,11 @@ int main(){
 
     //testBST();
     //testAVL();
-    testRB();
+    //testRB();
 
     //testBSToperations();
     //testAVLoperations();
-    //testRBoperations();
+    testRBoperations();
 
 
 /**MENU' FINALE**/

@@ -1,7 +1,13 @@
 //
 // Created by Antonio on 30/04/2020.
 //
-
+template<typename Data>
+void RBCoolTree(const typename lasd::RB<Data>::RBNode& node, int depth, const std::string &prefix) {
+    std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "Tree Root") << ": [" << node.Element() << "]"<<" -- ";
+    if(node.getColor() == lasd::Colori::Red) std::cout<<"Red \n"; else std::cout<<"Black \n";
+    if(node.HasLeftChild()) RBCoolTree<Data>(node.LeftChild(), depth+1, prefix + "S");
+    if(node.HasRightChild()) RBCoolTree<Data>(node.RightChild(), depth+1, prefix + "D");
+}
 
 template <typename Data>
 void PrintElementTreePreOrder(lasd::BinaryTree<Data>& tree){

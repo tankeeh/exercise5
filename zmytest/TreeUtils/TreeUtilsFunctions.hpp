@@ -11,7 +11,8 @@
 
 //#include "../binarytree/binarytree.hpp"
 
-
+template <typename Data>
+void RBCoolTree(const typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
 
 template <typename Data>
 void PrintElementTreePreOrder(lasd::BinaryTree<Data>& tree);

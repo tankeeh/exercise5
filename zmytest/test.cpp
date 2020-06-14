@@ -650,7 +650,7 @@ void testRB() {
     myRB.Insert(50);
     myRB.Insert(88);
     std::cout<<"\n\n";
-    myRB.RBCoolTree(myRB.Root(),0,""); std::cout<<"\n\n";
+    RBCoolTree<int>(myRB.Root(),0,""); std::cout<<"\n\n";
 
 
 
@@ -702,7 +702,7 @@ void testRB() {
     myRB.Remove(31);
     myRB.Remove(22);
 
-    myRB.RBCoolTree(myRB.Root(),0,"");
+    RBCoolTree<int>(myRB.Root(),0,"");
     std::cout<<"\n size : "<<myRB.Size();
 
 /*
@@ -886,22 +886,24 @@ void testRBoperations() {
     rb.Insert(13);
 
     std::cout<<"stampa albero iniziale : \n";
-    rb.RBCoolTree(rb.Root(),0,"");
+    RBCoolTree<int>(rb.Root(),0,"");
 
     std::cout<<"\n\n TEST COPY CONSTRUCTOR : \n";
     lasd::RB<int> rb2(rb);
-    rb2.RBCoolTree(rb2.Root(),0,"");
+    RBCoolTree<int>(rb2.Root(),0,"");
     std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
 
     std::cout<<" TEST MOVE CONSTRUCTOR : \n";
     lasd::RB<int> rb3(std::move(rb));
-    rb3.RBCoolTree(rb3.Root(),0,"");
+    RBCoolTree<int>(rb3.Root(),0,"");
     std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
     std::cout<<"Stampa dell' albero passato per move : (DEVE ESSERE VUOTO)\n";
 
     try{
-        rb.RBCoolTree(rb.Root(),0,"");
+        RBCoolTree<int>(rb.Root(),0,"");
     }catch(std::length_error err){ std::clog<<err.what();}
+
+    RBCoolTree<int>(rb.Root(),0,"");
 
 
 
@@ -911,30 +913,30 @@ void testRBoperations() {
     A.Insert(10);
     A.Insert(2);
     A.Insert(1);
-    std::cout<<"stampa di A : \n\n";
-    A.RBCoolTree(A.Root(),0,"");
+    std::cout<<"stampa di A : \n";
+    RBCoolTree<int>(A.Root(),0,"");
 
     lasd::RB<int> B;
     B.Insert(18);
     B.Insert(21);
     B.Insert(12);
-    std::cout<<"stampa di B : \n";
-    B.RBCoolTree(B.Root(),0,"");
+    std::cout<<"\n\nstampa di B : \n";
+    RBCoolTree<int>(B.Root(),0,"");
 
     A = B;
     std::cout<<"stampa di A POST ASSEGNAMENTO : \n";
-    A.RBCoolTree(A.Root(),0,"");
+    RBCoolTree<int>(A.Root(),0,"");
     std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero B, ha funzionato\n\n";
 
     B = std::move(A);
     std::cout<<"stampa di B POST ASSEGNAMENTO DI A PASSATO PER MOVE : \n";
-    B.RBCoolTree(B.Root(),0,"");
+    RBCoolTree<int>(B.Root(),0,"");
 
 
     std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero A, ha funzionato\n\n";
     std::cout<<"stampa di A PASSATO PER MOVE : \n";
     try{
-        A.RBCoolTree(A.Root(),0,"");
+        RBCoolTree<int>(A.Root(),0,"");
     }catch(std::length_error err){ std::clog<<err.what();}
 
 
