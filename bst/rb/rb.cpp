@@ -542,7 +542,7 @@ namespace lasd {
         node->dx = SxRotate(node->Right());
         node->Right()->color = Black;
         if(node->Right()->HasRightChild())node->Right()->Right()->color = Red;
-        node = Remove_SxBalance_Case4(node);
+        node =  Remove_SxBalance_Case4(node);
         return node;
     }
 
