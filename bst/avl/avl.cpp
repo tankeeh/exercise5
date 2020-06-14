@@ -103,8 +103,10 @@ namespace lasd {
     //COPY CONSTRUCTOR AVL
     template<typename Data>
     AVL<Data>::AVL(const AVL& tree){
-        this->Node = new AVLNode(*tree.Node);
+        const AVLNode* root = new AVLNode(const_cast<AVL&>(tree).Root());
+        this->Node = const_cast<AVLNode*>(root);
         this->size = tree.size;
+
     }
 
     //MOVE CONSTRUCTOR AVL
@@ -293,13 +295,17 @@ namespace lasd {
     template<typename Data>
     typename AVL<Data>::AVLNode *AVL<Data>::RemoveNode(AVLNode* node) {
         if(node != nullptr){
-            AVLNode* temp;
+            AVLNode* temp = nullptr;
             if(node->Left() == nullptr || node->Right() == nullptr){
                 temp = node;
-                if(node->Left() == nullptr)
+                if(node->Left() == nullptr) {
                     node = node->Right();
-                else
+                    temp->dx = nullptr;
+                }
+                else {
                     node = node->Left();
+                    temp->sx = nullptr;
+                }
             }
             else{
                 temp = StaccaMin(node->Right(),node);
@@ -307,6 +313,7 @@ namespace lasd {
                 node = SxBalance(node);
             }
             this->size--;
+            //delete temp;
         }
         return node;
 

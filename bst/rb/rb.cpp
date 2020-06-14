@@ -67,6 +67,7 @@ namespace lasd {
             return nullptr;
     }
 
+    /*
     template<typename Data>
     const typename RB<Data>::RBNode& RB<Data>::RBNode::LeftChild() const noexcept {
         return static_cast<const RBNode&>(BinaryTreeLnk<Data>::NodeLnk::LeftChild());
@@ -76,7 +77,7 @@ namespace lasd {
     const typename RB<Data>::RBNode& RB<Data>::RBNode::RightChild() const noexcept {
         return static_cast<const RBNode&>(BinaryTreeLnk<Data>::NodeLnk::RightChild());
     }
-
+    */
 
     //COPY CONSTRUCTOR RB
     template<typename Data>
@@ -115,6 +116,7 @@ namespace lasd {
         static_cast<RBNode*>(this->Node)->color = Black;
         this->size++;
     }
+
 
     template<typename Data>
     void RB<Data>::NewRoot(Data&& key) noexcept {
@@ -354,6 +356,7 @@ namespace lasd {
 
     template<typename Data>
     void RB<Data>::Remove(const Data &key) noexcept {
+        if(!this->Empty())
         this->Node = Remove(&this->Root(),key);
     }
 
@@ -437,14 +440,16 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::RemoveNode(RB::RBNode *node) {
-        RBNode* temp;
+        RBNode* temp = nullptr;
         if( node->Left() == nullptr || node->Right() == nullptr){
             temp = node;
 
-            if(!node->HasLeftChild())
+            if(!node->HasLeftChild()) {
                 node = node->Right();
-            else if(!node->HasRightChild())
+            }
+            else if(!node->HasRightChild()) {
                 node = node->Left();
+            }
 
 
             if(temp->color == Black && node != nullptr)
@@ -536,7 +541,7 @@ namespace lasd {
     typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case3(RBNode *node) {
         node->dx = SxRotate(node->Right());
         node->Right()->color = Black;
-        node->Right()->Right()->color = Red;
+        if(node->Right()->HasRightChild())node->Right()->Right()->color = Red;
         node = Remove_SxBalance_Case4(node);
         return node;
     }
@@ -555,7 +560,6 @@ namespace lasd {
     int RB<Data>::Remove_Vcase_sx(RBNode *sx,RBNode *dx) {
         int v = 0;
         if((sx!= nullptr ? sx->getColor() : DeepBlack) == DeepBlack){
-        //if(sx != nullptr && sx->color == DeepBlack ) { //&& al posto di || ??
             if(dx != nullptr) {
                 if (dx->color == Red)
                     v = 1;
@@ -628,7 +632,7 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case3(RBNode *node) {
-        node->Left()->Right() != nullptr ? node->sx = DxRotate(node->Left()): 0;
+        node->sx = DxRotate(node->Left());
         node->Left()->color = Black;
         node->Left()->Left()->color = Red;
         node = Remove_DxBalance_Case4(node);
@@ -649,17 +653,7 @@ namespace lasd {
 
 
 
-/*
 
-    template<typename Data>
-    void RB<Data>::RBCoolTree(typename lasd::RB<Data>::RBNode &node, int depth, const std::string &prefix) {
-        std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "Tree Root") << ": [" << node.Element() << "]"<<" -- ";
-        if(node.getColor() == lasd::Colori::Red) std::cout<<"Red \n"; else std::cout<<"Black \n";
-        if(node.HasLeftChild()) RBCoolTree(*node.Left(), depth+1, prefix + "S");
-        if(node.HasRightChild()) RBCoolTree(*node.Right(), depth+1, prefix + "D");
-    }
-
- */
 
 
 

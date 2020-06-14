@@ -114,7 +114,7 @@ void BinaryTree<Data>:: MapBreadth(MapFunctor functor, void *par,Node* node){
 
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(MapFunctor functor, void *par,Node* temp){
-    functor(temp->Element(), par);
+        functor(temp->Element(), par);
         if(temp->HasLeftChild()) MapPreOrder(functor, par, &temp->LeftChild());
         if(temp->HasRightChild())MapPreOrder(functor, par, &temp->RightChild());
 }

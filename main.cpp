@@ -11,16 +11,16 @@ int main(){
 
     //testBST();
     //testAVL();
-    //testRB();
+    testRB();
 
     //testBSToperations();
     //testAVLoperations();
-    testRBoperations();
+    //testRBoperations();
 
 
 /**MENU' FINALE**/
-/*
 
+/*
     char scelta = '0';
 
     while (scelta != 'e') {
@@ -49,9 +49,9 @@ int main(){
                 std::cout << " Hai inserito un codice non valido! riprovare : ";
         }
     }
-
-  return 0;
 */
+  return 0;
+
 
 }
 

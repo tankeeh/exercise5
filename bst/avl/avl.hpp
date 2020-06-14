@@ -22,13 +22,13 @@ private:
 
 protected:
 
-  // using BST<Data>::???;
+  // using BST<Data>>>::???;
 
   // ...
 
 public:
 
-struct AVLNode : public BST<Data>::BSTNode { // make public for test with beauty tree but has to be protected
+struct AVLNode : protected BST<Data>::BSTNode { // make public for test with beauty tree but has to be protected
 
 protected:
 
@@ -53,7 +53,7 @@ protected:
     // ...
 public:
 
-
+    int getHeight(){return this->height;};
     friend AVL<Data>;
   };
 

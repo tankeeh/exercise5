@@ -50,7 +50,7 @@ namespace lasd {
         const BSTNode* temp = this;
         while(temp != nullptr && temp->Element() != key){
             if(key < temp->Element()) temp = temp->Left();
-            if(key > temp->Element()) temp = temp->Right();
+            else if(key > temp->Element()) temp = temp->Right();
         }
         return temp;
     }
@@ -89,7 +89,7 @@ namespace lasd {
     template<typename Data>
     typename BST<Data>::BSTNode const* BST<Data>::BSTNode::MinParent() const {
         const BSTNode *tempnode = this;
-        const BSTNode* father;
+        const BSTNode* father = tempnode;
         while (tempnode->HasLeftChild()) {
             father = tempnode;
             tempnode = tempnode->Left();
@@ -154,9 +154,15 @@ namespace lasd {
             }
         }
 
-        if(currnode->HasLeftChild()){
+        if(currnode->Element() < key){
+            if(temp != nullptr)
+                return const_cast<BSTNode*>(temp);
+            else
+                return nullptr;
+        }
+        else if(currnode->HasLeftChild()){
             if( !currnode->Left()->HasRightChild())
-                return const_cast<BSTNode*>(currnode);
+                return const_cast<BSTNode*>(currnode); //forse dovrebbe tornare temp, non currnode(?)
             else {
                 const BSTNode *temp2 = currnode->Left()->MaxParent();
                 return const_cast<BSTNode*>(temp2);
@@ -200,6 +206,12 @@ namespace lasd {
             }
         }
 
+        if(currnode->Element() > key){
+            if(temp != nullptr)
+                return const_cast<BSTNode*>(temp);
+            else
+                return nullptr;
+        }
         if(currnode->HasRightChild()){
             if( !currnode->Right()->HasLeftChild())
                 return const_cast<BSTNode*>(currnode);
@@ -410,15 +422,29 @@ namespace lasd {
                 delete currnode;
             }
         } else if (currnode->HasLeftChild() && !currnode->HasRightChild()) {
-            if (currnode->Left()->IsLeaf()) {
+            if(father == nullptr){
+                BSTNode* temp = currnode;
+                this->Node = currnode->Left();
+                temp->sx = nullptr;
+                delete temp;
+            }
+            else if (currnode->Left()->IsLeaf()) {
                 std::swap(currnode->Element(), currnode->Left()->Element());
                 delete currnode->Left();
+                currnode->sx = nullptr;
             } else SkipOnLeft(father, currnode);
 
         } else if (!currnode->HasLeftChild() && currnode->HasRightChild()) {
-            if (currnode->Right()->IsLeaf()) {
+            if(father == nullptr){
+                BSTNode* temp = currnode;
+                this->Node = currnode->Right();
+                temp->dx = nullptr;
+                delete temp;
+            }
+            else if (currnode->Right()->IsLeaf()) {
                 std::swap(currnode->Element(), currnode->Right()->Element());
                 delete currnode->Right();
+                currnode->dx = nullptr;
             } else SkipOnRight(father, currnode);
         } else { //ha entrambe i sottoalberi e bisogna discriminare i vari casi...
             if (currnode->Left()->IsLeaf()) {
@@ -440,7 +466,7 @@ namespace lasd {
     }
 
 
-    //FUNZIONE DI RIMOZIONE DEL MINIMO
+    //FUNZIONE DI RIMOZIONE DEL MINIMO (CUSTOM)
     template<typename Data>
     void BST<Data>::RemoveMin(BSTNode* node,BSTNode *startnode) {
         BSTNode* cercamin = startnode;
@@ -453,7 +479,7 @@ namespace lasd {
             node->Element() = cercamin->Element();
             if(cercamin->HasRightChild())SkipOnRight(father,cercamin);
             else{
-                delete cercamin;  //prova a toglierlo e testa con valgrind
+                delete cercamin;
                 father->sx = nullptr;
             }
         }
@@ -519,7 +545,7 @@ namespace lasd {
           delete son;
         }
         else{
-            std::swap(father->dx,son->dx);
+            std::swap(father->dx,son->sx);
             son->sx = nullptr;
             delete son;
         }
@@ -642,30 +668,20 @@ namespace lasd {
             BSTNode *todeleteMin;
             Data min = 0;
             todeleteMin = this->Root().MinParent();
-            min = todeleteMin->Left()->Element();
-            if(!(todeleteMin->Left()->IsLeaf()))SkipOnRight(todeleteMin, todeleteMin->Left());
-            else{
-                delete todeleteMin->Left();
-                todeleteMin->sx = nullptr;
-            }
-            this->size--;
-            return min;
-        }
-        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
-    }
+                if (todeleteMin->HasLeftChild()) {
+                    min = todeleteMin->Left()->Element();
+                    if(!(todeleteMin->Left()->IsLeaf()))SkipOnRight(todeleteMin, todeleteMin->Left());
+                    else{
+                        delete todeleteMin->Left();
+                        todeleteMin->sx = nullptr;
+                    }
+                    this->size--;
+                }else{
+                    min = todeleteMin->Element();
+                    Remove(this->Root().Element());
+                }
 
-    //RIMOZIONE DEL MINIMO
-    template<typename Data>
-    void BST<Data>::RemoveMin() {
-        if(!(this->Empty())) {
-            BSTNode *todeleteMin;
-            todeleteMin = this->Root().MinParent();
-            if(!(todeleteMin->Left()->IsLeaf()))SkipOnRight(todeleteMin, todeleteMin->Left());
-            else{
-                delete todeleteMin->Left();
-                todeleteMin->sx = nullptr;
-            }
-            this->size--;
+            return min;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
@@ -677,18 +693,46 @@ namespace lasd {
             BSTNode *todeleteMin;
             Data max = 0;
             todeleteMin = this->Root().MaxParent();
-            max = todeleteMin->Right()->Element();
-            if(!(todeleteMin->Right()->IsLeaf()))SkipOnLeft(todeleteMin, todeleteMin->Right());
-            else{
-                delete todeleteMin->Right();
-                todeleteMin->dx = nullptr;
+            if (todeleteMin->HasRightChild()) {
+                max = todeleteMin->Right()->Element();
+                if (!(todeleteMin->Right()->IsLeaf()))SkipOnLeft(todeleteMin, todeleteMin->Right());
+                else {
+                    delete todeleteMin->Right();
+                    todeleteMin->dx = nullptr;
+                }
+                this->size--;
+            }else{
+                max = todeleteMin->Element();
+                Remove(this->Root().Element());
             }
 
-            this->size--;
             return max;
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
+
+    //RIMOZIONE DEL MINIMO
+    template<typename Data>
+    void BST<Data>::RemoveMin() {
+        if(!(this->Empty())) {
+            BSTNode *todeleteMin;
+            todeleteMin = this->Root().MinParent();
+            if (todeleteMin->HasLeftChild()) {
+                if (!(todeleteMin->Left()->IsLeaf()))SkipOnRight(todeleteMin, todeleteMin->Left());
+                else {
+                    delete todeleteMin->Left();
+                    todeleteMin->sx = nullptr;
+                }
+                this->size--;
+            }else{
+                Remove(this->Root().Element());
+            }
+
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
+    }
+
+
 
     //FUNZIONE DI RIMOZIONE DI UN MAX
     template<typename Data>
@@ -696,36 +740,22 @@ namespace lasd {
         if(!(this->Empty())) {
             BSTNode *todeleteMin;
             todeleteMin = this->Root().MaxParent();
-            if(!(todeleteMin->Right()->IsLeaf()))SkipOnLeft(todeleteMin, todeleteMin->Right());
-            else{
-                delete todeleteMin->Right();
-                todeleteMin->dx = nullptr;
+            if (todeleteMin->HasRightChild()) {
+                if (!(todeleteMin->Right()->IsLeaf()))SkipOnLeft(todeleteMin, todeleteMin->Right());
+                else {
+                    delete todeleteMin->Right();
+                    todeleteMin->dx = nullptr;
+                }
+                this->size--;
             }
-            this->size--;
+            else{
+                Remove(this->Root().Element());
+            }
         }
         else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
-    //RIMOZIONE DEL PREDECESSORE DI UN NODO
-    template<typename Data>
-    void BST<Data>::RemovePredecessor(const Data &key) {
-        if(!(this->Empty())) {
-            BSTNode *toDeleteNodeFather = this->Root().PredecessorParent(key);
-            if (toDeleteNodeFather != nullptr) {
-                if (key > toDeleteNodeFather->Element()) {
-                    Remove(toDeleteNodeFather->Right(), toDeleteNodeFather);
-                } else {
-                    Remove(toDeleteNodeFather->Left(), toDeleteNodeFather);
-                }
 
-            } else if (toDeleteNodeFather == nullptr && this->Root().Element() < key) {
-                Remove(&this->Root(), nullptr);
-            } else
-                throw std::length_error("Probabilmente il nodo di cui vuoi il predecessore e' piu' piccolo del minimo dell' albero");
-
-        }else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un predecessore per la chiave richiesta.");
-
-    }
 
     //RESTITUISCE E RIMUOVE IL SUCCESSORE DI UN NODO
     template<typename Data>
@@ -758,7 +788,7 @@ namespace lasd {
         if(!(this->Empty())) {
             BSTNode *toDeleteNodeFather = this->Root().SuccessorParent(key);
             if (toDeleteNodeFather != nullptr) {
-                if (key > toDeleteNodeFather->Element()) {
+                if (key >= toDeleteNodeFather->Element()) {
                     Remove(toDeleteNodeFather->Right(), toDeleteNodeFather);
                 } else {
                     Remove(toDeleteNodeFather->Left(), toDeleteNodeFather);
@@ -773,13 +803,34 @@ namespace lasd {
 
     }
 
+    //RIMOZIONE DEL PREDECESSORE DI UN NODO
+    template<typename Data>
+    void BST<Data>::RemovePredecessor(const Data &key) {
+        if(!(this->Empty())) {
+            BSTNode *toDeleteNodeFather = this->Root().PredecessorParent(key);
+            if (toDeleteNodeFather != nullptr) {
+                if (key > toDeleteNodeFather->Element()) {
+                    Remove(toDeleteNodeFather->Right(), toDeleteNodeFather);
+                } else {
+                    Remove(toDeleteNodeFather->Left(), toDeleteNodeFather);
+                }
+
+            } else if (toDeleteNodeFather == nullptr && this->Root().Element() < key) {
+                Remove(&this->Root(), nullptr);
+            } else
+                throw std::length_error("Probabilmente il nodo di cui vuoi il predecessore e' piu' piccolo del minimo dell' albero");
+
+        }else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un predecessore per la chiave richiesta.");
+
+    }
+    /*
     template<typename Data>
     void BST<Data>::BeautyTree(typename lasd::BST<Data>::BSTNode &node, int depth, const std::string &prefix) {
         std::cout << std::string(depth*2, ' ') << ((depth > 0)? prefix : "Tree Root") << ": [" << node.Element() << "]\n";
         if(node.HasLeftChild()) BeautyTree(*node.Left(), depth+1, prefix + "S");
         if(node.HasRightChild()) BeautyTree(*node.Right(), depth+1, prefix + "D");
     }
-
+*/
 
 
 

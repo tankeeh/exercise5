@@ -14,7 +14,7 @@ namespace lasd {
     enum Colori{Red,Black,DeepBlack};
 
 template <typename Data>
-class RB : public BST<Data>{ // Should extend BST<Data>
+class RB : public BST<Data>{
 
 private:
 
@@ -28,7 +28,7 @@ protected:
 
 public:
 
-struct RBNode : protected BST<Data>::BSTNode{ // Should extend BSTNode
+struct RBNode : protected BST<Data>::BSTNode{
 
 protected:
 
@@ -43,22 +43,18 @@ protected:
 
     RBNode(Data&& item);
 
-    //RBNode& operator=(RBNode&&);
-
     RBNode(RBNode& node); //REC CONSTRUCTOR
 
     Colori color = Red;
 
 public:
 
-    const RBNode& LeftChild() const noexcept override; // Override Node member
-    const RBNode& RightChild() const noexcept override;
 
     friend class RB<Data>;
-    using BinaryTreeLnk<Data>::NodeLnk::Element;
-    using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
-    using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
-    Colori getColor(){return this->color;};
+    //using BinaryTreeLnk<Data>::NodeLnk::Element;
+    //using BinaryTreeLnk<Data>::NodeLnk::HasLeftChild;
+    //using BinaryTreeLnk<Data>::NodeLnk::HasRightChild;
+    Colori getColor() const{return this->color;};
 
 
 
@@ -127,7 +123,6 @@ public:
 
   /* ************************************************************************ */
 
-  //void RBCoolTree(typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
 
 
 protected:

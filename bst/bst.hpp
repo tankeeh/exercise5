@@ -132,18 +132,15 @@ private:
   bool Exists(const Data&) const noexcept override ; // Override TestableContainer member
 
 
-    void BeautyTree(typename lasd::BST<Data>::BSTNode& node, int depth, const std::string& prefix); //sposta in un altro file possibilmente
     BSTNode& Root() override ; //make prot
 
 protected:
 
   void Remove(BSTNode* node,BSTNode* father) noexcept ;
-  void RemoveMin(BSTNode* node,BSTNode*);
-  // type RemoveMax(argument) specifiers;
+  void RemoveMin(BSTNode* node,BSTNode*); //questa funzione in realta' funge da "STACCAMIN"
+  // type RemoveMax(argument) specifiers; //non implementata poichè non sarebbe stata utilizzata nelle mie implementazioni
   void SkipOnLeft(BSTNode* father,BSTNode* son);
   void SkipOnRight(BSTNode* father,BSTNode* son);
-
-  using BinaryTreeLnk<Data>::Node;
 
 
 protected:
