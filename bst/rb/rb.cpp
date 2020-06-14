@@ -5,6 +5,7 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+
     //COPY CONSTRUCTOR DEL NODO
     template<typename Data>
     RB<Data>::RBNode::RBNode(const Data& item){
@@ -67,10 +68,12 @@ namespace lasd {
     }
 
 
+
     //COPY CONSTRUCTOR RB
     template<typename Data>
     RB<Data>::RB(const RB& tree){
-        this->Node = new RBNode(*tree.Node);
+        const RBNode* root = new RBNode(const_cast<RB&>(tree).Root());
+        this->Node = const_cast<RBNode*>(root);
         this->size = tree.size;
     }
 
@@ -196,11 +199,11 @@ namespace lasd {
     template <typename Data>
     typename RB<Data>::RBNode* RB<Data>::Insert(Data&& key,RBNode* node){
         if(node != nullptr){
-            if(key >= node->Element()){
+            if(key > node->Element()){
                 node->dx = Insert(std::move(key),node->Right());
                 node = DxBalance(node);
             }
-            else{
+            else if(key < node->Element()){
                 node->sx = Insert(std::move(key),node->Left());
                 node = SxBalance(node);
             }
@@ -347,42 +350,62 @@ namespace lasd {
 
     template<typename Data>
     Data RB<Data>::MinNRemove() {
-        return 0;
+        if(!(this->Empty())) {
+            Data min = this->Min();
+            this->Remove(min);
+            return min;
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
 
     template<typename Data>
     void RB<Data>::RemoveMin() {
-        //
+        if(!(this->Empty())) {
+            Remove(this->Min());
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un minimo.");
     }
 
     template<typename Data>
     Data RB<Data>::MaxNRemove() {
-        return 0;
+        if(!(this->Empty())) {
+            Data max = this->Max();
+            this->Remove(max);
+            return max;
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
     template<typename Data>
     void RB<Data>::RemoveMax() {
-        //
+        if(!(this->Empty())) {
+            Remove(this->Max());
+        }
+        else throw std::length_error("L'albero e' vuoto, pertanto non e' presente un massimo.");
     }
 
     template<typename Data>
     Data RB<Data>::PredecessorNRemove(const Data &key) {
-        return 0;
+        Data ret = this->Predecessor(key);
+        Remove(ret);
+        return ret;
     }
 
     template<typename Data>
     void RB<Data>::RemovePredecessor(const Data &key) {
-
+        Remove(this->Predecessor(key));
     }
 
     template<typename Data>
     Data RB<Data>::SuccessorNRemove(const Data &key) {
-        return 0;
+        Data ret = this->Successor(key);
+        Remove(ret);
+        return ret;
     }
 
     template<typename Data>
     void RB<Data>::RemoveSuccessor(const Data &key) {
-        //
+        Remove(this->Successor(key));
     }
 
     template<typename Data>
@@ -467,7 +490,7 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance(RBNode *node) {
-        if(!(node->IsLeaf())){ // if node->HasRightChild()
+        if(!(node->IsLeaf())){
             int vcase = Remove_Vcase_sx(node->Left(),node->Right());
 
             if (vcase == 1) {
@@ -494,8 +517,8 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case2(RBNode *node) {
-        node->Right()->color = Red;
-        node->Left()->color = Black;
+        if(node->HasRightChild())node->Right()->color = Red;
+        if(node->HasLeftChild())node->Left()->color = Black;
         BlackPropagate(node);
         return node;
     }
@@ -511,18 +534,19 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_SxBalance_Case4(RBNode *node) {
-        node = SxRotate(node);
+        node = DxRotate(node);
         node->Right()->color = node->color;
         node->color = node->Left()->color;
         node->Left()->color = Black;
-        node->Left()->Left()->color = Black;
+        if(node->Left()->HasLeftChild()) node->Left()->Left()->color = Black;
         return node;
     }
 
     template<typename Data>
     int RB<Data>::Remove_Vcase_sx(RBNode *sx,RBNode *dx) {
         int v = 0;
-        if(sx != nullptr && sx->color == DeepBlack ) { //&& al posto di || ??
+        if((sx!= nullptr ? sx->getColor() : DeepBlack) == DeepBlack){
+        //if(sx != nullptr && sx->color == DeepBlack ) { //&& al posto di || ??
             if(dx != nullptr) {
                 if (dx->color == Red)
                     v = 1;
@@ -541,9 +565,9 @@ namespace lasd {
     template<typename Data>
     int RB<Data>::Remove_Vcase_dx(RBNode *sx,RBNode *dx) {
         int v = 0;
-        if(dx != nullptr && dx->color == DeepBlack ) {
+        if((dx != nullptr ? dx->getColor() : DeepBlack) == DeepBlack ) {
             if(sx != nullptr){
-                if ( sx != nullptr ? sx->color == Red : 0)
+                if ( sx->color == Red)
                     v = 1;
                 else if ((sx->Left() == nullptr || sx->Left()->color == Black ) && (sx->Right() == nullptr || sx->Right()->color == Black ))
                     v = 2;
@@ -587,8 +611,8 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case2(RBNode *node) {
-        node->Left()->color = Red;
-        node->Right()->color = Black;
+        if(node->HasLeftChild())node->Left()->color = Red;
+        if(node->HasRightChild())node->Right()->color = Black;
         BlackPropagate(node);
         return node;
     }
@@ -604,12 +628,12 @@ namespace lasd {
 
     template<typename Data>
     typename RB<Data>::RBNode* RB<Data>::Remove_DxBalance_Case4(RBNode *node) {
-        node = DxRotate(node);
+        node = SxRotate(node);
         if(node->HasLeftChild())node->Left()->color = node->color;
         if(node->HasRightChild()) {
             node->color = node->Right()->color;
             node->Right()->color = Black;
-            node->Right()->Right()->color = Black;
+            if(node->Right()->HasRightChild())node->Right()->Right()->color = Black;
         }
         return node;
     }

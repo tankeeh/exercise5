@@ -190,14 +190,14 @@ namespace lasd {
     template<typename Data>
     void AVL<Data>::Insert(const Data& newitem) {
         Data item = newitem;
-        this->Node = Insert(std::move(item),&this->Root());
+        this->Node = Insert(std::move(item),static_cast<AVLNode*>(this->Node));
     }
 
 
     //INSERT PER MOVE
     template<typename Data>
     void AVL<Data>::Insert(Data&& newitem) {
-        this->Node = Insert(std::move(newitem),&this->Root());
+        this->Node = Insert(std::move(newitem),static_cast<AVLNode*>(this->Node));
     }
 
     //ROOT (MUTABLE PER NECESSITA' DI ALCUNE FUNZIONI)

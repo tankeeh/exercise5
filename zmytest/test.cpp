@@ -300,6 +300,9 @@ void testBSToperations() {
     D.RemoveMin();
     std::cout<<"\nLa size di D dopo rimozione del min e' : "<<D.Size()<<" e dovrebbe essere 6\n";
 
+    D.RemoveMax();
+    std::cout<<"\nLa size di D dopo rimozione del max e' : "<<D.Size()<<" e dovrebbe essere 5\n";
+
 
 }
 
@@ -507,7 +510,117 @@ void testAVL(){
 */
 }
 void testAVLoperations(){
+    lasd::AVL<int> avl;
+    avl.Insert(10);
+    avl.Insert(2);
+    avl.Insert(1);
+    avl.Insert(12);
+    avl.Insert(13);
 
+    std::cout<<"stampa albero iniziale : \n";
+    avl.BeautyTree(avl.Root(),0,"");
+
+    std::cout<<"\n\n TEST COPY CONSTRUCTOR : \n";
+    lasd::BST<int> avl2(avl);
+    avl2.BeautyTree(avl2.Root(),0,"");
+    std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+
+    std::cout<<" TEST MOVE CONSTRUCTOR : \n";
+    lasd::BST<int> avl3(std::move(avl));
+    avl3.BeautyTree(avl3.Root(),0,"");
+    std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+    std::cout<<"Stampa dell' albero passato per move : (DEVE ESSERE VUOTO)\n";
+
+    try{
+        avl.BeautyTree(avl.Root(),0,"");
+    }catch(std::length_error err){ std::clog<<err.what();}
+
+
+
+
+    std::cout<<" TEST COPY ASSIGNMENT : \n\n";
+    lasd::AVL<int> A;
+    A.Insert(10);
+    A.Insert(2);
+    A.Insert(1);
+    std::cout<<"stampa di A : \n\n";
+    A.BeautyTree(A.Root(),0,"");
+
+    lasd::AVL<int> B;
+    B.Insert(18);
+    B.Insert(21);
+    B.Insert(12);
+    std::cout<<"stampa di B : \n";
+    B.BeautyTree(B.Root(),0,"");
+
+    A = B;
+    std::cout<<"stampa di A POST ASSEGNAMENTO : \n";
+    A.BeautyTree(A.Root(),0,"");
+    std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero B, ha funzionato\n\n";
+
+    B = std::move(A);
+    std::cout<<"stampa di B POST ASSEGNAMENTO DI A PASSATO PER MOVE : \n";
+    B.BeautyTree(B.Root(),0,"");
+
+
+    std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero A, ha funzionato\n\n";
+    std::cout<<"stampa di A PASSATO PER MOVE : \n";
+    try{
+        A.BeautyTree(A.Root(),0,"");
+    }catch(std::length_error err){ std::clog<<err.what();}
+
+
+    lasd::AVL<int> C;
+    C.Insert(27);
+    C.Insert(38);
+    C.Insert(92);
+    C.Insert(25);
+    C.Insert(3);
+    C.Insert(71);
+    C.Insert(40);
+    C.Insert(99);
+    C.Insert(135);
+
+    lasd::AVL<int> D;
+    D.Insert(47);
+    D.Insert(38);
+    D.Insert(92);
+    D.Insert(75);
+    D.Insert(3);
+    D.Insert(71);
+    D.Insert(40);
+    D.Insert(99);
+    D.Insert(135);
+
+    if(C == D)std::cout<<"\nLe strutture sono uguali!\n";
+    else std::cout<<"\nLe strutture sono diverse! (ed e' giusto in tal caso)\n";
+
+    lasd::AVL<int> E;
+    E.Insert(47);
+    E.Insert(38);
+    E.Insert(92);
+    E.Insert(75);
+    E.Insert(3);
+    E.Insert(71);
+    E.Insert(40);
+    E.Insert(99);
+    E.Insert(135);
+
+    if(E == D)std::cout<<"\nLe strutture sono uguali! (ed e' giusto in tal caso)\n";
+    else std::cout<<"\nLe strutture sono diverse! \n";
+
+    std::cout<<"La size di D e' : "<<D.Size()<<" e dovrebbe essere 9\n";
+
+    D.Remove(47);
+    D.Remove(38);
+
+    std::cout<<"La size di D dopo due rimozioni e' : "<<D.Size()<<" e dovrebbe essere 7\n";
+
+    D.RemoveMin();
+    std::cout<<"\nLa size di D dopo rimozione del min e' : "<<D.Size()<<" e dovrebbe essere 6\n";
+
+    D.RemoveMax();
+    std::cout<<"\nLa size di D dopo rimozione del max e' : "<<D.Size()<<" e dovrebbe essere 5\n";
 
 }
 
@@ -527,6 +640,7 @@ void testRB() {
     myRB.Insert(32);
     myRB.Insert(34);
     myRB.Insert(38);
+    myRB.Insert(55);
     myRB.Insert(55);
     myRB.Insert(77);
     myRB.Insert(26);
@@ -580,7 +694,13 @@ void testRB() {
     myRB.Remove(65);*/
 
     myRB.Remove(10);
-    //myRB.Remove(11);
+    myRB.Remove(11);
+    myRB.Remove(26);
+    myRB.Remove(30);
+    myRB.Remove(32);
+    myRB.Remove(29);
+    myRB.Remove(31);
+    myRB.Remove(22);
 
     myRB.RBCoolTree(myRB.Root(),0,"");
     std::cout<<"\n size : "<<myRB.Size();
@@ -758,7 +878,117 @@ void testRB() {
      */
 }
 void testRBoperations() {
+    lasd::RB<int> rb;
+    rb.Insert(10);
+    rb.Insert(2);
+    rb.Insert(1);
+    rb.Insert(12);
+    rb.Insert(13);
 
+    std::cout<<"stampa albero iniziale : \n";
+    rb.RBCoolTree(rb.Root(),0,"");
+
+    std::cout<<"\n\n TEST COPY CONSTRUCTOR : \n";
+    lasd::RB<int> rb2(rb);
+    rb2.RBCoolTree(rb2.Root(),0,"");
+    std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+
+    std::cout<<" TEST MOVE CONSTRUCTOR : \n";
+    lasd::RB<int> rb3(std::move(rb));
+    rb3.RBCoolTree(rb3.Root(),0,"");
+    std::cout<<"\n\nSe e' stato stampato un albero uquale a quello iniziale, ha funzionato\n\n";
+    std::cout<<"Stampa dell' albero passato per move : (DEVE ESSERE VUOTO)\n";
+
+    try{
+        rb.RBCoolTree(rb.Root(),0,"");
+    }catch(std::length_error err){ std::clog<<err.what();}
+
+
+
+
+    std::cout<<" TEST COPY ASSIGNMENT : \n\n";
+    lasd::RB<int> A;
+    A.Insert(10);
+    A.Insert(2);
+    A.Insert(1);
+    std::cout<<"stampa di A : \n\n";
+    A.RBCoolTree(A.Root(),0,"");
+
+    lasd::RB<int> B;
+    B.Insert(18);
+    B.Insert(21);
+    B.Insert(12);
+    std::cout<<"stampa di B : \n";
+    B.RBCoolTree(B.Root(),0,"");
+
+    A = B;
+    std::cout<<"stampa di A POST ASSEGNAMENTO : \n";
+    A.RBCoolTree(A.Root(),0,"");
+    std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero B, ha funzionato\n\n";
+
+    B = std::move(A);
+    std::cout<<"stampa di B POST ASSEGNAMENTO DI A PASSATO PER MOVE : \n";
+    B.RBCoolTree(B.Root(),0,"");
+
+
+    std::cout<<"\n\nSe e' stato stampato un albero uquale all' albero A, ha funzionato\n\n";
+    std::cout<<"stampa di A PASSATO PER MOVE : \n";
+    try{
+        A.RBCoolTree(A.Root(),0,"");
+    }catch(std::length_error err){ std::clog<<err.what();}
+
+
+    lasd::RB<int> C;
+    C.Insert(27);
+    C.Insert(38);
+    C.Insert(92);
+    C.Insert(25);
+    C.Insert(3);
+    C.Insert(71);
+    C.Insert(40);
+    C.Insert(99);
+    C.Insert(135);
+
+    lasd::RB<int> D;
+    D.Insert(47);
+    D.Insert(38);
+    D.Insert(92);
+    D.Insert(75);
+    D.Insert(3);
+    D.Insert(71);
+    D.Insert(40);
+    D.Insert(99);
+    D.Insert(135);
+
+    if(C == D)std::cout<<"\nLe strutture sono uguali!\n";
+    else std::cout<<"\nLe strutture sono diverse! (ed e' giusto in tal caso)\n";
+
+    lasd::RB<int> E;
+    E.Insert(47);
+    E.Insert(38);
+    E.Insert(92);
+    E.Insert(75);
+    E.Insert(3);
+    E.Insert(71);
+    E.Insert(40);
+    E.Insert(99);
+    E.Insert(135);
+
+    if(E == D)std::cout<<"\nLe strutture sono uguali! (ed e' giusto in tal caso)\n";
+    else std::cout<<"\nLe strutture sono diverse! \n";
+
+    std::cout<<"La size di D e' : "<<D.Size()<<" e dovrebbe essere 9\n";
+
+    D.Remove(47);
+    D.Remove(38);
+
+    std::cout<<"La size di D dopo due rimozioni e' : "<<D.Size()<<" e dovrebbe essere 7\n";
+
+    D.RemoveMin();
+    std::cout<<"\nLa size di D dopo rimozione del min e' : "<<D.Size()<<" e dovrebbe essere 6\n";
+
+    D.RemoveMax();
+    std::cout<<"\nLa size di D dopo rimozione del max e' : "<<D.Size()<<" e dovrebbe essere 5\n";
 }
 
 

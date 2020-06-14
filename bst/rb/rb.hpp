@@ -43,6 +43,8 @@ protected:
 
     RBNode(Data&& item);
 
+    //RBNode& operator=(RBNode&&);
+
     RBNode(RBNode& node); //REC CONSTRUCTOR
 
     Colori color = Red;
@@ -55,11 +57,12 @@ public:
     Colori getColor(){return this->color;};
 
 
+
   };
 
   /* ************************************************************************ */
 
-  //static RBNode* NILNode;
+
 
   // Default constructor
   RB() = default;
@@ -94,6 +97,7 @@ public:
   // Specific member functions (inherited from BinaryTree)
 
   const RBNode& Root() const override ; // Override BinaryTree member (might throw std::length_error)
+  RBNode& Root() override ;
   void NewRoot(const Data& key) noexcept override ; // Override BinaryTree member (Copy of the value)
   void NewRoot(Data&& key) noexcept override ;  // Override BinaryTree member (Move of the value)
 
@@ -121,7 +125,6 @@ public:
 
   void RBCoolTree(typename lasd::RB<Data>::RBNode& node, int depth, const std::string& prefix);
 
-    RBNode& Root();
 
 protected:
 
@@ -173,8 +176,6 @@ protected:
 
     RBNode* Remove_SxBalance(RBNode* node);
     RBNode* Remove_DxBalance(RBNode* node);
-
-
 
 
     RBNode* SxRotate(RBNode* node);
